@@ -3,12 +3,19 @@ import pandas as pd
 import numpy as np
 import torch
 import cv2
+import sys
+from yolact import Yolact
+from yolact.utils import Detect
 
 app = Flask(__name__)
 
+model = Yolact()
+model.load_weights('./ai_model/model/model/weights/yolact_resnet101_safety_33_200000.pth')
+model.eval()
+
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('./html/user/check_safe_cloth.html')
 
 def generate_frames():
     cap = cv2.VideoCapture(0)
