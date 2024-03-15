@@ -1,0 +1,117 @@
+body{
+    margin: 0;
+}
+a{
+    text-decoration:none;
+    color:#323232;
+}
+
+.logo {
+    font-family: "Nanum Brush Script", "cursive";
+    display:flex;
+    font-size: 40px;
+    list-style:none;
+    padding-left: 0;
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+}
+
+.block1 {
+    display: flex;
+    width: 100%;
+    height: 1px; 
+    background-color: #DCDCDC; 
+  }
+  .block2 {
+    margin-top: 4%;
+    display: flex;
+    width: 100%;
+    height: 1px; 
+    background-color: #DCDCDC; 
+  }
+
+.image_container {
+    margin-top: 1%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.cover {
+    position: absolute;
+    flex-direction: column; 
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white; 
+    font-size: 24px; 
+    font-weight: bold; 
+}
+.cover span[id="text1"] {
+    margin-left: 20px;
+    margin-right: 20px;
+    font-size: 25px;
+    font-weight: bold;
+}
+.cover span[id="text2"] {
+    margin-top: 2%;
+    margin-left: 15px;
+    margin-right: 10px;
+    font-size: 22px;
+    font-weight:lighter;
+}
+#color1{
+    font-weight: bold;
+    color:green
+}
+#color2{
+    font-weight: bold;
+    color:red
+}
+
+.mainbody {
+    margin-top: 10%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.selectmenu1{
+    display: flex;
+    justify-content: center;
+}
+.selectmenu1 button{
+    width:90%;
+    background:#f0f0f0;
+    border-color: #ffffff;
+    border-width: 1px;
+    border-radius: 15px;
+    padding: 20px;
+    margin: 5px;
+    font-size: 30px;
+    transition: background-color 0.3s;
+}
+.selectmenu2{
+    display: flex;
+    justify-content: center;
+}
+.selectmenu2 button{
+    width:90%;
+    background:#f0f0f0;
+    border-color: #ffffff;
+    border-width: 1px;
+    border-radius: 15px;
+    padding: 20px;
+    margin: 5px;
+    font-size: 30px;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #0090c4; 
+}
