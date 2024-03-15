@@ -100,39 +100,18 @@ a{
     display: flex;
     justify-content: center;
 }
-.selectmenu2 button[id="btn2"]{
-    width:45%;
+.selectmenu2 button{
+    width:90%;
     background:#f0f0f0;
     border-color: #ffffff;
     border-width: 1px;
     border-radius: 15px;
     padding: 20px;
     margin: 5px;
-    font-size: 25px;
+    font-size: 30px;
     transition: background-color 0.3s;
 }
-.selectmenu2 button[id="btn3"]{
-    width:45%;
-    background:#f0f0f0;
-    border-color: #ffffff;
-    border-width: 1px;
-    border-radius: 15px;
-    padding: 20px;
-    margin: 5px;
-    font-size: 25px;
-    transition: background-color 0.3s;
-}
-#btn3_text{
-    font-size: 18px;
-}
-
 
 button:hover {
-    background-color: #0090c4; 
-}
-#btn2:hover{
-    background-color: #0090c4; 
-}
-#btn3:hover{
     background-color: #0090c4; 
 }
