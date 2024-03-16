@@ -1,0 +1,135 @@
+* { 
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.topbar{
+    background-color: #ffffff;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 11%;
+    border-bottom : 5px solid #d3d3d3;
+}
+.logoBox{
+    display: flex;
+    align-items: center;
+    width: 30%;
+    height: 100%;
+}
+.logoBox span{
+    font-family: "Noto Serif KR", serif;
+    margin-left: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.logoBox span[id="helmet"]{
+    font-size: 40px;
+    color:#FFA500;
+}
+.logoBox span[id="text"]{
+    margin-left: 8px;
+    font-size: 30px;
+    color:#323232;
+}
+.userinfoBox{
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    width: 90%;
+    height: 100%;
+}
+.userinfoBox span{
+    font-family: "Noto Serif KR", serif;
+    margin-right: 10px;
+    color:#323232;
+    font-size: 30px;
+}
+.userinfoBox button{
+    font-size: 25px;
+    color:#323232;
+    background-color: white;
+    border:none;
+    margin-right: 30px;
+}
+.userinfoBox button:hover{
+    color: #000000;
+}
+.mainBox{
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+.sideBox{
+    width: 400px;
+    border-right: 5px solid #d3d3d3;
+    height: 91.1vh;
+}
+.sideBox input[type="radio"]:hover + label{
+    background: #1A73E8;
+	color: #fff;
+}
+.sideBox input[type="radio"]:checked + label{
+    background: #1A73E8;
+	color: #fff;
+}
+.menuBox{
+    border-bottom: 3px solid #d3d3d3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+.menuBox label{
+    width: 100%;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    font-size: 30px;
+}
+.sideBox input[type="radio"]{
+    display: none;
+}
+.image_container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top:26%
+}
+.cover {
+    position: absolute;
+    flex-direction: column; 
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); 
+    display: flex;
+    color: white; 
+    font-size: 24px; 
+    font-weight: bold; 
+}
+.cover span[id="text1"] {
+    margin-top: 30px;
+    margin-left: 20px;
+    margin-right: 20px;
+    font-size: 25px;
+    font-weight: bold;
+}
+.cover span[id="text2"] {
+    margin-top: 2%;
+    margin-left: 20px;
+    margin-right: 20px;
+    font-size: 20px;
+    font-weight:lighter;
+}
+#color1{
+    font-size: 25px;
+    font-weight: bold;
+    color:green
+}
+#color2{
+    font-weight: bold;
+    color: #FFA500;
+}
+

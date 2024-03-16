@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/user/managerstyle.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR&display=swap" rel="stylesheet">
+    <title>메인 홈페이지</title>
+    <script 
+        src="https://kit.fontawesome.com/9f8bb06fc7.js" 
+        crossorigin="anonymous"
+    ></script>
+</head>
+<body>
+
+    <div class="topbar">
+        <div class="logoBox">
+        <span id = "helmet"><i class="fa-solid fa-helmet-safety"></i></span>
+        <span id = "text">산업안전진단서비스</span>
+        </div>
+        <div class="userinfoBox">
+            <span id="userName">관리자 : </span>
+            <!--정보수정 팝업 버튼-->
+            <button><i class="fa-solid fa-gear" style="cursor: pointer;"></i></button>
+        </div>
+    </div>
+
+    <div class="mainBox">
+        <div class="sideBox">
+            <div class="menuBox">
+                <input type="radio" name="menu" value="1" id="menu1" checked="true">
+                <label for="menu1">요청된 건의사항</label>
+            </div>
+            <div class="menuBox">
+                <input type="radio" name="menu" value="2" id="menu2">
+                <label for="menu2">금일 출근명부</label>
+            </div>
+            <div class="menuBox">
+                <input type="radio" name="menu" value="3" id="menu3">
+                <label for="menu3">출근명부</label>
+            </div>
+            <div class="image_container">
+                <img src="{{url_for('static', filename='images/user/safe3.png')}}" width="400px" height="400px">
+                <div class="cover">
+                    <span id="text1"><span id = "color2">안전</span>의 시작</span>
+                    <span id="text2">그것은 <span id = "color1">이해</span>와 <span id = "color1">인정</span>이 아닐까요? </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
