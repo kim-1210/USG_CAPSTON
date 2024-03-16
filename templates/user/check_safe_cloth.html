@@ -6,40 +6,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Camera Streaming</title>
     <style>
-        body {
+        body, html {
             width: 100%;
             height: 100%;
-            border: 0;
+            margin: 0;
             padding: 0;
         }
 
-        div.header {
+        .container {
+            width: 100%;
+            height: 100%;
+        }
+
+        .header {
+            width: 100%;
+            height: 10%;
             background-color: aqua;
         }
 
-        div.middle {
+        .middle {
+            width: 100%;
+            height: 70%;
             background-color: antiquewhite;
-            position: relative;
-            width: 50%;
-            height: 50%;
         }
 
-        div.bottom {
+        .bottom {
+            width: 100%;
+            height: 20%;
             background-color: burlywood;
         }
 
-        video.camera {
-            width: 40%;
-            height: 60%;
+        video.camera { /*건들지마*/
             display: none;
         }
 
-        img.result-image {
-            width: 100%;
-            height: auto;
+        img.result-image { /*영상 디자인*/
+            margin-top: 10%;
+            margin-left: 12%;
+            width: 75%;
+            height: 85%;
         }
 
-        div.bounding-box {
+        div.bounding-box { /*건들지마*/
             position: absolute;
             border: 2px solid red;
             display: none;
@@ -48,15 +56,17 @@
 </head>
 
 <body>
-    <div class="header"></div>
-    <div class="middle">
-        <video id="video" class="camera" autoplay ></video>
-        <canvas id="canvas" style="display:none;"></canvas>
-        <img id="resultImage" class="result-image" src="" alt="Result Image">
-        <div id="boundingBox" class="bounding-box">
+    <div class="container">
+        <div class="header"></div>
+        <div class="middle">
+            <video id="video" class="camera" autoplay></video>
+            <canvas id="canvas" style="display:none;"></canvas>
+            <img id="resultImage" class="result-image" src="" alt="Result Image">
+            <div id="boundingBox" class="bounding-box">
+            </div>
         </div>
+        <div class="bottom"></div>
     </div>
-    <div class="bottom"></div>
     <script>
         const video = document.getElementById('video');
         const canvas = document.getElementById('canvas');
@@ -111,6 +121,7 @@
         // 프레임 캡처 주기 설정 (예: 1초에 한 번)
         setInterval(captureFrame, 500);
     </script>
+    <!-- <script src="{{url_for('static', filename='js/user/check_safe_cloth.js')}}">/*나중에 이걸로 바꿀거임*/</script>  -->
 </body>
 
 </html>
