@@ -13,12 +13,12 @@ import torch.nn.functional as F
 import base64
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
-model = torch.hub.load('./yolov5', 'custom', path='./class5_protective_model/weights/best.pt', source='local')
+model = torch.hub.load('./ai/yolov5', 'custom', path='./ai/class5_protective_model/weights/best.pt', source='local')
 
 labeling = ['Boots', 'Gloves', 'Helmet', 'Human', 'Vest']
 # torch.load(path_file_name)
 
-
+#아무것도 없을떄 제공 수정!!!!!!
 def process_image(image_data):
     # base64로 인코딩된 이미지 데이터를 디코딩
     _, img_encoded = image_data.split(",", 1)
@@ -38,13 +38,16 @@ def process_image(image_data):
                     cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 2)  # 클래스 이름과 점수 표시, fontScale 값을 0.5로 변경
     ret, buffer = cv2.imencode('.jpg', frame)
     frame_base64 = base64.b64encode(buffer)
-    return frame_base64.decode('utf-8'), [[x1, y1, x2, y2]]
+    try:
+        return frame_base64.decode('utf-8'), [[x1, y1, x2, y2]]
+    except Exception as err:
+        return frame_base64.decode('utf-8'), [[0,0,0,0]]
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static')
 
 @app.route('/')
 def index():
-    return render_template('./user/check_safe_cloth.html')
+    return render_template('./user/main3.html')
 
 @app.route('/process_image', methods=['POST'])
 def process_image_route():
@@ -54,6 +57,10 @@ def process_image_route():
     # 이미지 데이터를 처리
     result_image, bounding_box = process_image(image_data)
     return jsonify({'result_image': result_image, 'bounding_box': bounding_box})
+
+@app.route('/go_to_work')
+def go_to_work():
+    return render_template('./user/check_safe_cloth.html')
 
 if __name__ == "__main__":
     app.run(debug = True, host="127.0.0.1", port = 8080)
