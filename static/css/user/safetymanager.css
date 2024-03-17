@@ -60,23 +60,32 @@ body{
     font-weight: bold; 
 }
 .cover span[id="text1"] {
-    margin-left: 20px;
-    margin-right: 20px;
+    justify-content: center;
+    align-items: center;
     font-size: 25px;
     font-weight: bold;
 }
 .cover span[id="text2"] {
     margin-top: 2%;
-    margin-left: 15px;
-    margin-right: 10px;
+    justify-content: center;
+    align-items: center;
+    font-size: 22px;
+    font-weight:lighter;
+}
+.cover span[id="text3"] {
+    margin-top: 2%;
+    justify-content: center;
+    align-items: center;
     font-size: 22px;
     font-weight:lighter;
 }
 #color1{
+    font-size:25px;
     font-weight: bold;
     color:green
 }
 #color2{
+    font-size:25px;
     font-weight: bold;
     color:red
 }
