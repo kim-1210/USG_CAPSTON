@@ -90,33 +90,19 @@ body{
     width: 100%;
     height: 100px;
 }
-.signupbuttonBox{
-    padding-left: 10%;
-    width:50%;
-    height: 100px;
-}
-.signupbuttonBox button{
-    width: 100px;
-    height: 50px;
-    background-color: white;
-    border-color: #1A73E8;
-    font-size: 18px;
-    border-radius: 10px;
-    color:#1A73E8;
-}
 .loginbuttonBox{
-    width:50%;
+    width:500px;
     height: 100px;
     display: flex;
-    justify-content: right;
-    padding-right: 10%;
+    justify-content: center;
 }
 .loginbuttonBox button{
-    width: 100px;
-    height: 50px;
+    width: 50%;
+    height: 70px;
     background-color: white;
     border-color: #1A73E8;
-    font-size: 18px;
+    font-size: 22px;
+    font-weight: bold;
     border-radius: 10px;
     color:#1A73E8;
 }
