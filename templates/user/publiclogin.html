@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/user/publicloginstyle.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR&display=swap" rel="stylesheet">
+    <title>로그인 페이지</title>
+    <script 
+        src="https://kit.fontawesome.com/9f8bb06fc7.js" 
+        crossorigin="anonymous"
+    ></script>
+</head>
+<body>
+    <div class="logo">
+        <span id="back"><i class="fa-solid fa-chevron-left"></i></span>
+        <span id="login">로그인</span>
+    </div>
+    <span class = block1></span>
+    <span class = block2></span>
+    <div class="content_screen">
+        <div class="appinfo">
+            <span class="applogo">산업안전진단</span>
+            <span class="appmaininfo">환영합니다.<br>산업안전진단 앱입니다.</span>
+            <span class="appsubinfo">서비스 이용을 위해 로그인 해주세요.</span>
+        </div>
+        <div class="inputBox">
+            <input class="insert_input" id="idinput" placeholder="아이디"> <br>
+            <input class="insert_input" id="pwinput" placeholder="비밀번호"> <br>
+        </div>
+        
+        <div class="optionBox">
+            <div class="option1">
+                <label id="autologin">
+                    <input type="checkbox" id="autologinbox" name="자동 로그인">자동 로그인
+                </label>
+            </div>
+        </div>
+
+        <div class="loginbuttonBox">
+            <button type="button" class="login_button"><b>로그인</b></button>
+        </div>
+        
+    </div>
+</body>
+</html>

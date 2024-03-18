@@ -7,20 +7,31 @@ body{
     display:flex;
     list-style:none;
     padding-left: 0;
-    display: flex;
     justify-content: center; 
     align-items: center; 
 }
 .logo span[id="helmet"]{
+    margin-right: 48%;
     font-size: 35px;
     text-decoration:none;
     color:#FFA500;
 }
 .logo span[id="text"]{
+    position: absolute;
     margin-left: 8px;
     font-size: 30px;
     text-decoration:none;
     color:#323232;
+}
+.user{
+    left: 15%;
+    position:relative;
+    list-style: none;
+    float: right;
+}
+.user i{
+    color:#313131;
+    font-size: 28px;
 }
 .block1 {
     margin-top: 1%;
