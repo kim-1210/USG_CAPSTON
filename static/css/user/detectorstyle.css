@@ -156,6 +156,14 @@
     color: #FFA500;
 }
 
+.jqBox{
+    display:flex;
+    position:relative;
+    width:1550px;
+    height:837px;
+    border:1px solid black;
+}
+
 .modalbackground {
     position: fixed;
     top: 0;
