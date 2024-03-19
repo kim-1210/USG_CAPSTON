@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/user/managerstyle.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/user/detectorstyle.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR&display=swap" rel="stylesheet">
@@ -42,6 +42,13 @@
                 <input type="radio" name="menu" value="3" id="menu3">
                 <label for="menu3">출근명부</label>
             </div>
+
+            <div class="buttonBox">
+                <div class="workerbutton" onclick="show()">
+                    <button>작업자 등록</button>
+                </div>
+            </div>
+
             <div class="image_container">
                 <img src="{{url_for('static', filename='images/user/safe3.png')}}" width="400px" height="400px">
                 <div class="cover">
@@ -51,6 +58,89 @@
             </div>
         </div>
     </div>
+    <div class="modalbackground">
+        <div class="window">
+            <div class="popup">
 
+                <div class="popuplogo">
+                    <span>작업자 등록</span>
+                </div>
+                <div class="popuptitle">
+                    <span id ="job">직군</span>
+                    <br><br>
+                    <select id="job" placeholder="직군을 선택하세요">
+                        <option value ="1">작업자</option>
+                        <option value ="2">안전 관리자</option>
+                    </select>
+                </div>
+                <br>
+                <div class="popuptitle">
+                    <select id="year" name="year"></select>
+                    <span> 년생 </span>
+                    <select id="month" name="month"></select> 
+                    <span> 월 </span>
+                    <select id="day" name="day"></select>
+                    <span> 일</span>
+                </div>
+                <br>
+                <div class="popuptitle">
+                    <span>이름</span>
+                    <br>
+                    <input id="name" placeholder="이름 입력" />
+                </div>
+                <div class="popuptitle">
+                    <span>아이디</span>
+                    <br>
+                    <input id="id" placeholder="아이디 입력" />
+                </div>
+                <div class="popuptitle">
+                    <span>패스워드</span>
+                    <br>
+                    <input id="pw" placeholder="패스워드 입력" />
+                </div>
+                <div class="popupaction">
+                    <div class="popupcancel">
+                        <button id="cancel" onclick="cancel()">취소</button>
+                    </div>
+                    <div class="popupok">
+                        <button id="ok">등록</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var yearDropdown = document.getElementById("year"); 
+        for (var year = 2024; year >= 1950; year--) {
+          var option = document.createElement("option");
+          option.text = year;
+          option.value = year;
+          yearDropdown.add(option);
+        }
+
+        var monthDropdown = document.getElementById("month");
+        for (var month = 1;  month <= 12; month++) {
+          var option = document.createElement("option");
+          option.text = month;
+          option.value = month;
+          monthDropdown.add(option);
+        }
+
+        var dayDropdown = document.getElementById("day");
+        for (var day = 1;  day <= 31; day++) {
+          var option = document.createElement("option");
+          option.text = day;
+          option.value = day;
+          dayDropdown.add(option);
+        }
+    </script>
+    <script>
+        function show() {
+            document.querySelector(".modalbackground").className = "modalbackground show";
+        }
+        function cancel() {
+            document.querySelector(".modalbackground").className = "modalbackground";
+        }
+    </script>
 </body>
 </html>

@@ -1,0 +1,296 @@
+* { 
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.topbar{
+    background-color: #ffffff;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 11%;
+    border-bottom : 5px solid #d3d3d3;
+}
+.logoBox{
+    display: flex;
+    align-items: center;
+    width: 30%;
+    height: 100%;
+}
+.logoBox span{
+    font-family: "Noto Serif KR", serif;
+    margin-left: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.logoBox span[id="helmet"]{
+    font-size: 40px;
+    color:#FFA500;
+}
+.logoBox span[id="text"]{
+    margin-left: 8px;
+    font-size: 30px;
+    color:#323232;
+}
+.userinfoBox{
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    width: 90%;
+    height: 100%;
+}
+.userinfoBox span{
+    font-family: "Noto Serif KR", serif;
+    margin-right: 10px;
+    color:#323232;
+    font-size: 30px;
+}
+.userinfoBox button{
+    font-size: 25px;
+    color:#323232;
+    background-color: white;
+    border:none;
+    margin-right: 30px;
+}
+.userinfoBox button:hover{
+    color: #000000;
+}
+.mainBox{
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+.sideBox{
+    width: 400px;
+    border-right: 5px solid #d3d3d3;
+    height: 91.1vh;
+}
+.sideBox input[type="radio"]:hover + label{
+    background: #1A73E8;
+	color: #fff;
+}
+.sideBox input[type="radio"]:checked + label{
+    background: #1A73E8;
+	color: #fff;
+}
+.menuBox{
+    border-bottom: 3px solid #d3d3d3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+.menuBox label{
+    width: 100%;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    font-size: 30px;
+}
+.sideBox input[type="radio"]{
+    display: none;
+}
+.buttonBox{
+    margin-top: 25px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100px;
+}
+.workerbutton{
+    width:500px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+}
+.workerbutton button{
+    width: 50%;
+    height: 70px;
+    background-color: white;
+    border-color: #1A73E8;
+    color:#1A73E8;
+    font-size: 22px;
+    font-weight: bold;
+    border-radius: 10px;
+}
+.image_container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top:11.1%
+}
+.cover {
+    position: absolute;
+    flex-direction: column; 
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); 
+    display: flex;
+    color: white; 
+    font-size: 24px; 
+    font-weight: bold; 
+}
+.cover span[id="text1"] {
+    margin-top: 30px;
+    margin-left: 20px;
+    margin-right: 20px;
+    font-size: 25px;
+    font-weight: bold;
+}
+.cover span[id="text2"] {
+    margin-top: 2%;
+    margin-left: 20px;
+    margin-right: 20px;
+    font-size: 20px;
+    font-weight:lighter;
+}
+#color1{
+    font-size: 25px;
+    font-weight: bold;
+    color:green
+}
+#color2{
+    font-weight: bold;
+    color: #FFA500;
+}
+
+.modalbackground {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.3);
+    
+    /* 숨기기 */
+    z-index: -1;
+    opacity: 0;
+}
+.show {
+    opacity: 1;
+    z-index: 1000;
+    transition: all .5s;
+}
+.window {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+.popup {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #ffffff;
+    box-shadow: 0 2px 7px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    
+    /* 임시 지정 */
+    width: 500px;
+    height: 900px;
+    
+    /* 초기에 약간 아래에 배치 */
+    transform: translate(-50%, -40%);
+}
+.show .popup {
+    transform: translate(-50%, -50%);
+    transition: all .5s;
+}
+.popuplogo{
+    border-bottom:1px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 70px;
+    font-size: 30px;
+}
+.selectBox{
+    width: 100%;
+    height: 100px;
+    margin-top: 5%;
+    margin-left: 20px;
+}
+.selectBox span{
+    font-size: 20px;
+}
+.selectBox input{
+    width: 90%;
+    border: none;
+    border-bottom: solid #aaaaaa 1px;
+    margin-bottom: 5%;
+    font-size: 15px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+.popuptitle{
+    margin-top: 30px;
+    margin-left: 20px;
+}
+.popuptitle select[id="job"]{
+    width: 32%;
+    border: none;
+    font-size: 20px;
+    padding : 2px;
+    padding-left: 5px;
+    border-bottom: solid #aaaaaa 1px;
+}
+.popuptitle select{
+    width: 22%;
+    border: none;
+    font-size: 20px;
+    padding : 2px;
+    padding-left: 5px;
+    border-bottom: solid #aaaaaa 1px;
+}
+.popuptitle span{
+    font-size: 22px;
+}
+.popuptitle input{
+    width: 90%;
+    border: none;
+    border-bottom: solid #aaaaaa 1px;
+    margin-top: 2%;
+    margin-bottom: 5%;
+    font-size: 15px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+.popupaction{
+    display: flex;
+    padding-top: 80px;
+    padding-left: 20px;
+    padding-right: 40px;
+}
+.popupcancel{
+    width: 50%;
+}
+.popupcancel button{
+    width: 150px;
+    height: 50px;
+    background-color: white;
+    border-color: #1A73E8;
+    color:#1A73E8;
+    font-size: 18px;
+    border-radius: 10px;
+}
+.popupok{
+    display: flex;
+    justify-content: right;
+    width: 50%;
+}
+.popupok button{
+    width: 150px;
+    height: 50px;
+    background-color: white;
+    border-color: #1A73E8;
+    color:#1A73E8;
+    font-size: 18px;
+    border-radius: 10px;
+}
+button:hover {
+    background-color: #1A73E8;
+    border-color: #114d9c;
+    color: white;
+}
