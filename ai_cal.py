@@ -18,7 +18,7 @@ def ok_check(detecting_list):
     for i in detecting_list:
         matching[i] = matching[i] + 1
     for i in matching.keys():
-        if matching[i] != 0:
+        if matching[i] == 1:
             result += i + ', '
     return result
 
