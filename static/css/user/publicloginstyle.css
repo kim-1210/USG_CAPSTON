@@ -1,0 +1,121 @@
+body{
+    margin: 0;
+}
+
+.logo{
+    display: flex;
+    margin-bottom: 3%;
+    justify-content: center;
+    align-items: center;
+}
+.logo span[id="back"]{
+    position:relative;
+    top: 3px;
+    margin-right : 90%;
+    justify-content: center;
+    align-items: center;
+    font-size: 35px;
+    color:#000000;
+}
+.logo span[id="login"]{
+    position:fixed;
+    top: 7px;
+    justify-content: center;
+    align-items: center;
+    color:#000000;
+    font-size: 30px;
+}
+
+.block1 {
+    display: flex;
+    width: 100%;
+    height: 1px; 
+    background-color: #DCDCDC; 
+}
+.block2 {
+    display: flex;
+    margin-top: 3%;
+    width: 100%;
+    height: 1px; 
+    background-color: #DCDCDC; 
+}
+
+div.content_screen{
+    margin-top: 8vh;
+    margin-left: 10vw;
+    width: 80vw;
+    height: 70vh;
+}
+
+.appinfo{
+    width: 100%;
+    height: 50%;
+}
+.applogo{
+    font-family: "Noto Serif KR", serif;
+    display:flex;
+    align-items: center;
+    color:#FFA500;
+    font-size: 55px;
+    list-style:none;
+    padding-left: 0;
+}
+.appmaininfo{
+    display:flex;
+    align-items: center;
+    font-size: 25px;
+    margin: 2%;
+}
+.appsubinfo{
+    display:flex;
+    align-items: center;
+    font-size: 15px;
+    margin: 2%;
+    margin-top: 5%;
+    color:grey;
+}
+.inputBox{
+    width: 100%;
+    height: 20%;
+}
+.inputBox input{
+    width: 95%;
+    border: none;
+    border-bottom: solid #aaaaaa 1px;
+    margin-bottom: 5%;
+    font-size: 20px;
+    padding-bottom: 10px;
+}
+.optionBox{
+    display: flex;
+}
+.option1{
+    width: 50%;
+}
+.register{
+    border-bottom: 1px solid black;
+    cursor: pointer;
+}
+.loginbuttonBox{
+    height: 30%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.login_button{
+    width:100%;
+    background-color: white;
+    border-color: #1A73E8;
+    color:#1A73E8;
+    border-width: 2px;
+    border-radius: 15px;
+    padding: 20px;
+    margin: 5px;
+    font-size: 30px;
+    transition: background-color 0.3s;
+}
+button:hover {
+    background-color: #1A73E8;
+    border-color: #114d9c;
+    color: white;
+}

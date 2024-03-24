@@ -1,20 +1,53 @@
 from charset_normalizer import detect
 from flask import Flask, render_template, Response, request, jsonify
-from flask_socketio import SocketIO, emit
+import pandas as pd
+import numpy as np
+import torch
+import cv2
 import sys
-import firebase_storage as fs
-import ai_cal as ai
+import torch
+import torchvision.models as models
+import torchvision
+import torch.nn as nn
+import torch.nn.functional as F
+import base64
+
+device = 'cuda' if torch.cuda.is_available() else 'cpu'
+model = torch.hub.load('./ai/yolov5', 'custom', path='./ai/class5_protective_model/weights/best.pt', source='local')
+
+labeling = ['Boots', 'Gloves', 'Helmet', 'Human', 'Vest']
+# torch.load(path_file_name)
+
+#아무것도 없을떄 제공 수정!!!!!!
+def process_image(image_data):
+    # base64로 인코딩된 이미지 데이터를 디코딩
+    _, img_encoded = image_data.split(",", 1)
+    img_decoded = base64.b64decode(img_encoded)
+    nparr = np.frombuffer(img_decoded, np.uint8)
+    frame = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+
+    result = model(frame)
+
+    # 예측된 바운딩 박스 그리기
+    for box in result.xyxy[0]:
+        x1, y1, x2, y2, score, label = box.tolist()
+        x1, y1, x2, y2 = int(x1), int(y1), int(x2), int(y2)  # 바운딩 박스 좌표를 정수형으로 변환
+        cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 0, 255), 2)  # 바운딩 박스 그리기
+        label_text = f'{labeling[int(label)]}'  # 정수로 변환한 label을 사용하여 labeling 리스트에서 해당하는 클래스명 가져오기
+        cv2.putText(frame, label_text, (x1, y1 - 10),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 2)  # 클래스 이름과 점수 표시, fontScale 값을 0.5로 변경
+    ret, buffer = cv2.imencode('.jpg', frame)
+    frame_base64 = base64.b64encode(buffer)
+    try:
+        return frame_base64.decode('utf-8'), [[x1, y1, x2, y2]]
+    except Exception as err:
+        return frame_base64.decode('utf-8'), [[0,0,0,0]]
 
 app = Flask(__name__, static_folder='static')
-socketio = SocketIO(app)
 
 @app.route('/')
 def index():
-    return render_template('./user/main.html')
-
-@app.route('/go_to_work')
-def go_to_work():
-    return render_template('./user/check_safe_cloth.html')
+    return render_template('./user/main3.html')
 
 @app.route('/process_image', methods=['POST'])
 def process_image_route():
@@ -22,56 +55,12 @@ def process_image_route():
     image_data = request.json.get('image_data', '')
     
     # 이미지 데이터를 처리
-    result_image, bounding_box, result_check = ai.process_image(image_data)
-    return jsonify({'result_image': result_image, 'bounding_box': bounding_box, 'result_check' : result_check})
+    result_image, bounding_box = process_image(image_data)
+    return jsonify({'result_image': result_image, 'bounding_box': bounding_box})
 
-@app.route('/check_today', methods=['POST'])
-def check_today():
-    check_data = request.json.get('data','')
-    alert = fs.check_today(check_today['corporation'], check_today['id'])
-    return jsonify({'result_content' : alert})
-
-# 데이터베이스에 새로운 정보가 삭제, 추가될 때 호출되는 함수 (실시간)
-#실시간 시각화 할것 : 금일 출근
-@app.route('/create_user', methods=['POST']) #추가
-def create_user():
-    create_information = request.json.get('information', '')
-    result_string = fs.create_user(create_information['corporation'], create_information['typed'], 
-                                   create_information['id'], create_information['password'], 
-                                   create_information['name'], create_information['birthday'])
-    my_stream = fs.db.child(create_information['corporation']).child('user').child(create_information['typed']).stream(on_new_data)
-    return jsonify({'result_alert' : result_string})
-def on_new_data(event):
-    data = event["data"]
-    print(type(data))
-    print(data)
-    # 새로운 데이터를 클라이언트에게 전송
-    emit('new_data', data, broadcast=True)
-
-@app.route('/remove_user', methods=['POST']) #삭제
-def remove_user():
-    remove_information = request.json.get('information','')
-    result_string = fs.user_remove(remove_information['corporation'], remove_information['typed'], remove_information['id'])
-    my_stream = fs.db.child(result_string['corporation']).child('user').child(result_string['typed']).stream(on_new_data)
-    return jsonify({'result_alert' : result_string})
-
-@app.route('/get_today', methods=['POST']) #금일 출근 표시
-def get_today():
-    corporation = request.json.get('corporation','')
-    to_html = fs.get_today_excel(corporation)
-    return jsonify({'today_excel' : to_html})
-
-@app.route('/get_excel', methods=['POST']) #모든 출근일에서 가져오기
-def get_excel():
-    data = request.json.get('send_data','')
-    to_html = fs.get_all_excel(data['corporation', data['year'], data['month'], data['id']])
-    return jsonify({'excel_data' : to_html})
-
-@app.route('/get_id', methods=['POST']) #관리자가 회원출근 현황을 검색할떄 드롭 해야함
-def get_id():
-    corporation = request.json.get('corporation','')
-    id_list = fs.all_search_user(corporation, 'worked')
-    return jsonify({'id_list' : id_list})
+@app.route('/go_to_work')
+def go_to_work():
+    return render_template('./user/check_safe_cloth.html')
 
 if __name__ == "__main__":
-    socketio.run(app, debug=True, host="127.0.0.1", port=8080)
+    app.run(debug = True, host="127.0.0.1", port = 8080)

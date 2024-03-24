@@ -3,9 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/user/loginstyle.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR&display=swap" rel="stylesheet">
+    <title>관리자 로그인</title>
 </head>
 <body>
-    
+    <div class="loginBox">
+        <div class="logoBox">
+            <span>산업안전진단</span>
+        </div>
+        <div class="textBox">
+            <span>로그인</span>
+        </div>
+        <div class="logininfo">
+            <span>관리자 로그인 페이지입니다.</span>
+        </div>
+        <div class="coperBox">
+            <span>회사명</span>
+            <br>
+            <input type="text" list="list" id="coperation_drop" placeholder="회사명을 정확히 입력해주세요"></input>
+            <datalist id ="list">
+                <!--회사 이름 옵션들-->
+            </datalist>
+        </div>
+        <div class="idBox">
+            <span>아이디</span>
+            <br>
+            <input id="idinput" placeholder="이메일 또는 아이디"/>
+        </div>
+        <div class="pwBox">
+            <span>비밀번호</span>
+            <br>
+            <input id="pwinput" placeholder="비밀번호 입력"/>
+        </div>
+        <div class="buttonBox">
+            <div class="loginbuttonBox">
+                <button>로그인</button>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
