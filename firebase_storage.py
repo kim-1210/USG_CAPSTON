@@ -160,6 +160,7 @@ def get_all_excel(corporation, year, month, user = 'all'): #달 마다의 데이
         if user != 'all':
             table_excel = table_excel.loc[table_excel['id'] == user]
         html_transfer = table_excel.to_html(index = False)
+        print(html_transfer)
         return html_transfer
     except Exception as err:
         print("찾지못함")

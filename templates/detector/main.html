@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/user/detectorstyle.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/detector/detectorstyle.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR&display=swap" rel="stylesheet">
@@ -29,11 +29,11 @@
     <div class="mainBox">
         <div class="sideBox">
             <div class="menuBox">
-                <input type="radio" name="menu" value="1" id="menu1" checked="true">
+                <input type="radio" name="menu" value="1" id="menu1" checked="true" onclick="list_change()">
                 <label for="menu1">요청된 건의사항</label>
             </div>
             <div class="menuBox">
-                <input type="radio" name="menu" value="3" id="menu3">
+                <input type="radio" name="menu" value="3" id="menu3" onclick="list_change()">
                 <label for="menu3">출근명부</label>
             </div>
 
@@ -53,35 +53,29 @@
         </div>
         <!--사이드 박스옆에 라디오 버튼 누르면 각 버튼에 해당하는거 뜨는 화면-->
         <div class = "jqBox" id ="radioscreen">
-            <div class="dayBox">
+            <!-- 건의사항 div -->
+            <div id="list_contents">
+
+            </div>
+            <!-- 출근명부 div -->
+            <div class="dayBox" id="check_calender">
                 <!--금일 출근명부 추가-->
                 <div class="radio_container">
                     
-                    <div class="day_radio">
-                        <input type="radio" name="day" value="1" id="f_tday" checked="true">
+                    <div class="day_radio"><!--클릭되면?-->
+                        <input type="radio" name="day" value="1" id="f_tday" checked="true" onclick="show_day()">
                         <label for="f_tday">Day</label>
                     </div>
 
-                    <div class="day_radio">
-                        <input type="radio" name="day" value="2" id="f_aday" >
+                    <div class="day_radio"><!--클릭되면?-->
+                        <input type="radio" name="day" value="2" id="f_aday" onclick="show_day()">
                         <label for="f_aday">All Day</label>
                     </div>
-                </div>
-                <div class ="day_nemo" id="day_nemo">
 
-                    <!-- <div class="day_container" id="day_container1">
-                        <div class="name" id="n1">흠<span class="block"></span><span class="day_check" id="d_c1">O</span></div>
-                        <div class="name" id="n2">이름2<span class="block"></span><span class="day_check" id="d_c2">O</span></div>
-                        <div class="name" id="n3">이름3<span class="block"></span><span class="day_check" id="d_c3">O</span></div>
-                        <div class="name" id="n4">이름4<span class="block"></span><span class="day_check" id="d_c4">X</span></div>
-                        <div class="name" id="n5">이름5<span class="block"></span><span class="day_check" id="d_c5">X</span></div>
-                        <div class="name" id="n6">이름6<span class="block"></span><span class="day_check" id="d_c6">X</span></div>
-                        <div class="name" id="n7">이름7<span class="block"></span><span class="day_check" id="d_c7">X</span></div>
-                        <div class="name" id="n8">이름8<span class="block"></span><span class="day_check" id="d_c8">O</span></div>
-                        <div class="name" id="n9">이름9<span class="block"></span><span class="day_check" id="d_c9">O</span></div>
-                        <div class="name" id="n10">이름10<span class="block"></span><span class="day_check" id="d_c10">O</span></div>
-                    </div><br> -->
+                </div>
+                <div class ="day_nemo" id="day_nemo"> <!--여기서 실행-->
                     
+                </div>
             </div>
         </div>
             
@@ -139,38 +133,6 @@
             </div>
         </div>
     </div>
-    <script>
-        var yearDropdown = document.getElementById("year"); 
-        for (var year = 2024; year >= 1950; year--) {
-          var option = document.createElement("option");
-          option.text = year;
-          option.value = year;
-          yearDropdown.add(option);
-        }
-
-        var monthDropdown = document.getElementById("month");
-        for (var month = 1;  month <= 12; month++) {
-          var option = document.createElement("option");
-          option.text = month;
-          option.value = month;
-          monthDropdown.add(option);
-        }
-
-        var dayDropdown = document.getElementById("day");
-        for (var day = 1;  day <= 31; day++) {
-          var option = document.createElement("option");
-          option.text = day;
-          option.value = day;
-          dayDropdown.add(option);
-        }
-    </script>
-    <script>
-        function show() {
-            document.querySelector(".modalbackground").className = "modalbackground show";
-        }
-        function cancel() {
-            document.querySelector(".modalbackground").className = "modalbackground";
-        }
-    </script>
+    <script src="{{url_for('static', filename='js/detector/main.js')}}"></script>
 </body>
 </html>

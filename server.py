@@ -69,8 +69,13 @@ def get_today():
 
 @app.route('/get_excel', methods=['POST']) #모든 출근일에서 가져오기
 def get_excel():
-    data = request.json.get('send_data','')
-    to_html = fs.get_all_excel(data['corporation', data['year'], data['month'], data['id']])
+    data = request.json  # JSON 데이터 직접 가져오기
+    corporation = data.get('corporation')
+    year = data.get('year')
+    month = data.get('month')
+    id = data.get('id')
+    to_html = fs.get_all_excel(data['corporation'], data['year'], data['month'], data['id'])
+    print(to_html)
     return jsonify({'excel_data' : to_html})
 
 @app.route('/get_id', methods=['POST']) #관리자가 회원출근 현황을 검색할떄 드롭 해야함
