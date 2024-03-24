@@ -16,11 +16,35 @@
 </head>
 <body>
     <div class="logo">
+        <div class="slidemenu">
+            <input type="checkbox" id="slidemenuicon">
+
+            <label for="slidemenuicon">
+                <span></span>
+                <span></span>
+                <span></span>
+            </label>
+
+            <div class="sidebar">
+                <ul>
+                    <li>
+                        <input type="button" id="btntext" onclick="show()">
+                        <label class="appearlabel" for="btntext">
+                            <a>개발 목적</a>
+                        </label>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
         <span id = "helmet"><i class="fa-solid fa-helmet-safety"></i><span id = "text">산업안전진단</span></span>
     </div>
+
     <span class = block1></span>
     <span class = block2></span>
+
     <!-- 한국산업안전보건공단 사고사망속보 API넣어줘 ㅠㅠ-->
+
     <div class="image_container">
         <img src="{{url_for('static', filename='images/user/safe.png')}}" width="100%" height="100%">
         <div class="cover">
@@ -29,6 +53,7 @@
             <span id="text3"><span id = color1>생명</span>을 <span id = color2>위협</span>합니다. </span>
         </div>
     </div>
+
     <div class="mainbody">
         <div class="selectmenu1">
             <button id="btn1" >
@@ -42,6 +67,70 @@
             </button>
         </div>
     </div>
+
+    <div class="modalbackground">
+        <div class="window">
+            <div class="popup">
+                <div class="popupaction">
+                    <div class="popupcancel">
+                        <button id="cancel" onclick="cancel()">X</button>
+                    </div>
+                </div>
+                <div class="popuplogo">
+                    <span id="app"> 
+                        작업에 맞는 복장을<br> 
+                        입지 않고 작업 하시다<br>
+                        사고를 당하시는 경우가<br> 
+                        많아 사고를 줄이는데<br>
+                        도움이 되기 위해 <br>
+                        개발하게 되었습니다.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.querySelector('.appearlabel').addEventListener('click',
+        function Show_Hide(e) {
+            e.stopPropagation(); // 부모(slidemenu) 클릭 이벤트를 방지.
+            var checkbox = document.getElementById('slidemenuicon');
+            var sidebar = document.querySelector('.sidebar');
+            if (checkbox.checked) {
+                checkbox.checked = false; 
+                sidebar.style.left = '-200px'; 
+            } 
+            else {
+                checkbox.checked = true; 
+                sidebar.style.left = '0'; 
+            }
+        });
+        document.querySelector('.sidebar').addEventListener('click', function(e) {
+        e.stopPropagation(); 
+        });
+        document.querySelector('.slidemenu').addEventListener('click', 
+        function Show_Hide() {
+            var checkbox = document.getElementById('slidemenuicon');
+            var sidebar = document.querySelector('.sidebar');
+            if (checkbox.checked) {
+                checkbox.checked = false; 
+                sidebar.style.left = '-200px'; 
+            } 
+            else {
+                checkbox.checked = true; 
+                sidebar.style.left = '0'; 
+            }
+        });
+        </script>
+    
+        <script>
+            function show() {
+                document.querySelector(".modalbackground").className = "modalbackground show";
+            }
+            function cancel() {
+                document.querySelector(".modalbackground").className = "modalbackground";
+            }
+        </script>
+    
     
 </body>
 </html>

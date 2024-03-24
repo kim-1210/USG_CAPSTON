@@ -33,10 +33,6 @@
                 <label for="menu1">요청된 건의사항</label>
             </div>
             <div class="menuBox">
-                <input type="radio" name="menu" value="2" id="menu2">
-                <label for="menu2">금일 출근명부</label>
-            </div>
-            <div class="menuBox">
                 <input type="radio" name="menu" value="3" id="menu3">
                 <label for="menu3">출근명부</label>
             </div>
@@ -57,6 +53,37 @@
         </div>
         <!--사이드 박스옆에 라디오 버튼 누르면 각 버튼에 해당하는거 뜨는 화면-->
         <div class = "jqBox" id ="radioscreen">
+            <div class="dayBox">
+                <!--금일 출근명부 추가-->
+                <div class="radio_container">
+                    
+                    <div class="day_radio">
+                        <input type="radio" name="day" value="1" id="f_tday" checked="true">
+                        <label for="f_tday">Day</label>
+                    </div>
+
+                    <div class="day_radio">
+                        <input type="radio" name="day" value="2" id="f_aday" >
+                        <label for="f_aday">All Day</label>
+                    </div>
+                </div>
+                <div class ="day_nemo" id="day_nemo">
+
+                    <!-- <div class="day_container" id="day_container1">
+                        <div class="name" id="n1">흠<span class="block"></span><span class="day_check" id="d_c1">O</span></div>
+                        <div class="name" id="n2">이름2<span class="block"></span><span class="day_check" id="d_c2">O</span></div>
+                        <div class="name" id="n3">이름3<span class="block"></span><span class="day_check" id="d_c3">O</span></div>
+                        <div class="name" id="n4">이름4<span class="block"></span><span class="day_check" id="d_c4">X</span></div>
+                        <div class="name" id="n5">이름5<span class="block"></span><span class="day_check" id="d_c5">X</span></div>
+                        <div class="name" id="n6">이름6<span class="block"></span><span class="day_check" id="d_c6">X</span></div>
+                        <div class="name" id="n7">이름7<span class="block"></span><span class="day_check" id="d_c7">X</span></div>
+                        <div class="name" id="n8">이름8<span class="block"></span><span class="day_check" id="d_c8">O</span></div>
+                        <div class="name" id="n9">이름9<span class="block"></span><span class="day_check" id="d_c9">O</span></div>
+                        <div class="name" id="n10">이름10<span class="block"></span><span class="day_check" id="d_c10">O</span></div>
+                    </div><br> -->
+                    
+            </div>
+        </div>
             
         </div>
     </div>
