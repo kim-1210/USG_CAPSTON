@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,17 +10,15 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR&display=swap" rel="stylesheet">
     <title>메인 홈페이지</title>
-    <script 
-        src="https://kit.fontawesome.com/9f8bb06fc7.js" 
-        crossorigin="anonymous"
-    ></script>
+    <script src="https://kit.fontawesome.com/9f8bb06fc7.js" crossorigin="anonymous"></script>
 </head>
+
 <body>
 
     <div class="topbar">
         <div class="logoBox">
-        <span id = "helmet"><i class="fa-solid fa-helmet-safety"></i></span>
-        <span id = "text">산업안전진단</span>
+            <span id="helmet"><i class="fa-solid fa-helmet-safety"></i></span>
+            <span id="text">산업안전진단</span>
         </div>
         <div class="userinfoBox">
             <span id="userName">관리자 : </span>
@@ -46,13 +45,13 @@
             <div class="image_container">
                 <img src="{{url_for('static', filename='images/user/safe3.png')}}" width="100%" height="100%">
                 <div class="cover">
-                    <span id="text1"><span id = "color2">안전</span>의 시작</span>
-                    <span id="text2">그것은 <span id = "color1">이해</span>와 <span id = "color1">인정</span>이 아닐까요? </span>
+                    <span id="text1"><span id="color2">안전</span>의 시작</span>
+                    <span id="text2">그것은 <span id="color1">이해</span>와 <span id="color1">인정</span>이 아닐까요? </span>
                 </div>
             </div>
         </div>
         <!--사이드 박스옆에 라디오 버튼 누르면 각 버튼에 해당하는거 뜨는 화면-->
-        <div class = "jqBox" id ="radioscreen">
+        <div class="jqBox" id="radioscreen">
             <!-- 건의사항 div -->
             <div id="list_contents">
 
@@ -61,7 +60,7 @@
             <div class="dayBox" id="check_calender">
                 <!--금일 출근명부 추가-->
                 <div class="radio_container">
-                    
+
                     <div class="day_radio"><!--클릭되면?-->
                         <input type="radio" name="day" value="1" id="f_tday" checked="true" onclick="show_day()">
                         <label for="f_tday">Day</label>
@@ -71,15 +70,23 @@
                         <input type="radio" name="day" value="2" id="f_aday" onclick="show_day()">
                         <label for="f_aday">All Day</label>
                     </div>
-
+                    <div id="search_if">
+                        <select id="year_dropdown">
+                        </select>
+                        <select id="month_dropdown">
+                        </select>
+                        <select id="id_dorpdown">
+                            <option value="all">전체</option>
+                        </select>
+                    </div>
                 </div>
-                <div class ="day_nemo" id="day_nemo"> <!--여기서 실행-->
-                    
+                <div class="day_nemo" id="day_nemo"> <!--여기서 실행-->
+
                 </div>
             </div>
         </div>
-            
-        </div>
+
+    </div>
     </div>
 
     <div class="modalbackground">
@@ -90,18 +97,18 @@
                     <span>작업자 등록</span>
                 </div>
                 <div class="popuptitle">
-                    <span id ="job">직군</span>
+                    <span id="job">직군</span>
                     <br><br>
                     <select id="job" placeholder="직군을 선택하세요">
-                        <option value ="1">작업자</option>
-                        <option value ="2">안전 관리자</option>
+                        <option value="1">작업자</option>
+                        <option value="2">안전 관리자</option>
                     </select>
                 </div>
                 <br>
                 <div class="popuptitle">
                     <select id="year" name="year"></select>
                     <span> 년생 </span>
-                    <select id="month" name="month"></select> 
+                    <select id="month" name="month"></select>
                     <span> 월 </span>
                     <select id="day" name="day"></select>
                     <span> 일</span>
@@ -135,4 +142,5 @@
     </div>
     <script src="{{url_for('static', filename='js/detector/main.js')}}"></script>
 </body>
+
 </html>

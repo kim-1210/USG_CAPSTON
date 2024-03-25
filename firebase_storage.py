@@ -195,6 +195,13 @@ def get_detail_suggest(corporation, cnt): #내용 출력
     contents = table['content'].to_list()
     return titles[cnt], images[cnt], contents[cnt]
 
+def get_year_file(corporation): #년도 가져오기
+    send_list = []
+    file_list = os.listdir(f'./corporation_excel/{corporation}/')
+    for i in file_list:
+        if 'today' not in i:
+            send_list.append(i.replace('.xlsx', ''))
+    return send_list
 
 def use_thread():
     while True:

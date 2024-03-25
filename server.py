@@ -41,24 +41,18 @@ def check_today():
 
 @app.route('/create_user', methods=['POST']) #추가
 def create_user():
-    create_information = request.json.get('information', '')
-    result_string = fs.create_user(create_information['corporation'], create_information['typed'], 
-                                   create_information['id'], create_information['password'], 
-                                   create_information['name'], create_information['birthday'])
-    my_stream = fs.db.child(create_information['corporation']).child('user').child(create_information['typed']).stream(on_new_data)
+    create_information = request.json
+    result_string = fs.create_user(create_information.get('corporation'), create_information.get('typed'), 
+                                   create_information.get('id'), create_information.get('password'), 
+                                   create_information.get('name'), create_information.get('birthday'))
+    my_stream = fs.db.child(create_information.get('corporation')).child('user').child(create_information.get('typed')).stream(on_new_data)
     return jsonify({'result_alert' : result_string})
-def on_new_data(event):
-    data = event["data"]
-    print(type(data))
-    print(data)
-    # 새로운 데이터를 클라이언트에게 전송
-    emit('new_data', data, broadcast=True)
 
 @app.route('/remove_user', methods=['POST']) #삭제
 def remove_user():
-    remove_information = request.json.get('information','')
-    result_string = fs.user_remove(remove_information['corporation'], remove_information['typed'], remove_information['id'])
-    my_stream = fs.db.child(result_string['corporation']).child('user').child(result_string['typed']).stream(on_new_data)
+    remove_information = request.json
+    result_string = fs.user_remove(remove_information.get('corporation'), remove_information.get('typed'), remove_information.get('id'))
+    #my_stream = fs.db.child(result_string['corporation']).child('user').child(result_string['typed']).stream(on_new_data)
     return jsonify({'result_alert' : result_string})
 
 @app.route('/get_today', methods=['POST']) #금일 출근 표시
@@ -74,8 +68,7 @@ def get_excel():
     year = data.get('year')
     month = data.get('month')
     id = data.get('id')
-    to_html = fs.get_all_excel(data['corporation'], data['year'], data['month'], data['id'])
-    print(to_html)
+    to_html = fs.get_all_excel(corporation, year, month, id)
     return jsonify({'excel_data' : to_html})
 
 @app.route('/get_id', methods=['POST']) #관리자가 회원출근 현황을 검색할떄 드롭 해야함
@@ -90,16 +83,22 @@ def get_list_detector():
     send_data = fs.get_suggest(corporation)
     return jsonify({'data_list' : send_data})
 
+@app.route('/get_year_file', methods=['POST'])
+def get_year_file():
+    corporation = request.json.get('corporation','')
+    send_list = fs.get_year_file(corporation)
+    return jsonify({'data_list' : send_list})
+
 @app.route('/get_detail_suggest', methods=['POST'])
 def get_datail_suggest():
-    data = request.json.get('data','')
+    data = request.json
     send_title, send_image, send_cotent = fs.get_detail_suggest(data['corporation'], data['cnt'])
     return jsonify({'title': send_title, 'image' : send_image, 'content' : send_cotent})
 
 @app.route('/set_suggest', methods = ['POST'])
 def set_suggest():
-    data = request.json.get('data','')
-    result_str = fs.set_suggest(data['corporation'], data['title'], data['image'], data['content'], data['id'])
+    data = request.json
+    result_str = fs.set_suggest(data.get('corporation'), data.get('title'), data.get('image'), data.get('content'), data.get('id'))
     return jsonify({'send_data' : result_str})
 
 @app.route('/get_id_suggest', methods=['POST'])
