@@ -60,7 +60,7 @@ function show_day() {
                 }
             }
         };
-        var data = JSON.stringify({ 'corporation': 'me' });
+        var data = JSON.stringify({ 'corporation': corporation });
         xhr.send(data);
     }
     else { //총 출근
@@ -80,7 +80,7 @@ function show_day() {
                 }
             }
         };
-        var send_data = JSON.stringify({ 'corporation': 'me' });
+        var send_data = JSON.stringify({ 'corporation': corporation });
         xhr1.send(send_data);
 
         month_dropdown = document.getElementById('month_dropdown')
@@ -106,7 +106,7 @@ function show_day() {
                 }
             }
         };
-        var send_data = JSON.stringify({ 'corporation': 'me' });
+        var send_data = JSON.stringify({ 'corporation': corporation });
         xhr2.send(send_data);
 
         document.getElementById('search_if').style.display = 'block';
