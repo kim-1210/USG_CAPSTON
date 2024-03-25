@@ -10,15 +10,11 @@ socketio = SocketIO(app)
 
 @app.route('/')
 def index():
-    return render_template('./user/main.html')
+    return render_template('./user/login.html')
 
 @app.route('/detector/login')
 def detector_login():
     return render_template('./detector/login.html')
-
-@app.route('/detector/main')
-def detector_main():
-    return render_template('./detector/main.html')
 
 @app.route('/user/check_safe_cloth')
 def user_check_safe_cloth():
@@ -26,7 +22,14 @@ def user_check_safe_cloth():
 
 @app.route('/user/main')
 def user_main():
-    return render_template('./user/main.html')
+    corporation_name = request.args.get('corporation')
+    id = request.args.get('id')
+    return render_template('./user/main.html', corporation = corporation_name, id = id)
+
+@app.route('/detector/main')
+def detector_main():
+    corporation_name = request.args.get('corporation')
+    return render_template('./detector/main.html', corporation = corporation_name)
 
 @app.route('/process_image', methods=['POST'])
 def process_image_route():
@@ -39,9 +42,22 @@ def process_image_route():
 
 @app.route('/check_today', methods=['POST'])
 def check_today():
-    check_data = request.json.get('data','')
-    alert = fs.check_today(check_today['corporation'], check_today['id'])
+    check_data = request.json
+    alert = fs.check_today(check_data.get('corporation'), check_data.get('id'))
     return jsonify({'result_content' : alert})
+
+@app.route('/user_login', methods=['POST'])
+def user_login():
+    data = request.json
+    result_bool = fs.login(data.get('corporation'), data.get('typed'), data.get('id'), data.get('password'))
+    return jsonify({'result' : result_bool})
+
+@app.route('/detector_login', methods=['POST'])
+def detector_login_check():
+    data = request.json
+    result_bool = fs.detector_login(data.get('corporation'), data.get('id'), data.get('password'))
+    return jsonify({'result' : result_bool})
+    
 
 @app.route('/create_user', methods=['POST']) #추가
 def create_user():
@@ -49,7 +65,7 @@ def create_user():
     result_string = fs.create_user(create_information.get('corporation'), create_information.get('typed'), 
                                    create_information.get('id'), create_information.get('password'), 
                                    create_information.get('name'), create_information.get('birthday'))
-    my_stream = fs.db.child(create_information.get('corporation')).child('user').child(create_information.get('typed')).stream(on_new_data)
+   #my_stream = fs.db.child(create_information.get('corporation')).child('user').child(create_information.get('typed')).stream(on_new_data)
     return jsonify({'result_alert' : result_string})
 
 @app.route('/remove_user', methods=['POST']) #삭제
@@ -83,7 +99,7 @@ def get_id():
 
 @app.route('/get_list_detector', methods=['POST'])
 def get_list_detector():
-    corporation = request.json.get('data','')
+    corporation = request.json.get('corporation','')
     send_data = fs.get_suggest(corporation)
     return jsonify({'data_list' : send_data})
 
@@ -107,9 +123,14 @@ def set_suggest():
 
 @app.route('/get_id_suggest', methods=['POST'])
 def get_id_suggest():
-    data = request.json.get('data','')
-    send_data = fs.get_id_suggest(data['corporation'], data['id'])
+    data = request.json
+    send_data = fs.get_id_suggest(data.get('corporation'), data.get('id'))
     return jsonify({'send_data' : send_data})
+
+@app.route('/get_corporation', methods=['POST'])
+def get_corporation():
+    send_list = fs.get_corporation()
+    return jsonify({'send_list' : send_list})
 
 if __name__ == "__main__":
     socketio.run(app, debug=True, host="127.0.0.1", port=8080)

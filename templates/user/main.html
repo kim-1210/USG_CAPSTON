@@ -43,7 +43,6 @@
     <span class = block1></span>
     <span class = block2></span>
 
-    <!-- 한국산업안전보건공단 사고사망속보 API넣어줘 ㅠㅠ-->
 
     <div class="image_container">
         <img src="{{url_for('static', filename='images/user/safe2.png')}}" width="100%" height="100%">
@@ -56,7 +55,7 @@
 
     <div class="mainbody">
         <div class="selectmenu1" style:>
-            <button id="btn1" onclick="go_to_work()">
+            <button id="btn1" onclick="user_check_safe_cloth()">
                 <span id = "btn1_text"><i class="fa-solid fa-check"></i><br>출근 확인</span>
             </button>
         </div>
@@ -131,12 +130,6 @@
             document.querySelector(".modalbackground").className = "modalbackground";
         }
     </script>
-
-    <script>
-        function go_to_work(){
-            location.href='/user/check_safe_cloth'
-        }
-    </script>
-    <!-- <script src="{{url_for('static', filename='js/user/main.js')}}">/*나중에 이걸로 바꿀거임*/</script>  -->
+    <script src="{{url_for('static', filename='js/user/main.js')}}">/*나중에 이걸로 바꿀거임*/</script> 
 </body>
 </html>

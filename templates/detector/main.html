@@ -8,7 +8,19 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/detector/detectorstyle.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+        integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"
+        integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css"
+        integrity="sha512-aOG0c6nPNzGk+5zjwyJaoRUgCdOrfSDhmMID2u4+OIslr0GjpLKo7Xm0Ao3xmpM4T8AmIouRkqwj1nrdVsLKEQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>메인 홈페이지</title>
     <script src="https://kit.fontawesome.com/9f8bb06fc7.js" crossorigin="anonymous"></script>
 </head>
@@ -78,6 +90,7 @@
                         <select id="id_dorpdown">
                             <option value="all">전체</option>
                         </select>
+                        <button onclick="show_excel()">출력</button>
                     </div>
                 </div>
                 <div class="day_nemo" id="day_nemo"> <!--여기서 실행-->
@@ -106,12 +119,8 @@
                 </div>
                 <br>
                 <div class="popuptitle">
-                    <select id="year" name="year"></select>
-                    <span> 년생 </span>
-                    <select id="month" name="month"></select>
-                    <span> 월 </span>
-                    <select id="day" name="day"></select>
-                    <span> 일</span>
+                    <span>생년월일</span>
+                    <input type="text" id="datepicker">
                 </div>
                 <br>
                 <div class="popuptitle">

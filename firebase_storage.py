@@ -89,7 +89,6 @@ def all_search_user(corporation, typed): #typed에 맞는 모든 회원 id 가�
         #db.child(~).get()
         all_tpyed_id = []
         dating = db.child(corporation).child('user').child(typed).get()
-        print(dating.key()) #typed
         for i in dating.val(): #typed에 해당하는 모든 id 값가져오기
             all_tpyed_id.append(i)
         return all_tpyed_id
@@ -102,6 +101,21 @@ def login(corporation, typed, id, password): #로그인
         id_dict = db.child(corporation).child('user').child(typed).child(id).get()
         information_dict = dict(id_dict.val())
         hash_password = hashlib.sha256(password.encode()).hexdigest()
+        if hash_password == information_dict['password']:
+            print('로그인 성공!')
+            return True
+        else:
+            print('로그인 실패!')
+            return False
+    except Exception as err:
+        print('로그인에 실패했습니다.')
+        return False
+    
+def detector_login(corporation, id, password): #로그인
+    try:
+        id_dict = db.child(corporation).child('detector').child(id).get()
+        information_dict = dict(id_dict.val())
+        hash_password = password
         if hash_password == information_dict['password']:
             print('로그인 성공!')
             return True
@@ -144,6 +158,15 @@ def new_date(): #다음날이 되면 excel에 넣고 새로 뽑기
             all_excel.to_excel(writer, sheet_name=str(date.month), index=False)
         print('완료')
 
+def get_corporation():
+    try:
+        information = db.get().val()
+        corporation_list = []
+        for i,k in information.items():
+            corporation_list.append(i)
+        return corporation_list
+    except Exception as err:
+        print(err)
 
 def get_today_excel(corporation): #금일출근 현황 데이터를 html로
     try:
@@ -209,7 +232,6 @@ def use_thread():
         if date.hour == 0 and date.minute < 19:
             new_date()
         time.sleep(600000)
-
 # t = threading.Thread(target = use_thread) #다음 날이 되면 자동으로 new_date()가됨
 # t.start()
 
@@ -217,7 +239,3 @@ def use_thread():
 # 일 / 이름 / id / 출근여부
 # today
 # 이름 / id / 출근여부
-
-# ----------------------------temp----------------------------     
-# create_user('you', 'worked', 'aaa', 'asdf', 'kim', '001210')
-# create_user('you', 'worked', 'bbb', 'qwer', 'dae', '980808')
