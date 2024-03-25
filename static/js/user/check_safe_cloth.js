@@ -17,7 +17,6 @@ async function startCamera() {
 }
 
 startCamera();
-
 // 이미지 전송 함수
 function sendImageToServer(imageData) {
     const xhr = new XMLHttpRequest();
@@ -68,6 +67,8 @@ function checking(result_str) { //출석 요청
                         var responseData = JSON.parse(xhr.responseText);
                         var dingdong = responseData.result_content;
                         alert(dingdong)
+                        var queryString = '?corporation=' + encodeURIComponent(corporation) + '&id=' + encodeURIComponent(id);
+                        location.href = '/user/main' + queryString;
                     }
                 };
                 xhr.send(JSON.stringify({ 'corporation': corporation, 'id': id }));
