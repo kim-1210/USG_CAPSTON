@@ -10,7 +10,7 @@ socketio = SocketIO(app)
 
 @app.route('/')
 def index():
-    return render_template('./user/login.html')
+    return render_template('./user/publiclogin.html')
 
 @app.route('/detector/login')
 def detector_login():
@@ -18,7 +18,9 @@ def detector_login():
 
 @app.route('/user/check_safe_cloth')
 def user_check_safe_cloth():
-    return render_template('./user/check_safe_cloth.html')
+    corporation_name = request.args.get('corporation')
+    id_name = request.args.get('id')
+    return render_template('./user/check_safe_cloth.html', corporation = corporation_name, id = id)
 
 @app.route('/user/main')
 def user_main():
