@@ -205,6 +205,11 @@ body{
 .day_radio input[type="radio"]{
     display: none;    
 }
+.search_if{
+    display: flex;
+    margin-top: 5%;
+    margin-left: 37%;
+}
 .day_nemo{
     display: flex;
     flex-direction: column;

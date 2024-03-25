@@ -109,7 +109,7 @@ function show_day() {
         var send_data = JSON.stringify({ 'corporation': corporation });
         xhr2.send(send_data);
 
-        document.getElementById('search_if').style.display = 'block';
+        document.getElementById('search_if').style.display = 'flex';
     }
 }
 

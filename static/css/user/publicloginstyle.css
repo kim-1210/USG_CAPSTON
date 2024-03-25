@@ -49,7 +49,7 @@ div.content_screen{
 
 .appinfo{
     width: 100%;
-    height: 50%;
+    height: 40%;
 }
 .applogo{
     font-family: "Noto Serif KR", serif;
@@ -86,17 +86,30 @@ div.content_screen{
     font-size: 20px;
     padding-bottom: 10px;
 }
-.optionBox{
+.inputBox select[id="jobselect"]{
+    display: flex;
+    text-align: center;
+    align-items: center;
+    width: 42%;
+    border: none;
+    font-size: 20px;
+    padding : 2px;
+    padding-left: 5px;
+    border-bottom: solid #aaaaaa 1px;
+    margin-bottom: 13%;
+}
+/* .optionBox{
     display: flex;
 }
 .option1{
     width: 50%;
-}
+} */
 .register{
     border-bottom: 1px solid black;
     cursor: pointer;
 }
 .loginbuttonBox{
+    margin-top: 45%;
     height: 30%;
     display: flex;
     align-items: center;

@@ -21,27 +21,42 @@
     </div>
     <span class = block1></span>
     <span class = block2></span>
+
     <div class="content_screen">
+
         <div class="appinfo">
             <span class="applogo">산업안전진단</span>
             <span class="appmaininfo">환영합니다.<br>산업안전진단 앱입니다.</span>
             <span class="appsubinfo">서비스 이용을 위해 로그인 해주세요.</span>
         </div>
+
         <div class="inputBox">
-            <input class="insert_input" id="idinput" placeholder="아이디"> <br>
-            <input class="insert_input" id="pwinput" placeholder="비밀번호"> <br>
+            <select id="jobselect" placeholder="직군을 선택하세요">
+                <option value="worked">작업자</option>
+                <option value="protected">안전 관리자</option>
+            </select>
+            <input class="insert_input" list="list" id="corporation_drop" placeholder="회사명을 입력해주세요"></input><br><br>
+            <datalist id ="list">
+                <!--회사 이름 옵션들-->
+            </datalist>
+            <input class="insert_input" id="idinput" placeholder="아이디"> <br><br>
+            <input class="insert_input" id="pwinput" placeholder="비밀번호"> <br><br>
         </div>
+
         <div class="optionBox">
-            <div class="option1">
+            <!-- <div class="option1">
                 <label id="autologin">
                     <input type="checkbox" id="autologinbox" name="자동 로그인">자동 로그인
                 </label>
-            </div>
+            </div> -->
         </div>
+
         <div class="loginbuttonBox">
             <button type="button" class="login_button"><b>로그인</b></button>
         </div>
+
     </div>
+
     <script src=""></script>
 </body>
 </html>
