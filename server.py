@@ -20,6 +20,14 @@ def detector_login():
 def detector_main():
     return render_template('./detector/main.html')
 
+@app.route('/user/check_safe_cloth')
+def user_check_safe_cloth():
+    return render_template('./user/check_safe_cloth.html')
+
+@app.route('/user/main')
+def user_main():
+    return render_template('./user/main.html')
+
 @app.route('/process_image', methods=['POST'])
 def process_image_route():
     # POST로 전송된 JSON 데이터에서 이미지 데이터 추출
@@ -28,10 +36,6 @@ def process_image_route():
     # 이미지 데이터를 처리
     result_image, bounding_box, result_check = ai.process_image(image_data)
     return jsonify({'result_image': result_image, 'bounding_box': bounding_box, 'result_check' : result_check})
-
-@app.route('/go_to_work')
-def go_to_work():
-    return render_template('./user/check_safe_cloth.html')
 
 @app.route('/check_today', methods=['POST'])
 def check_today():

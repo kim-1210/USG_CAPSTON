@@ -97,11 +97,11 @@
                     <span>작업자 등록</span>
                 </div>
                 <div class="popuptitle">
-                    <span id="job">직군</span>
+                    <span>직군</span>
                     <br><br>
                     <select id="job" placeholder="직군을 선택하세요">
-                        <option value="1">작업자</option>
-                        <option value="2">안전 관리자</option>
+                        <option value="worked">작업자</option>
+                        <option value="protected">안전 관리자</option>
                     </select>
                 </div>
                 <br>
@@ -134,7 +134,7 @@
                         <button id="cancel" onclick="cancel()">취소</button>
                     </div>
                     <div class="popupok">
-                        <button id="ok">등록</button>
+                        <button id="ok" onclick="register()">등록</button>
                     </div>
                 </div>
             </div>
