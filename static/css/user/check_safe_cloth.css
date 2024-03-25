@@ -1,0 +1,56 @@
+body,
+html {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    position: relative; /* .loading과 상대적으로 위치하도록 설정 */
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+}
+
+.header {
+    width: 100%;
+    height: 10%;
+    background-color: aqua;
+}
+
+.middle {
+    width: 100%;
+    height: 70%;
+    background-color: antiquewhite;
+}
+
+.bottom {
+    width: 100%;
+    height: 20%;
+    background-color: burlywood;
+}
+
+video.camera {
+    /*건들지마*/
+    margin-top: 10%;
+    margin-left: 12%;
+    width: 75%;
+    height: 85%;
+    display: none;
+}
+
+img.result-image {
+    /*영상 디자인*/
+    margin-top: 10%;
+    margin-left: 12%;
+    width: 75%;
+    height: 85%;
+}
+
+div.bounding-box {
+    /*건들지마*/
+    position: absolute;
+    border: 2px solid red;
+    display: none;
+}

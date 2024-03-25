@@ -4,59 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/user/check_safe_cloth.css') }}">
     <title>Camera Streaming</title>
-    <style>
-        body,
-        html {
-            width: 100%;
-            height: 100%;
-            margin: 0;
-            padding: 0;
-        }
-
-        .container {
-            width: 100%;
-            height: 100%;
-        }
-
-        .header {
-            width: 100%;
-            height: 10%;
-            background-color: aqua;
-        }
-
-        .middle {
-            width: 100%;
-            height: 70%;
-            background-color: antiquewhite;
-        }
-
-        .bottom {
-            width: 100%;
-            height: 20%;
-            background-color: burlywood;
-        }
-
-        video.camera {
-            /*건들지마*/
-            display: none;
-        }
-
-        img.result-image {
-            /*영상 디자인*/
-            margin-top: 10%;
-            margin-left: 12%;
-            width: 75%;
-            height: 85%;
-        }
-
-        div.bounding-box {
-            /*건들지마*/
-            position: absolute;
-            border: 2px solid red;
-            display: none;
-        }
-    </style>
 </head>
 
 <body>
@@ -71,7 +20,7 @@
         </div>
         <div class="bottom"></div>
     </div>
-    <script src="{{url_for('static', filename='js/user/check_safe_cloth.js')}}">/*나중에 이걸로 바꿀거임*/</script> 
+    <script src="{{url_for('static', filename='js/user/check_safe_cloth.js')}}"></script> 
 </body>
 
 </html>

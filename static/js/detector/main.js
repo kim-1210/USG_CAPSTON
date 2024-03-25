@@ -5,28 +5,28 @@ var corporation = urlParams.get('corporation');
 document.getElementById('list_contents').style.display = "block";
 document.getElementById('check_calender').style.display = "none";
 
-$(function() {
+$(function () {
     //input을 datepicker로 선언
     $("#datepicker").datepicker({
         dateFormat: 'yy-mm-dd'
-        ,showOtherMonths: true
-        ,showMonthAfterYear:true
-        ,changeYear: true
-        ,changeMonth: true               
-        ,showOn: "both" 
-        ,buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif" 
-        ,buttonImageOnly: true
-        ,buttonText: "선택"          
-        ,yearSuffix: "년"
-        ,monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월']
-        ,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월']
-        ,dayNamesMin: ['일','월','화','수','목','금','토']
-        ,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일']
-        ,minDate: "-5Y"
-        ,maxDate: "+5y"
-    });                    
-    
-    $('#datepicker').datepicker('setDate', 'today');           
+        , showOtherMonths: true
+        , showMonthAfterYear: true
+        , changeYear: true
+        , changeMonth: true
+        , showOn: "both"
+        , buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif"
+        , buttonImageOnly: true
+        , buttonText: "선택"
+        , yearSuffix: "년"
+        , monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월']
+        , monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월']
+        , dayNamesMin: ['일', '월', '화', '수', '목', '금', '토']
+        , dayNames: ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일']
+        , minDate: "-5Y"
+        , maxDate: "+5y"
+    });
+
+    $('#datepicker').datepicker('setDate', 'today');
 });
 
 function list_change() {
@@ -72,6 +72,7 @@ function show_day() {
             if (xhr1.readyState === 4 && xhr1.status === 200) {
                 year_list = JSON.parse(xhr1.responseText);
                 year_dropdown = document.getElementById('year_dropdown')
+                year_dropdown.innerHTML = '';
                 for (var i = 0; i < year_list.data_list.length; i++) {
                     options = document.createElement('option')
                     options.text = year_list.data_list[i];
@@ -84,6 +85,7 @@ function show_day() {
         xhr1.send(send_data);
 
         month_dropdown = document.getElementById('month_dropdown')
+        month_dropdown.innerHTML = "";
         for (var i = 1; i < 13; i++) {
             options = document.createElement('option')
             options.text = i.toString();
@@ -98,6 +100,11 @@ function show_day() {
             if (xhr2.readyState === 4 && xhr2.status === 200) {
                 id_list = JSON.parse(xhr2.responseText);
                 id_dorpdown = document.getElementById('id_dorpdown')
+                id_dorpdown.innerHTML = '';
+                op_all = document.createElement('option')
+                op_all.text = '전체';
+                op_all.value = 'all';
+                id_dorpdown.appendChild(op_all);
                 for (var i = 0; i < id_list.id_list.length; i++) {
                     options = document.createElement('option')
                     options.text = id_list.id_list[i];

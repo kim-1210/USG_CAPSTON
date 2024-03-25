@@ -1,3 +1,7 @@
+var queryString = window.location.search;
+var urlParams = new URLSearchParams(queryString);
+var corporation = urlParams.get('corporation');
+var id = urlParams.get('id');
 const video = document.getElementById('video');
 const canvas = document.getElementById('canvas');
 const context = canvas.getContext('2d');
