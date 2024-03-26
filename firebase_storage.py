@@ -180,7 +180,7 @@ def get_today_excel(corporation): #금일출근 현황 데이터를 html로
 def get_all_excel(corporation, year, month, user = 'all'): #달 마다의 데이터를 html로 
     try:
         table_excel = pd.read_excel(f'./corporation_excel/{corporation}/{year}.xlsx', sheet_name=month)
-        if user != 'all':
+        if user != '전체':
             table_excel = table_excel.loc[table_excel['id'] == user]
         html_transfer = table_excel.to_html(index = False)
         print(html_transfer)

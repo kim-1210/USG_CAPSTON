@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/detector/detectorstyle.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/detector/main.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -84,14 +84,20 @@
                     </div>
 
                     <div class="search_if" id="search_if">
-                        <select id="year_dropdown">
-                        </select>
-                        <select id="month_dropdown">
-                        </select>
-                        <select id="id_dorpdown">
-                            <option value="all">전체</option>
-                        </select>
-                        <button onclick="show_excel()">출력</button>
+                        <div>
+                            <span class="span_style">년</span>
+                            <select id="year_dropdown" class="select_box year_design"></select>
+                        </div>
+                        <div>
+                            <span class="span_style">월</span>
+                            <select id="month_dropdown" class="select_box month_design"></select>
+                        </div>
+                        <div>
+                            <span class="span_style">ID</span>
+                            <input type="text" list="list" id="id_dropdown" placeholder="id" value="전체" class="id_dropdown"></input>
+                            <datalist id="list"></datalist>
+                        </div>
+                        <button onclick="show_excel()" class="show_button">출력</button>
                     </div>
 
                 </div>

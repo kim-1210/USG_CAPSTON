@@ -1,6 +1,7 @@
 var queryString = window.location.search;
 var urlParams = new URLSearchParams(queryString);
 var corporation = urlParams.get('corporation');
+var dataList = document.getElementById('list');
 
 document.getElementById('list_contents').style.display = "block";
 document.getElementById('check_calender').style.display = "none";
@@ -22,8 +23,7 @@ $(function () {
         , monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월']
         , dayNamesMin: ['일', '월', '화', '수', '목', '금', '토']
         , dayNames: ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일']
-        , minDate: "-5Y"
-        , maxDate: "+5y"
+        , minDate: "-50Y"
     });
 
     $('#datepicker').datepicker('setDate', 'today');
@@ -99,18 +99,30 @@ function show_day() {
         xhr2.onreadystatechange = function () {
             if (xhr2.readyState === 4 && xhr2.status === 200) {
                 id_list = JSON.parse(xhr2.responseText);
-                id_dorpdown = document.getElementById('id_dorpdown')
-                id_dorpdown.innerHTML = '';
+                id_dorpdown = document.getElementById('id_dropdown')
+                dataList.innerHTML = '';
                 op_all = document.createElement('option')
                 op_all.text = '전체';
-                op_all.value = 'all';
-                id_dorpdown.appendChild(op_all);
+                op_all.value = '전체';
+                dataList.appendChild(op_all);
                 for (var i = 0; i < id_list.id_list.length; i++) {
                     options = document.createElement('option')
                     options.text = id_list.id_list[i];
                     options.value = id_list.id_list[i];
-                    id_dorpdown.appendChild(options);
+                    dataList.appendChild(options);
                 }
+
+                document.getElementById('id_dropdown').addEventListener('input', function () {
+                    var inputValue = this.value;
+                    var options = dataList.querySelectorAll('option');
+                    options.forEach(function (option) {
+                        if (option.value.indexOf(inputValue) !== -1) {
+                            option.style.display = 'block';
+                        } else {
+                            option.style.display = 'none';
+                        }
+                    });
+                });
             }
         };
         var send_data = JSON.stringify({ 'corporation': corporation });
@@ -121,26 +133,35 @@ function show_day() {
 }
 
 function show_excel() {
-    var xhr = new XMLHttpRequest(); //flask에 요청
-    xhr.open("POST", "/get_excel", true);
-    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            document.getElementById('day_nemo').innerHTML = '';
-            add_html = JSON.parse(xhr.responseText);
-            document.getElementById('day_nemo').innerHTML += add_html.excel_data;
-        }
-    };
+    if (document.getElementById('id_dropdown').value === '') {
+        alert('id를 정확히입력해주세요.');
+        return '';
+    }
+    else {
+        var xhr = new XMLHttpRequest(); //flask에 요청
+        xhr.open("POST", "/get_excel", true);
+        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                document.getElementById('day_nemo').innerHTML = '';
+                add_html = JSON.parse(xhr.responseText);
+                document.getElementById('day_nemo').innerHTML += add_html.excel_data;
+            }
+        };
 
-    var send_data = JSON.stringify({ 'corporation': corporation, 'year': document.getElementById('year_dropdown').value.toString(), 'month': document.getElementById('month_dropdown').value.toString(), 'id': document.getElementById('id_dorpdown').value });
-    xhr.send(send_data);
+        var send_data = JSON.stringify({ 'corporation': corporation, 'year': document.getElementById('year_dropdown').value.toString(), 'month': document.getElementById('month_dropdown').value.toString(), 'id': document.getElementById('id_dropdown').value });
+        xhr.send(send_data);
+    }
 }
 
 function register() { //등록 함수
     var dropdown = document.getElementById("job").value;
-    var year = document.getElementById('year').value;
-    var month = document.getElementById('month').value;
-    var day = document.getElementById('day').value;
+    var date = document.getElementById('datepicker').value;
+    var selectedDate = new Date(selectedDateStr);
+    var year = selectedDate.getFullYear().toString().slice(-2);
+    var month = (selectedDate.getMonth() + 1).toString();
+    var day = (selectedDate.getDate()).toString();
+
     var name = document.getElementById('name').value;
     var id = document.getElementById('id').value;
     var password = document.getElementById('pw').value;
