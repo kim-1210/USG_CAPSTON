@@ -41,7 +41,7 @@ function login() {
         if (xhr.readyState === 4 && xhr.status === 200) {
             result = JSON.parse(xhr.responseText);
             if(result.result == true){
-                var queryString = '?corporation=' + encodeURIComponent(corporation_name);
+                var queryString = '?corporation=' + encodeURIComponent(corporation_name) + '&name=' + encodeURIComponent(result.name);
                 location.href='/detector/main' + queryString;
             }
             else{

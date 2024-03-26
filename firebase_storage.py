@@ -118,7 +118,7 @@ def detector_login(corporation, id, password): #로그인
         hash_password = password
         if hash_password == information_dict['password']:
             print('로그인 성공!')
-            return True
+            return True, information_dict['name']
         else:
             print('로그인 실패!')
             return False
@@ -190,14 +190,15 @@ def get_all_excel(corporation, year, month, user = 'all'): #달 마다의 데이
         return '찾지 못 했습니다.'
 
 def set_suggest(corporation, title, image, content, id): #건의사항 올리기
-    table = pd.read_excel(f'./suggests/{corporation}/suggest.xlsx')
+    table = pd.read_excel(f'./suggests/{corporation}/suggest.xlsx', index=False)
     imgs = os.listdir('./temping/image')
     name = f'{str(len(imgs) + 1)}.png'
-    new_data = {'title' : title, 'image' : image, 'content' : content}
-
+    temp = pd.DataFrame({'title' : title, 'image' : image, 'content' : content, 'id': id})
+    table = pd.concat([table, temp], axis=0)
     name = f'./suggests/{corporation}/image/{str(len(imgs) + 1)}.png'
     print(name)
     cv2.imwrite(name, imgs)
+    table.to_excel(f'./suggests/{corporation}/suggest.xlsx', index=False)
     return "건의사항이 제출되었습니다."
 
 def get_id_suggest(corporation, id):

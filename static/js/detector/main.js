@@ -1,10 +1,36 @@
 var queryString = window.location.search;
 var urlParams = new URLSearchParams(queryString);
 var corporation = urlParams.get('corporation');
+var user_name = urlParams.get('name');
 var dataList = document.getElementById('list');
+document.getElementById('userName').innerHTML = "관리자 : " + user_name;
 
 document.getElementById('list_contents').style.display = "block";
 document.getElementById('check_calender').style.display = "none";
+
+var xhr_suggest = new XMLHttpRequest(); //flask에 요청
+xhr_suggest.open("POST", "/get_list_detector", true);
+xhr_suggest.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+xhr_suggest.onreadystatechange = function () {
+    if (xhr_suggest.readyState === 4 && xhr_suggest.status === 200) {
+        document.getElementById('list_nemo').innerHTML = '';
+        var data = JSON.parse(xhr_suggest.responseText);
+        var titles = data.data_list
+        for (var i = 0; i < titles.length; i++) {
+            var div_list = document.createElement('div');
+            div_list.innerText = titles[i];
+            div_list.classList.add("list_item");
+            div_list.setAttribute('data-value', i);
+            div_list.onclick = function () {
+                var value = this.getAttribute('data-value');
+                handleClick(corporation, value);
+            };
+            document.getElementById('list_nemo').appendChild(div_list);
+        }
+    }
+};
+var data = JSON.stringify({ 'corporation': corporation });
+xhr_suggest.send(data);
 
 $(function () {
     //input을 datepicker로 선언
@@ -29,6 +55,79 @@ $(function () {
     $('#datepicker').datepicker('setDate', 'today');
 });
 
+function show_list() {
+    var xhr_suggest = new XMLHttpRequest(); //flask에 요청
+    xhr_suggest.open("POST", "/get_list_detector", true);
+    xhr_suggest.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhr_suggest.onreadystatechange = function () {
+        if (xhr_suggest.readyState === 4 && xhr_suggest.status === 200) {
+            document.getElementById('list_nemo').innerHTML = '';
+            var data = JSON.parse(xhr_suggest.responseText);
+            var titles = data.data_list
+            for (var i = 0; i < titles.length; i++) {
+                var div_list = document.createElement('div');
+                div_list.innerText = titles[i];
+                div_list.classList.add("list_item");
+                div_list.setAttribute('data-value', i);
+                div_list.onclick = function () {
+                    var value = this.getAttribute('data-value');
+                    handleClick(corporation, value);
+                };
+                document.getElementById('list_nemo').appendChild(div_list);
+            }
+        }
+    };
+    var data = JSON.stringify({ 'corporation': corporation });
+    xhr_suggest.send(data);
+}
+
+function handleClick(corporation, cnt) { //건의사항 리스트 클릭시
+    var xhr_detail = new XMLHttpRequest(); //flask에 요청
+    xhr_detail.open("POST", "/get_detail_suggest", true);
+    xhr_detail.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhr_detail.onreadystatechange = function () {
+        if (xhr_detail.readyState === 4 && xhr_detail.status === 200) {
+            document.getElementById('list_nemo').innerHTML = '';
+            var add_html = JSON.parse(xhr_detail.responseText);
+            console.log(add_html.title + ", " + add_html.image + ", " + add_html.content)
+            // {'title': send_title, 'image' : send_image, 'content' : send_cotent}
+
+            var big_div = document.createElement('div');
+            big_div.classList.add('suggest_detail');
+
+            var title_span = document.createElement('span');
+            title_span.innerHTML = "제목 : " + add_html.title;
+            title_span.classList.add('underbar');
+            title_span.classList.add('title');
+            big_div.appendChild(title_span);
+
+            if (add_html.image == ' ' || add_html.image == '') {//이미지가 없을시
+                console.log('dasda')
+                var img_span = document.createElement('span');
+                img_span.innerHTML = '이미지 없음';
+                img_span.classList.add('underbar')
+                big_div.appendChild(img_span);
+            }
+            else { //이미지가 있을시
+                console.log('win')
+                var imging = document.createElement('img');
+                imging.src = "{{static/images/user/safe3.png}}";
+                imging.classList.add('underbar');
+                imging.classList.add('img_resize')
+                big_div.appendChild(imging)
+            }
+            content_span = document.createElement('span');
+            content_span.innerHTML = "내용 : " + add_html.content;
+            content_span.classList.add('content')
+            big_div.appendChild(content_span);
+
+            document.getElementById('list_nemo').appendChild(big_div);
+        }
+    };
+    var data = JSON.stringify({ 'corporation': corporation, 'cnt': cnt });
+    xhr_detail.send(data);
+}
+
 function list_change() {
     if (document.getElementById('menu1').checked) {
         document.getElementById('list_contents').style.display = "block";
@@ -41,7 +140,6 @@ function list_change() {
     }
 }
 
-
 function show_day() {
     if (document.getElementById('f_tday').checked) { //당일 출근
         document.getElementById('search_if').style.display = 'none';
@@ -50,14 +148,10 @@ function show_day() {
         xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
-                if (xhr.status === 200) {
-                    document.getElementById('day_nemo').innerHTML = '';
-                    add_html = JSON.parse(xhr.responseText);
-                    //console.log(add_html.today_excel);
-                    document.getElementById('day_nemo').innerHTML += add_html.today_excel;
-                } else {
-                    console.error("데이터 전송 실패");
-                }
+                document.getElementById('day_nemo').innerHTML = '';
+                var add_html = JSON.parse(xhr.responseText);
+                //console.log(add_html.today_excel);
+                document.getElementById('day_nemo').innerHTML += add_html.today_excel;
             }
         };
         var data = JSON.stringify({ 'corporation': corporation });
@@ -70,8 +164,8 @@ function show_day() {
         xhr1.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
         xhr1.onreadystatechange = function () {
             if (xhr1.readyState === 4 && xhr1.status === 200) {
-                year_list = JSON.parse(xhr1.responseText);
-                year_dropdown = document.getElementById('year_dropdown')
+                var year_list = JSON.parse(xhr1.responseText);
+                var year_dropdown = document.getElementById('year_dropdown')
                 year_dropdown.innerHTML = '';
                 for (var i = 0; i < year_list.data_list.length; i++) {
                     options = document.createElement('option')
@@ -84,10 +178,10 @@ function show_day() {
         var send_data = JSON.stringify({ 'corporation': corporation });
         xhr1.send(send_data);
 
-        month_dropdown = document.getElementById('month_dropdown')
+        var month_dropdown = document.getElementById('month_dropdown')
         month_dropdown.innerHTML = "";
         for (var i = 1; i < 13; i++) {
-            options = document.createElement('option')
+            var options = document.createElement('option')
             options.text = i.toString();
             options.value = i.toString();
             month_dropdown.appendChild(options);
@@ -98,10 +192,10 @@ function show_day() {
         xhr2.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
         xhr2.onreadystatechange = function () {
             if (xhr2.readyState === 4 && xhr2.status === 200) {
-                id_list = JSON.parse(xhr2.responseText);
-                id_dorpdown = document.getElementById('id_dropdown')
+                var id_list = JSON.parse(xhr2.responseText);
+                var id_dorpdown = document.getElementById('id_dropdown')
                 dataList.innerHTML = '';
-                op_all = document.createElement('option')
+                var op_all = document.createElement('option')
                 op_all.text = '전체';
                 op_all.value = '전체';
                 dataList.appendChild(op_all);

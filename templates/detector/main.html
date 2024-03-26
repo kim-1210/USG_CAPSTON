@@ -65,14 +65,17 @@
         <!--사이드 박스옆에 라디오 버튼 누르면 각 버튼에 해당하는거 뜨는 화면-->
         <div class="jqBox" id="radioscreen">
             <!-- 건의사항 div -->
-            <div id="list_contents">
-
+            <div id="list_contents" class="listBox">
+                <div class="list_button"><!--클릭되면?-->
+                    <input type="button" name="list" id="f_list" onclick="show_list()">
+                    <label for="f_list">목록</label>
+                </div>
+                <div class="list_nemo" id="list_nemo"> <!--여기서 실행-->
+                </div>
             </div>
             <!-- 출근명부 div -->
             <div class="dayBox" id="check_calender">
-                <!--금일 출근명부 추가-->
                 <div class="radio_container">
-
                     <div class="day_radio"><!--클릭되면?-->
                         <input type="radio" name="day" value="1" id="f_tday" checked="true" onclick="show_day()">
                         <label for="f_tday">Day</label>
@@ -94,15 +97,14 @@
                         </div>
                         <div>
                             <span class="span_style">ID</span>
-                            <input type="text" list="list" id="id_dropdown" placeholder="id" value="전체" class="id_dropdown"></input>
+                            <input type="text" list="list" id="id_dropdown" placeholder="id" value="전체"
+                                class="id_dropdown"></input>
                             <datalist id="list"></datalist>
                         </div>
                         <button onclick="show_excel()" class="show_button">출력</button>
                     </div>
-
                 </div>
                 <div class="day_nemo" id="day_nemo"> <!--여기서 실행-->
-
                 </div>
             </div>
         </div>

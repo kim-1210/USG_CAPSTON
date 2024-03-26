@@ -57,8 +57,8 @@ def user_login():
 @app.route('/detector_login', methods=['POST'])
 def detector_login_check():
     data = request.json
-    result_bool = fs.detector_login(data.get('corporation'), data.get('id'), data.get('password'))
-    return jsonify({'result' : result_bool})
+    result_bool, name = fs.detector_login(data.get('corporation'), data.get('id'), data.get('password'))
+    return jsonify({'result' : result_bool, 'name' : name})
     
 
 @app.route('/create_user', methods=['POST']) #추가
@@ -114,7 +114,7 @@ def get_year_file():
 @app.route('/get_detail_suggest', methods=['POST'])
 def get_datail_suggest():
     data = request.json
-    send_title, send_image, send_cotent = fs.get_detail_suggest(data['corporation'], data['cnt'])
+    send_title, send_image, send_cotent = fs.get_detail_suggest(data.get('corporation'), int(data.get('cnt')))
     return jsonify({'title': send_title, 'image' : send_image, 'content' : send_cotent})
 
 @app.route('/set_suggest', methods = ['POST'])
