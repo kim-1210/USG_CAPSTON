@@ -1,0 +1,454 @@
+* { 
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    overflow: hidden;
+    width: 100%;
+    height: 100vh;
+}
+.topbar{
+    background-color: #0088ba;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 11%;
+    border-bottom : 5px solid #d3d3d3;
+}
+.logoBox{
+    display: flex;
+    align-items: center;
+    width: 30%;
+    height: 100%;
+}
+.logoBox span{
+    font-family: "Noto Serif KR", serif;
+    margin-left: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.logoBox span[id="helmet"]{
+    font-size: 50px;
+    color:#b8d432;
+}
+.logoBox span[id="text"]{
+    margin-left: 8px;
+    font-size: 35px;
+    color:#ffffff;
+}
+.userinfoBox{
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    width: 90%;
+    height: 100%;
+}
+.userinfoBox span{
+    font-family: "Noto Serif KR", serif;
+    margin-right: 10px;
+    color:#ffffff;
+    font-size: 30px;
+}
+.userinfoBox button{
+    font-size: 25px;
+    color:#323232;
+    background-color: #053863;
+    border:none;
+    margin-right: 30px;
+}
+.userinfoBox button:hover{
+    color: #000000;
+}
+.mainBox{
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+.sideBox{
+    width: 400px;
+    height: 100%;
+    border-right: 5px solid #d3d3d3;
+    background-color: #ffffff;
+}
+.sideBox input[type="radio"]:hover + label{
+    background: #1A73E8;
+	color: #fff;
+}
+.sideBox input[type="radio"]:checked + label{
+    background: #1A73E8;
+	color: #fff;
+}
+.menuBox{
+    border-bottom: 3px solid #d3d3d3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+.menuBox label{
+    width: 100%;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    font-size: 30px;
+}
+.sideBox input[type="radio"]{
+    display: none;
+}
+.buttonBox{
+    margin-top: 25px;
+    width: 395px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.workerbutton{
+    margin-bottom: 25px;
+    width:158px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.workerbutton button{
+    width:158px;
+    height: 70px;
+    
+    background-color: white;
+    border-color: #1A73E8;
+    color:#1A73E8;
+    font-size: 22px;
+    font-weight: bold;
+    border-radius: 10px;
+}
+.image_container {
+    margin-top: 142px;
+    display: flex;
+    position: relative;
+    justify-content:center;
+}
+.cover {
+    position: absolute;
+    flex-direction: column; 
+    width: 100%;
+    height: 55vh;
+    background-color: rgba(0, 0, 0, 0.5); 
+    display: flex;
+    color: white; 
+    font-size: 24px; 
+    font-weight: bold; 
+}
+.cover span[id="text1"] {
+    margin-top: 30px;
+    margin-left: 20px;
+    margin-right: 20px;
+    font-size: 25px;
+    font-weight: bold;
+}
+.cover span[id="text2"] {
+    margin-top: 2%;
+    margin-left: 20px;
+    margin-right: 20px;
+    font-size: 20px;
+    font-weight:lighter;
+}
+#color1{
+    font-size: 25px;
+    font-weight: bold;
+    color:green
+}
+#color2{
+    font-weight: bold;
+    color: #FFA500;
+}
+
+.jqBox{
+    display:flex;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    border:1px solid black;
+}
+.dayBox{
+    padding-top:2%;
+    padding-left: 5%;
+    width: 100%;
+    height: 100%;
+}
+.radio_container{
+    width: 100%;
+    height: 8%;
+    display: flex;
+    text-align: center;
+    align-items: center;
+}
+.day_radio label{
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    width:158px;
+    height: 70px;
+    background-color: white;
+    border:2px solid #1A73E8;
+    color:#1A73E8;
+    font-size: 22px;
+    font-weight: bold;
+}
+.day_radio label[for="f_aday"]{
+    margin-left:1px;
+}
+.day_radio input[type="radio"]:checked + label{
+    background-color: #1A73E8;
+    border-color: #114d9c;
+    color: white;
+}
+.day_radio input[type="radio"]{
+    display: none;    
+}
+
+.search_if{
+    display: flex;
+    width: 30%;
+    height: 80%;
+    margin-left: 37%;
+}
+.id_dropdown{
+    font-size: 100%;
+    display: flex;
+    width: 90%;
+    height: 100%;
+}
+.search_if > div {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-left: 1%;
+}
+.select_box{
+    font-size: 100%;
+    height: 100%;
+    margin-left: 3%;
+}
+.show_button{
+    font-size: 100%;
+    margin-top: 2%;
+    height: 80%;
+    width: 20%;
+}
+.span_style{
+    font-size: 100%;
+    font-weight: bold;
+}
+.year_design{
+    /*여기다가 디자인해줘 year*/
+}
+
+.month_design{
+    /*여기다가 디자인해줘 month*/
+}
+
+.day_nemo{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top:5%;
+    width: 94%;
+    height: 78%;
+    border: 1px solid #a3a2a2;
+
+}
+.day_container{
+    display:grid;
+    
+    width:85%;
+    height: 14%;
+    grid-template-columns: repeat(10, 10%);
+    border: 1px solid #a3a2a2;
+}
+.name{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    border: 1px solid #a3a2a2;
+    font-size: 15px;
+    font-weight: bold;
+}
+.block{
+    margin-top:6px;
+    width: 100%;
+    height: 1px;
+    background-color: #a3a2a2;
+}
+.day_check{
+    font-size: 40px;
+    font-weight: bold;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.modalbackground {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.3);
+    
+    /* 숨기기 */
+    z-index: -1;
+    opacity: 0;
+}
+.show {
+    opacity: 1;
+    z-index: 1000;
+    transition: all .5s;
+}
+.window {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+.popup {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #ffffff;
+    box-shadow: 0 2px 7px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    
+    /* 임시 지정 */
+    width: 500px;
+    height: 900px;
+    
+    /* 초기에 약간 아래에 배치 */
+    transform: translate(-50%, -40%);
+}
+.show .popup {
+    transform: translate(-50%, -50%);
+    transition: all .5s;
+}
+.popuplogo{
+    border-bottom:1px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 70px;
+    font-size: 30px;
+}
+.selectBox{
+    width: 100%;
+    height: 100px;
+    margin-top: 5%;
+    margin-left: 20px;
+}
+.selectBox span{
+    font-size: 20px;
+}
+.selectBox input{
+    width: 90%;
+    border: none;
+    border-bottom: solid #aaaaaa 1px;
+    margin-bottom: 5%;
+    font-size: 15px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+.popuptitle{
+    margin-top: 30px;
+    margin-left: 20px;
+}
+.popuptitle select[id="job"]{
+    width: 32%;
+    border: none;
+    font-size: 20px;
+    padding : 2px;
+    padding-left: 5px;
+    border-bottom: solid #aaaaaa 1px;
+}
+.popuptitle select{
+    width: 22%;
+    border: none;
+    font-size: 20px;
+    padding : 2px;
+    padding-left: 5px;
+    border-bottom: solid #aaaaaa 1px;
+}
+.popuptitle span{
+    font-size: 22px;
+}
+.popuptitle input{
+    width: 90%;
+    border: none;
+    border-bottom: solid #aaaaaa 1px;
+    margin-top: 2%;
+    margin-bottom: 5%;
+    font-size: 15px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+.popupaction{
+    display: flex;
+    padding-top: 80px;
+    padding-left: 20px;
+    padding-right: 40px;
+}
+.popupcancel{
+    width: 50%;
+}
+.popupcancel button{
+    width: 150px;
+    height: 50px;
+    background-color: white;
+    border-color: #1A73E8;
+    color:#1A73E8;
+    font-size: 18px;
+    border-radius: 10px;
+}
+.popupok{
+    display: flex;
+    justify-content: right;
+    width: 50%;
+}
+.popupok button{
+    width: 150px;
+    height: 50px;
+    background-color: white;
+    border-color: #1A73E8;
+    color:#1A73E8;
+    font-size: 18px;
+    border-radius: 10px;
+}
+button:hover {
+    background-color: #1A73E8;
+    border-color: #114d9c;
+    color: white;
+}
