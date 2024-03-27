@@ -1,0 +1,8 @@
+numpy
+pandas
+opencv-python
+pyrebase4
+flask
+flask-socketio
+matplotlib
+seaborn
