@@ -115,7 +115,13 @@ def get_year_file():
 def get_datail_suggest():
     data = request.json
     send_title, send_image, send_cotent = fs.get_detail_suggest(data.get('corporation'), int(data.get('cnt')))
-    return jsonify({'title': send_title, 'image' : send_image, 'content' : send_cotent})
+    if './suggests' in send_image:
+        read_img = fs.cv2.imread(send_image)
+        _, buffer = ai.cv2.imencode('.jpg', read_img)
+        frame_base64 = ai.base64.b64encode(buffer).decode('utf-8')
+    else:
+        frame_base64 = ''
+    return jsonify({'title': send_title, 'image' : frame_base64, 'content' : send_cotent})
 
 @app.route('/set_suggest', methods = ['POST'])
 def set_suggest():

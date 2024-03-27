@@ -195,7 +195,7 @@ def set_suggest(corporation, title, image, content, id): #건의사항 올리기
     name = f'{str(len(imgs) + 1)}.png'
     temp = pd.DataFrame({'title' : title, 'image' : image, 'content' : content, 'id': id})
     table = pd.concat([table, temp], axis=0)
-    name = f'./suggests/{corporation}/image/{str(len(imgs) + 1)}.png'
+    name = f'./suggests/{corporation}/image/{str(len(imgs) + 1)}.jpg'
     print(name)
     cv2.imwrite(name, imgs)
     table.to_excel(f'./suggests/{corporation}/suggest.xlsx', index=False)

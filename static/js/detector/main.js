@@ -111,10 +111,12 @@ function handleClick(corporation, cnt) { //건의사항 리스트 클릭시
             else { //이미지가 있을시
                 console.log('win')
                 var imging = document.createElement('img');
-                imging.src = "{{static/images/user/safe3.png}}";
-                imging.classList.add('underbar');
-                imging.classList.add('img_resize')
+                imging.src = 'data:image/jpeg;base64,'+ add_html.image;
+                imging.classList.add('img_resize');
                 big_div.appendChild(imging)
+                var img_span = document.createElement('span');
+                img_span.classList.add('underbar');
+                big_div.appendChild(img_span);
             }
             content_span = document.createElement('span');
             content_span.innerHTML = "내용 : " + add_html.content;
