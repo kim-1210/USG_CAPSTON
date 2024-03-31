@@ -1,0 +1,109 @@
+body{
+    margin: 0;
+    padding: 0;
+    width:100%;
+    height:100%;
+}
+
+.logo{
+    display: flex;
+    margin-bottom: 3%;
+    justify-content: center;
+    align-items: center;
+}
+.logo span[id="back"]{
+    position:relative;
+    top: 3px;
+    margin-right : 90%;
+    justify-content: center;
+    align-items: center;
+    font-size: 35px;
+    color:#000000;
+}
+.logo span[id="logotext"]{
+    position:fixed;
+    top: 7px;
+    justify-content: center;
+    align-items: center;
+    color:#000000;
+    font-size: 30px;
+}
+
+.block1 {
+    display: flex;
+    width: 100%;
+    height: 1px; 
+    background-color: #DCDCDC; 
+}
+.block2 {
+    display: flex;
+    margin-top: 3%;
+    width: 100%;
+    height: 1px; 
+    background-color: #DCDCDC; 
+}
+
+
+.allContainer{
+    display:flex;
+    flex-direction: column;
+    width:100%;
+    height:100%;
+    padding-top:5%;
+    padding-left: 5.5%;
+}
+.pictureContainer{
+    width: 86%;
+    height: 450px; /*퍼센트로 해놓으니까 안에 뭐가없어서 그런지 적용이 안됨*/
+    border: 1px solid #000000;
+}
+.suggestContainer{
+    display: flex;
+    margin-top: 4%;
+    width:100%;
+    height: 100%;
+    flex-direction: column;
+}
+input[id="suggestTitle"] {
+    margin-bottom: 5%;
+    border: 1.5px rgb(68, 68, 68) solid;
+    width: 85%;
+    height: 30px;
+    border-width: 0 0 2px;
+    font-size:17px;
+    font-weight: 900;
+}
+input[id="suggestTitle"]:focus {
+    border-radius:3px;
+    box-shadow: 0 0 10px #2c2c2c;
+    outline:none;
+}
+textarea[id="suggestText"] {
+    border: 1.5px rgb(32, 32, 32) solid;
+    width: 85%;
+    height: 170px;
+    border-radius: 5px;
+    resize: none;
+}
+textarea:focus{
+    box-shadow: 0 0 10px #2c2c2c;
+    outline:none;
+}
+button[id="btn1"]{
+    margin-top: 5%;
+    width: 23%;
+    height: 40px;
+    font-size: 16px;
+    border: 0;
+    color:#fff;
+    border-radius: 10px;
+    background-color: #999999;
+}
+button[id="btn1"]:active{
+    width: 23%;
+    height: 40px;
+    font-size: 186x;
+    border: 0;
+    border-radius: 10px;
+    background-color:#6e6e6e;
+}

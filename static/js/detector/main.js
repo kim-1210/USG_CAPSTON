@@ -7,6 +7,7 @@ document.getElementById('userName').innerHTML = "관리자 : " + user_name;
 
 document.getElementById('list_contents').style.display = "block";
 document.getElementById('check_calender').style.display = "none";
+document.getElementById('workerBox').style.display = "none";
 
 var xhr_suggest = new XMLHttpRequest(); //flask에 요청
 xhr_suggest.open("POST", "/get_list_detector", true);
@@ -131,15 +132,24 @@ function handleClick(corporation, cnt) { //건의사항 리스트 클릭시
 }
 
 function list_change() {
+
     if (document.getElementById('menu1').checked) {
         document.getElementById('list_contents').style.display = "block";
         document.getElementById('check_calender').style.display = "none";
+        document.getElementById('workerBox').style.display = "none";
     }
-    else {
+    else if(document.getElementById('menu2').checked) {
         document.getElementById('list_contents').style.display = "none";
         document.getElementById('check_calender').style.display = "block";
+        document.getElementById('workerBox').style.display = "none";
         show_day()
     }
+    else{
+        document.getElementById('list_contents').style.display = "none";
+        document.getElementById('check_calender').style.display = "none";
+        document.getElementById('workerBox').style.display = "block";
+    }
+
 }
 
 function show_day() {
@@ -241,7 +251,8 @@ function show_excel() {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 document.getElementById('day_nemo').innerHTML = '';
                 add_html = JSON.parse(xhr.responseText);
-                document.getElementById('day_nemo').innerHTML += add_html.excel_data;
+                var modifiedData = add_html.excel_data.replace(/dataframe/g, 'allday');
+                document.getElementById('day_nemo').innerHTML += modifiedData;
             }
         };
 

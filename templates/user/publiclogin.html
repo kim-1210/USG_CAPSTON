@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,18 +10,16 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR&display=swap" rel="stylesheet">
     <title>로그인 페이지</title>
-    <script 
-        src="https://kit.fontawesome.com/9f8bb06fc7.js" 
-        crossorigin="anonymous"
-    ></script>
+    <script src="https://kit.fontawesome.com/9f8bb06fc7.js" crossorigin="anonymous"></script>
 </head>
+
 <body>
     <div class="logo">
         <span id="back"><i class="fa-solid fa-chevron-left"></i></span>
         <span id="login">로그인</span>
     </div>
-    <span class = block1></span>
-    <span class = block2></span>
+    <span class=block1></span>
+    <span class=block2></span>
 
     <div class="content_screen">
 
@@ -36,7 +35,7 @@
                 <option value="protected">안전 관리자</option>
             </select>
             <input class="insert_input" list="list" id="corporation_drop" placeholder="회사명을 입력해주세요"></input><br><br>
-            <datalist id ="list">
+            <datalist id="list">
                 <!--회사 이름 옵션들-->
             </datalist>
             <input class="insert_input" id="idinput" placeholder="아이디"> <br><br>
@@ -58,4 +57,5 @@
     </div>
     <script src="{{url_for('static', filename='js/user/publiclogin.js')}}"></script>
 </body>
+
 </html>

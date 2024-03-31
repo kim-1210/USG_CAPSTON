@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,11 +10,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR&display=swap" rel="stylesheet">
     <title>메인 홈페이지</title>
-    <script 
-        src="https://kit.fontawesome.com/9f8bb06fc7.js" 
-        crossorigin="anonymous"
-    ></script>
+    <script src="https://kit.fontawesome.com/9f8bb06fc7.js" crossorigin="anonymous"></script>
 </head>
+
 <body>
     <div class="logo">
         <div class="slidemenu">
@@ -36,12 +35,12 @@
                 </ul>
             </div>
         </div>
-        
-        <span id = "helmet"><i class="fa-solid fa-helmet-safety"></i><span id = "text">산업안전진단</span></span>
+
+        <span id="helmet"><i class="fa-solid fa-helmet-safety"></i><span id="text">산업안전진단</span></span>
     </div>
 
-    <span class = block1></span>
-    <span class = block2></span>
+    <span class=block1></span>
+    <span class=block2></span>
 
 
     <div class="image_container">
@@ -49,19 +48,19 @@
         <div class="cover">
             <span id="text1">잊어버린건 없으신가요?</span>
             <span id="text2">한 순간의 선택 </span>
-            <span id="text3"><span id = color1>생명</span>을 <span id = color2>위협</span>합니다. </span>
+            <span id="text3"><span id=color1>생명</span>을 <span id=color2>위협</span>합니다. </span>
         </div>
     </div>
 
     <div class="mainbody">
         <div class="selectmenu1" style:>
             <button id="btn1" onclick="user_check_safe_cloth()">
-                <span id = "btn1_text"><i class="fa-solid fa-check"></i><br>출근 확인</span>
+                <span id="btn1_text"><i class="fa-solid fa-check"></i><br>출근 확인</span>
             </button>
         </div>
         <div class="selectmenu2">
-            <button id="btn2" >
-                <span id = "btn2_text"><i class="fa-solid fa-calendar"></i><br>출근 기록</span>
+            <button id="btn2">
+                <span id="btn2_text"><i class="fa-solid fa-calendar"></i><br>출근 기록</span>
             </button>
         </div>
     </div>
@@ -75,10 +74,10 @@
                     </div>
                 </div>
                 <div class="popuplogo">
-                    <span id="app"> 
-                        작업에 맞는 복장을<br> 
+                    <span id="app">
+                        작업에 맞는 복장을<br>
                         입지 않고 작업 하시다<br>
-                        사고를 당하시는 경우가<br> 
+                        사고를 당하시는 경우가<br>
                         많아 사고를 줄이는데<br>
                         도움이 되기 위해 <br>
                         개발하게 되었습니다.</span>
@@ -89,40 +88,40 @@
 
 
     <script>
-    document.querySelector('.appearlabel').addEventListener('click',
-    function Show_Hide(e) {
-        e.stopPropagation(); // 부모 클릭 이벤트를 방지.
-        var checkbox = document.getElementById('slidemenuicon');
-        var sidebar = document.querySelector('.sidebar');
-        if (checkbox.checked) {
-            checkbox.checked = false; 
-            sidebar.style.left = '-200px'; 
-        } 
-        else {
-            checkbox.checked = true; 
-            sidebar.style.left = '0'; 
-        }
-    });
-    document.querySelector('.sidebar').addEventListener('click', function(e) {
-    e.stopPropagation(); 
-    });
-    document.querySelector('.slidemenu').addEventListener('click', 
-    function Show_Hide() {
-        var checkbox = document.getElementById('slidemenuicon');
-        var sidebar = document.querySelector('.sidebar');
-        if (checkbox.checked) {
-            checkbox.checked = false; 
-            sidebar.style.left = '-200px'; 
-        } 
-        else {
-            checkbox.checked = true; 
-            sidebar.style.left = '0'; 
-        }
-    });
+        document.querySelector('.appearlabel').addEventListener('click',
+            function Show_Hide(e) {
+                e.stopPropagation(); // 부모 클릭 이벤트를 방지.
+                var checkbox = document.getElementById('slidemenuicon');
+                var sidebar = document.querySelector('.sidebar');
+                if (checkbox.checked) {
+                    checkbox.checked = false;
+                    sidebar.style.left = '-200px';
+                }
+                else {
+                    checkbox.checked = true;
+                    sidebar.style.left = '0';
+                }
+            });
+        document.querySelector('.sidebar').addEventListener('click', function (e) {
+            e.stopPropagation();
+        });
+        document.querySelector('.slidemenu').addEventListener('click',
+            function Show_Hide() {
+                var checkbox = document.getElementById('slidemenuicon');
+                var sidebar = document.querySelector('.sidebar');
+                if (checkbox.checked) {
+                    checkbox.checked = false;
+                    sidebar.style.left = '-200px';
+                }
+                else {
+                    checkbox.checked = true;
+                    sidebar.style.left = '0';
+                }
+            });
     </script>
 
-    <script> 
-    //이건뭐지....?
+    <script>
+        //이건뭐지....?
         function show() {
             document.querySelector(".modalbackground").className = "modalbackground show";
         }
@@ -130,6 +129,7 @@
             document.querySelector(".modalbackground").className = "modalbackground";
         }
     </script>
-    <script src="{{url_for('static', filename='js/user/main.js')}}">/*나중에 이걸로 바꿀거임*/</script> 
+    <script src="{{url_for('static', filename='js/user/main.js')}}">/*나중에 이걸로 바꿀거임*/</script>
 </body>
+
 </html>

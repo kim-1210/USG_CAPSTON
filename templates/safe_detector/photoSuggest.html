@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <link rel="stylesheet" href="photoSuggeststyle.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR&display=swap" rel="stylesheet">
+    <title>메인 홈페이지</title>
+    <script 
+        src="https://kit.fontawesome.com/9f8bb06fc7.js" 
+        crossorigin="anonymous"
+    ></script>
+</head>
+<body>
+    <div class="logo">
+        <span id="back"><i class="fa-solid fa-chevron-left"></i></span>
+        <span id="logotext">작업 촬영</span>
+    </div>
+    <span class = block1></span>
+    <span class = block2></span>
+
+    <div class="allContainer">
+
+        <div class="pictureContainer">
+            <!--사진 구역-->
+        </div>
+
+        <div class ="suggestContainer">
+            <input type="text" placeholder="제목" name="suggestTitle" id ="suggestTitle">
+            <textarea placeholder="내용을 입력하세요" name="suggestText" id="suggestText"></textarea>
+            <button id="btn1">
+                <span><i class="fa-solid fa-pencil" id="pen"></i> 글 쓰기</span>
+            </button>
+        </div>
+    </div>
+</body>
+</html>

@@ -44,8 +44,12 @@
                 <label for="menu1">요청된 건의사항</label>
             </div>
             <div class="menuBox">
+                <input type="radio" name="menu" value="2" id="menu2" onclick="list_change()">
+                <label for="menu2">출근명부</label>
+            </div>
+            <div class="menuBox">
                 <input type="radio" name="menu" value="3" id="menu3" onclick="list_change()">
-                <label for="menu3">출근명부</label>
+                <label for="menu3">직원관리</label>
             </div>
 
             <div class="buttonBox">
@@ -65,17 +69,17 @@
         <!--사이드 박스옆에 라디오 버튼 누르면 각 버튼에 해당하는거 뜨는 화면-->
         <div class="jqBox" id="radioscreen">
             <!-- 건의사항 div -->
-            <div id="list_contents" class="listBox">
+            <div class="listBox" id="list_contents">
                 <div class="list_button"><!--클릭되면?-->
-                    <input type="button" name="list" id="f_list" onclick="show_list()">
-                    <label for="f_list">목록</label>
+                    <input type="button" value="목록" name="list" id="f_list" onclick="show_list()">
                 </div>
                 <div class="list_nemo" id="list_nemo"> <!--여기서 실행-->
                 </div>
             </div>
+
             <!-- 출근명부 div -->
             <div class="dayBox" id="check_calender">
-                <div class="radio_container">
+                <div class="day_container">
                     <div class="day_radio"><!--클릭되면?-->
                         <input type="radio" name="day" value="1" id="f_tday" checked="true" onclick="show_day()">
                         <label for="f_tday">Day</label>
@@ -103,10 +107,44 @@
                         </div>
                         <button onclick="show_excel()" class="show_button">출력</button>
                     </div>
+
                 </div>
                 <div class="day_nemo" id="day_nemo"> <!--여기서 실행-->
                 </div>
             </div>
+
+            <!--직원관리-->
+            <div class="workerBox" id="workerBox">
+                <div class="worker_button"> <!--클릭되면?-->
+                    <input type="button" value="직원" name="worker_button" id="worker_button">
+                </div>
+                <div class="worker_nemo" id="worker_nemo"> <!--여기서 실행-->
+                    
+                        <div class ="worker_item">
+                            <div class="work_1">
+                                <input type="button" value="X" name="worker_delete" id="worker_delete">
+                                <span>작업자</span>
+                            </div>
+                            <div class="work_2">
+                                <!--이미지넣기-->
+                                <img src="{{url_for('static', filename='images/user/safe.png')}}" id="worker_img">
+                            </div>
+                        </div>
+                    
+                        <div class ="worker_item">
+                            <div class="work_1">
+                                <input type="button" value="X" name="worker_delete" id="worker_delete">
+                                <span>작업자</span>
+                            </div>
+                            <div class="work_2">
+                                <!--이미지넣기-->
+                                <img src="{{url_for('static', filename='images/user/safe2.png')}}" id="worker_img">
+                            </div>
+                        </div>
+
+                </div> 
+            </div>
+
         </div>
 
     </div>
