@@ -262,9 +262,11 @@ function show_excel() {
 }
 
 function register() { //등록 함수
-    var dropdown = document.getElementById("job").value;
+    var typed = document.getElementById("job").value;
+    console.log(typed)
     var date = document.getElementById('datepicker').value;
-    var selectedDate = new Date(selectedDateStr);
+    console.log(date)
+    var selectedDate = new Date(data);
     var year = selectedDate.getFullYear().toString().slice(-2);
     var month = (selectedDate.getMonth() + 1).toString();
     var day = (selectedDate.getDate()).toString();
@@ -273,7 +275,6 @@ function register() { //등록 함수
     var id = document.getElementById('id').value;
     var password = document.getElementById('pw').value;
     var birthday = year + month + day;
-    console.log(birthday)
 
     var xhr = new XMLHttpRequest(); //flask에 요청
     xhr.open("POST", "/create_user", true);
@@ -289,7 +290,7 @@ function register() { //등록 함수
             }
         }
     };
-    var data = JSON.stringify({ 'corporation': corporation, 'tpyed': tpyed, 'id': id, 'password': password, 'name': name, 'birthday': birthday });
+    var data = JSON.stringify({ 'corporation': corporation, 'typed': typed, 'id': id, 'password': password, 'name': name, 'birthday': birthday });
     xhr.send(data);
 }
 

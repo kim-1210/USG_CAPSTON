@@ -12,10 +12,6 @@ socketio = SocketIO(app)
 def index():
     return render_template('./user/publiclogin.html')
 
-@app.route('/detector/login')
-def detector_login():
-    return render_template('./detector/login.html')
-
 @app.route('/user/check_safe_cloth')
 def user_check_safe_cloth():
     corporation_name = request.args.get('corporation')
@@ -27,6 +23,22 @@ def user_main():
     corporation_name = request.args.get('corporation')
     id = request.args.get('id')
     return render_template('./user/main.html', corporation = corporation_name, id = id)
+
+@app.route('/safe_detector/main')
+def safe_detector_main():
+    return render_template('./safe_detector/main.html')
+
+@app.route('/safe_detector/photoSuggest')
+def safe_detector_photoSuggest():
+    return render_template('./safe_detector/photoSuggest.html')
+
+@app.route('/safe_detector/list')
+def safe_detector_list():
+    return render_template('./safe_detector/list.html')
+
+@app.route('/detector/login')
+def detector_login():
+    return render_template('./detector/login.html')
 
 @app.route('/detector/main')
 def detector_main():
@@ -64,6 +76,7 @@ def detector_login_check():
 @app.route('/create_user', methods=['POST']) #추가
 def create_user():
     create_information = request.json
+    print(create_information.get('typed'))
     result_string = fs.create_user(create_information.get('corporation'), create_information.get('typed'), 
                                    create_information.get('id'), create_information.get('password'), 
                                    create_information.get('name'), create_information.get('birthday'))

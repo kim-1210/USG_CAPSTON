@@ -43,7 +43,12 @@ function login() {
             result = JSON.parse(xhr.responseText);
             if(result.result == true){
                 var queryString = '?corporation=' + encodeURIComponent(corporation_name) + '&id='+ encodeURIComponent(id);
-                location.href='/user/main' + queryString;
+                if(typed == 'worked'){
+                    location.href='/user/main' + queryString;
+                }
+                else{
+                    location.href='/safe_detector/main' + queryString;
+                }
             }
             else{
                 alert('로그인 실패!!')

@@ -56,12 +56,12 @@
 
     <div class="mainbody">
         <div class="selectmenu1">
-            <button id="btn1" >
+            <button id="btn1" onclick="send_suggest()">
                 <span id = "btn1_text"><i class="fa-solid fa-camera"></i><br>작업 촬영</span>
             </button>
         </div>
         <div class="selectmenu2">
-            <button id="btn2" >
+            <button id="btn2" onclick="show_list()">
                 <span id = "btn2_text"><i class="fa-solid fa-list-ul"></i><br>건의사항 리스트</span>
             </button>
             </button>
@@ -89,48 +89,7 @@
         </div>
     </div>
 
-    <script>
-        document.querySelector('.appearlabel').addEventListener('click',
-        function Show_Hide(e) {
-            e.stopPropagation(); // 부모(slidemenu) 클릭 이벤트를 방지.
-            var checkbox = document.getElementById('slidemenuicon');
-            var sidebar = document.querySelector('.sidebar');
-            if (checkbox.checked) {
-                checkbox.checked = false; 
-                sidebar.style.left = '-200px'; 
-            } 
-            else {
-                checkbox.checked = true; 
-                sidebar.style.left = '0'; 
-            }
-        });
-        document.querySelector('.sidebar').addEventListener('click', function(e) {
-        e.stopPropagation(); 
-        });
-        document.querySelector('.slidemenu').addEventListener('click', 
-        function Show_Hide() {
-            var checkbox = document.getElementById('slidemenuicon');
-            var sidebar = document.querySelector('.sidebar');
-            if (checkbox.checked) {
-                checkbox.checked = false; 
-                sidebar.style.left = '-200px'; 
-            } 
-            else {
-                checkbox.checked = true; 
-                sidebar.style.left = '0'; 
-            }
-        });
-        </script>
-    
-        <script>
-            function show() {
-                document.querySelector(".modalbackground").className = "modalbackground show";
-            }
-            function cancel() {
-                document.querySelector(".modalbackground").className = "modalbackground";
-            }
-        </script>
-    
+    <script src="{{url_for('static', filename='js/safe_detector/main.js')}}"></script>
     
 </body>
 </html>

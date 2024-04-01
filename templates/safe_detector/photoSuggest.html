@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <link rel="stylesheet" href="photoSuggeststyle.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/safe_detector/photoSuggeststyle.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR&display=swap" rel="stylesheet">
@@ -24,17 +24,21 @@
 
     <div class="allContainer">
 
-        <div class="pictureContainer">
+        <div class="pictureContainer" id="img_upload">
             <!--사진 구역-->
         </div>
 
         <div class ="suggestContainer">
+            <input type="file" accept="image/*" onchange="loadFile(this)">
+            <button>AI검사</button>
             <input type="text" placeholder="제목" name="suggestTitle" id ="suggestTitle">
             <textarea placeholder="내용을 입력하세요" name="suggestText" id="suggestText"></textarea>
-            <button id="btn1">
+            <button id="btn1" onclick="upload()">
                 <span><i class="fa-solid fa-pencil" id="pen"></i> 글 쓰기</span>
             </button>
         </div>
     </div>
+
+    <script src="{{url_for('static', filename='js/safe_detector/photoSuggest.js')}}"></script>
 </body>
 </html>

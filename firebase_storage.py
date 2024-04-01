@@ -31,7 +31,7 @@ def create_user(corporation, typed, id, password, name, birthday): #안전직과
         db.child(corporation).child('user').child(typed).child(id).update(data)
         if typed == 'worked':
             table_excel = pd.read_excel(f'./corporation_excel/{corporation}/today.xlsx')
-            temp = pd.DataFrame({'name' : [name], 'id' : [id], 'check' : ['X']})
+            temp = pd.DataFrame({'name' : [name], 'id' : [id], 'check' : ['X'], 'check_time' : ['-']})
             table_excel = pd.concat([table_excel, temp], axis=0)
             print(table_excel)
             table_excel.to_excel(f'./corporation_excel/{corporation}/today.xlsx', index=False)
@@ -45,13 +45,13 @@ def create_user(corporation, typed, id, password, name, birthday): #안전직과
         db.child(corporation).child('user').child(typed).child(id).update(data)
         if typed == 'worked':
             table_excel = pd.read_excel(f'./corporation_excel/{corporation}/today.xlsx')
-            temp = pd.DataFrame({'name' : [name], 'id' : [id], 'check' : ['X']})
+            temp = pd.DataFrame({'name' : [name], 'id' : [id], 'check' : ['X'], 'check_time' : ['-']})
             table_excel = pd.concat([table_excel, temp], axis=0)
             print(table_excel)
             table_excel.to_excel(f'./corporation_excel/{corporation}/today.xlsx', index=False)
         print("생성완료")
         return '직원 정보를 추가 하였습니다.'
-    
+
 def user_remove(corporation, typed, id): #회원 삭제
     try:
         #db.child(~).remove()
@@ -130,6 +130,7 @@ def check_today(corporation, id): #출석하기
     try:
         table_excel = pd.read_excel(f'./corporation_excel/{corporation}/today.xlsx')
         table_excel.loc[table_excel['id'] == id, 'check'] = 'O'
+        table_excel.loc[table_excel['id'] == id, 'check_time'] = datetime.datetime.now().strftime("%H:%M")
         table_excel.to_excel(f'./corporation_excel/{corporation}/today.xlsx', index=False)
         print(table_excel)
         return '출근하였습니다.'
@@ -171,7 +172,7 @@ def get_corporation():
 def get_today_excel(corporation): #금일출근 현황 데이터를 html로
     try:
         table_excel = pd.read_excel(f'./corporation_excel/{corporation}/today.xlsx')
-        html_transfer = table_excel.to_html(index = False)
+        html_transfer = table_excel.to_html()
         return html_transfer
     except Exception as err:
         print('찾지 못 했습니다.')
@@ -182,7 +183,7 @@ def get_all_excel(corporation, year, month, user = 'all'): #달 마다의 데이
         table_excel = pd.read_excel(f'./corporation_excel/{corporation}/{year}.xlsx', sheet_name=month)
         if user != '전체':
             table_excel = table_excel.loc[table_excel['id'] == user]
-        html_transfer = table_excel.to_html(index = False)
+        html_transfer = table_excel.to_html()
         print(html_transfer)
         return html_transfer
     except Exception as err:
