@@ -17,7 +17,7 @@
 <body>
     <div class="logo">
         <!--돌아가기 버튼-->
-        <span id="back"><i class="fa-solid fa-chevron-left"></i></span>
+        <span id="back" onclick="main()"><i class="fa-solid fa-chevron-left"></i></span>
         <span id="logotext">출근 기록</span>
     </div>
     <span class = block1></span>
@@ -62,14 +62,6 @@
 </div>
     </div>
 
-    <script>
-        var monthDropdown = document.getElementById("workmonth");
-        for (var month = 1;  month <= 12; month++) {
-          var option = document.createElement("option");
-          option.text = month+"월";
-          option.value = month;
-          monthDropdown.add(option);
-        }
-    </script>
+<script src="{{url_for('static', filename='js/user/record.js')}}"></script>
 </body>
 </html>

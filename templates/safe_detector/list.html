@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/user/liststyle.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/safe_detector/liststyle.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR&display=swap" rel="stylesheet">
@@ -22,12 +22,8 @@
     </div>
     <span class = block1></span>
     <span class = block2></span>
-    <div class="listinfo_box">
-        <span id="maketime">작성한 날 : </span><br>
-        <!--작성한 건의사항 추가-->
-        <span id ="suggest">흠 뭐 적을거 없나?</span>
+    <div class="listinfo_box" id="list_box">
     </div>
-    <div class="Block"></div>
 
     <script src="{{url_for('static', filename='js/safe_detector/list.js')}}"></script>
 </body>

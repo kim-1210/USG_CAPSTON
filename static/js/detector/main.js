@@ -142,12 +142,13 @@ function list_change() {
         document.getElementById('list_contents').style.display = "none";
         document.getElementById('check_calender').style.display = "block";
         document.getElementById('workerBox').style.display = "none";
-        show_day()
+        show_day();
     }
     else{
         document.getElementById('list_contents').style.display = "none";
         document.getElementById('check_calender').style.display = "none";
         document.getElementById('workerBox').style.display = "block";
+        manage_user();
     }
 
 }
@@ -263,13 +264,11 @@ function show_excel() {
 
 function register() { //등록 함수
     var typed = document.getElementById("job").value;
-    console.log(typed)
     var date = document.getElementById('datepicker').value;
-    console.log(date)
-    var selectedDate = new Date(data);
-    var year = selectedDate.getFullYear().toString().slice(-2);
-    var month = (selectedDate.getMonth() + 1).toString();
-    var day = (selectedDate.getDate()).toString();
+    var dateParts = date.split('-');
+    var year = dateParts[0].slice(-2);
+    var month = dateParts[1];
+    var day = dateParts[2];
 
     var name = document.getElementById('name').value;
     var id = document.getElementById('id').value;
@@ -284,7 +283,8 @@ function register() { //등록 함수
             if (xhr.status === 200) {
                 console.log("데이터 전송 완료");
                 alert_text = JSON.parse(xhr.responseText);
-                alert(alert_text.result_string);
+                cancel();
+                alert(alert_text.result_alert);
             } else {
                 console.error("데이터 전송 실패");
             }
@@ -294,10 +294,48 @@ function register() { //등록 함수
     xhr.send(data);
 }
 
+function manage_user() {
+    var xhr = new XMLHttpRequest(); //flask에 요청
+    xhr.open("POST", "/get_manage_user", true);
+    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            data = JSON.parse(xhr.responseText);
+            document.getElementById('worker_nemo').innerHTML = "";
+            worked_id = data.worked_id
+            worked_name = data.worked_name
+            worked_birthday = data.worked_birthday
+            protected_id = data.protected_id
+            protected_name = data.protected_name
+            protected_birthday = data.protected_birthday
+            for(var i=0; i < worked_id.length; i++){
+                box = document.createElement('span')
+                box.innerHTML = worked_name[i] + " : " + worked_id[i] + " : " + worked_birthday[i];
+                box.id = "worked" + i.toString();
+                box.classList.add('worker_box')
+                document.getElementById('worker_nemo').appendChild(box)
+            }
+
+            for(var i=0; i < protected_id.length; i++){
+                box = document.createElement('span')
+                box.innerHTML = protected_name[i] + " : " + protected_id[i]  + " : " + protected_birthday[i];
+                box.id = "protected" + i.toString();
+                box.classList.add('worker_box')
+                document.getElementById('worker_nemo').appendChild(box)
+            }
+        }
+    };
+    var data = JSON.stringify({ 'corporation': corporation});
+    xhr.send(data);
+}
+
 function show() {
     document.querySelector(".modalbackground").className = "modalbackground show";
 }
 
 function cancel() {
     document.querySelector(".modalbackground").className = "modalbackground";
+    document.getElementById('name').value = '';
+    document.getElementById('id').value = '';
+    document.getElementById('pw').value = '';
 }

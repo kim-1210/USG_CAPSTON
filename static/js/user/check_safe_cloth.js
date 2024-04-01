@@ -76,3 +76,8 @@ function checking(result_str) { //출석 요청
         }
     }
 }
+
+function main() {
+    var queryString = '?corporation=' + encodeURIComponent(corporation) + '&id=' + encodeURIComponent(id);
+    location.href = '/user/main' + queryString;
+}

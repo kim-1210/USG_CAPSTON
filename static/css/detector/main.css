@@ -235,8 +235,14 @@ body {
     height: 78%;
     border: 1px solid #a3a2a2;
 }
+.worker_box{
+    font-size: 130%;
+    padding-left: 2%;
+    border-bottom: #000000 1px solid;
+}
 .worker_nemo {
     display:flex;
+    flex-direction: column;
     flex-wrap: wrap;
     row-gap: 10px;
     padding-top: 0.5%;

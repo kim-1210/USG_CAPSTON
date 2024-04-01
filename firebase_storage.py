@@ -33,12 +33,9 @@ def create_user(corporation, typed, id, password, name, birthday): #안전직과
             table_excel = pd.read_excel(f'./corporation_excel/{corporation}/today.xlsx')
             temp = pd.DataFrame({'name' : [name], 'id' : [id], 'check' : ['X'], 'check_time' : ['-']})
             table_excel = pd.concat([table_excel, temp], axis=0)
-            print(table_excel)
             table_excel.to_excel(f'./corporation_excel/{corporation}/today.xlsx', index=False)
-        print("생성완료")
         return '직원 정보를 추가 하였습니다.'
     elif id in find_data:
-        print('id가 존재함')
         return 'id가 이미 존재합니다.'
     else:    
         data = {'password' : hash_password, 'name' : name, 'birthday' : birthday}
@@ -47,9 +44,7 @@ def create_user(corporation, typed, id, password, name, birthday): #안전직과
             table_excel = pd.read_excel(f'./corporation_excel/{corporation}/today.xlsx')
             temp = pd.DataFrame({'name' : [name], 'id' : [id], 'check' : ['X'], 'check_time' : ['-']})
             table_excel = pd.concat([table_excel, temp], axis=0)
-            print(table_excel)
             table_excel.to_excel(f'./corporation_excel/{corporation}/today.xlsx', index=False)
-        print("생성완료")
         return '직원 정보를 추가 하였습니다.'
 
 def user_remove(corporation, typed, id): #회원 삭제
@@ -213,7 +208,7 @@ def get_suggest(corporation): #건의 사항 리스트 출력
     send_data = table['title'].to_list()
     return send_data
 
-def get_detail_suggest(corporation, cnt): #내용 출력
+def get_detail_suggest(corporation, cnt): #내용 출력 (예정 : 이름 , id 출력)
     table = pd.read_excel(f'./suggests/{corporation}/suggest.xlsx')
     titles = table['title'].to_list()
     images = table['image'].to_list()
@@ -228,12 +223,47 @@ def get_year_file(corporation): #년도 가져오기
             send_list.append(i.replace('.xlsx', ''))
     return send_list
 
+def get_safe_detail(corporation, id, cnt): #안전관리자 앱 - 리스트
+    table = pd.read_excel(f'./suggests/{corporation}/suggest.xlsx')
+    re_table = table.loc[table['id'] == id]
+    titles = re_table['title'].to_list()
+    images = re_table['image'].to_list()
+    contents = re_table['content'].to_list()
+    return titles[cnt], images[cnt], contents[cnt]
+
+def get_safe_suggest(corporation, id): #건의 사항 리스트 출력
+    table = pd.read_excel(f'./suggests/{corporation}/suggest.xlsx')
+    re_table = table.loc[table['id'] == id]
+    send_data = re_table['title'].to_list()
+    return send_data
+
+def get_manage_user(corporation): #이름이랑 id 출력
+    worked = db.child(corporation).child('user').child('worked').get().val()
+    protected = db.child(corporation).child('user').child('protected').get().val()
+    worked_id = []
+    worked_name = []
+    worked_birthday = []
+    for i,k in worked.items():
+        worked_id.append(i)
+        worked_name.append(k['name'])
+        worked_birthday.append(k['birthday'])
+    
+    protected_id = []
+    protected_name = []
+    protected_birthday = []
+    for i,k in protected.items():
+        protected_id.append(i)
+        protected_name.append(k['name'])
+        protected_birthday.append(k['birthday'])
+    return worked_id, worked_name, worked_birthday, protected_id, protected_name, protected_birthday
+
 def use_thread():
     while True:
         date = datetime.datetime.now()
         if date.hour == 0 and date.minute < 19:
             new_date()
         time.sleep(600000)
+
 # t = threading.Thread(target = use_thread) #다음 날이 되면 자동으로 new_date()가됨
 # t.start()
 

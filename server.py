@@ -12,6 +12,10 @@ socketio = SocketIO(app)
 def index():
     return render_template('./user/publiclogin.html')
 
+@app.route('/user/record')
+def user_record():
+    return render_template('./user/record.html')
+
 @app.route('/user/check_safe_cloth')
 def user_check_safe_cloth():
     corporation_name = request.args.get('corporation')
@@ -76,18 +80,16 @@ def detector_login_check():
 @app.route('/create_user', methods=['POST']) #추가
 def create_user():
     create_information = request.json
-    print(create_information.get('typed'))
     result_string = fs.create_user(create_information.get('corporation'), create_information.get('typed'), 
                                    create_information.get('id'), create_information.get('password'), 
                                    create_information.get('name'), create_information.get('birthday'))
-   #my_stream = fs.db.child(create_information.get('corporation')).child('user').child(create_information.get('typed')).stream(on_new_data)
+    print(result_string)
     return jsonify({'result_alert' : result_string})
 
 @app.route('/remove_user', methods=['POST']) #삭제
 def remove_user():
     remove_information = request.json
     result_string = fs.user_remove(remove_information.get('corporation'), remove_information.get('typed'), remove_information.get('id'))
-    #my_stream = fs.db.child(result_string['corporation']).child('user').child(result_string['typed']).stream(on_new_data)
     return jsonify({'result_alert' : result_string})
 
 @app.route('/get_today', methods=['POST']) #금일 출근 표시
@@ -112,7 +114,7 @@ def get_id():
     id_list = fs.all_search_user(corporation, 'worked')
     return jsonify({'id_list' : id_list})
 
-@app.route('/get_list_detector', methods=['POST'])
+@app.route('/get_list_detector', methods=['POST']) #안전관리자도 이걸로 뽑기
 def get_list_detector():
     corporation = request.json.get('corporation','')
     send_data = fs.get_suggest(corporation)
@@ -136,6 +138,25 @@ def get_datail_suggest():
         frame_base64 = ''
     return jsonify({'title': send_title, 'image' : frame_base64, 'content' : send_cotent})
 
+@app.route('/safe_detector_title', methods=['POST']) #안전관리자 디테일 건의사항 보기
+def safe_detector_title():
+    data = request.json
+    title, img, content = fs.get_safe_detail(data.get('corporation'), data.get('id'), int(data.get('cnt')))
+    if './suggests' in img:
+        read_img = fs.cv2.imread(img)
+        _, buffer = ai.cv2.imencode('.jpg', read_img)
+        frame_base64 = ai.base64.b64encode(buffer).decode('utf-8')
+    else:
+        frame_base64 = ''
+    return jsonify({'title': title, 'image' : frame_base64, 'content' : content})
+
+@app.route('/get_safe_suggest', methods=['POST'])
+def get_safe_suggest():
+    data = request.json
+    titles = fs.get_safe_suggest(data.get('corporation'), data.get('id'))
+    print(titles)
+    return jsonify({'titles' : titles})
+
 @app.route('/set_suggest', methods = ['POST'])
 def set_suggest():
     data = request.json
@@ -152,6 +173,12 @@ def get_id_suggest():
 def get_corporation():
     send_list = fs.get_corporation()
     return jsonify({'send_list' : send_list})
+
+@app.route('/get_manage_user', methods=['POST'])
+def get_manage_user():
+    corporation = request.json.get('corporation')
+    worked_id, worked_name, worked_birthday, protected_id, protected_name, protected_birthday = fs.get_manage_user(corporation)
+    return jsonify({'worked_id': worked_id, 'worked_name' : worked_name, 'worked_birthday' : worked_birthday, 'protected_id': protected_id, 'protected_name' : protected_name, 'protected_birthday' : protected_birthday})
 
 if __name__ == "__main__":
     socketio.run(app, debug=True, host="127.0.0.1", port=8080)
