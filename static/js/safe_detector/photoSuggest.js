@@ -1,3 +1,8 @@
+var queryString = window.location.search;
+var urlParams = new URLSearchParams(queryString);
+var corporation = urlParams.get('corporation');
+var user_id = urlParams.get('id');
+
 let file = null;
 function loadFile(input) {
     document.getElementById('img_upload').innerHTML = "";
@@ -40,4 +45,9 @@ function upload(){ //건의사항 업로드
 
     var data = {'corporation':corporation, 'title':title, 'image' : file, 'content':content, 'id':id};
     xhr.send(JSON.stringify(data));
+}
+
+function main(){
+    var queryString = '?corporation=' + encodeURIComponent(corporation) + '&id=' + encodeURIComponent(user_id);
+    location.href = '/safe_detector/main' + queryString;
 }
