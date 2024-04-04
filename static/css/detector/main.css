@@ -239,6 +239,7 @@ body {
     font-size: 130%;
     padding-left: 2%;
     border-bottom: #000000 1px solid;
+    flex-direction: row;
 }
 .worker_nemo {
     display:flex;

@@ -53,7 +53,8 @@ def user_remove(corporation, typed, id): #회원 삭제
         db.child(corporation).child('user').child(typed).child(id).remove()
         if typed == 'worked':
             table_excel = pd.read_excel(f'./corporation_excel/{corporation}/today.xlsx')
-            table_excel.drop(id)
+            table_excel = table_excel.drop(table_excel[table_excel['id'] == id].index,axis=0)
+            table_excel.to_excel(f'./corporation_excel/{corporation}/today.xlsx', index=False)
         print('회원 삭제')
         return '삭제완료'
     except Exception as err:
@@ -121,14 +122,19 @@ def detector_login(corporation, id, password): #로그인
         print('로그인에 실패했습니다.')
         return False
 
-def check_today(corporation, id): #출석하기
+def check_today(corporation, id, enter_value): #출석하기
     try:
         table_excel = pd.read_excel(f'./corporation_excel/{corporation}/today.xlsx')
-        table_excel.loc[table_excel['id'] == id, 'check'] = 'O'
-        table_excel.loc[table_excel['id'] == id, 'check_time'] = datetime.datetime.now().strftime("%H:%M")
+        table_excel.loc[table_excel['id'] == id, 'check'] = enter_value
+        if enter_value == 'O':
+            table_excel.loc[table_excel['id'] == id, 'check_time'] = datetime.datetime.now().strftime("%H:%M")
+        else:
+            table_excel.loc[table_excel['id'] == id, 'check_time'] = '-'
         table_excel.to_excel(f'./corporation_excel/{corporation}/today.xlsx', index=False)
-        print(table_excel)
-        return '출근하였습니다.'
+        if enter_value == 'O':
+            return '출근하였습니다.'
+        else:
+            return '출근을 취소하였습니다.'
     except Exception as err:
         return '장비 충족 실패'
 

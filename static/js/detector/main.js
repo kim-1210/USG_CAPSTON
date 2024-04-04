@@ -112,7 +112,7 @@ function handleClick(corporation, cnt) { //건의사항 리스트 클릭시
             else { //이미지가 있을시
                 console.log('win')
                 var imging = document.createElement('img');
-                imging.src = 'data:image/jpeg;base64,'+ add_html.image;
+                imging.src = 'data:image/jpeg;base64,' + add_html.image;
                 imging.classList.add('img_resize');
                 big_div.appendChild(imging)
                 var img_span = document.createElement('span');
@@ -138,19 +138,39 @@ function list_change() {
         document.getElementById('check_calender').style.display = "none";
         document.getElementById('workerBox').style.display = "none";
     }
-    else if(document.getElementById('menu2').checked) {
+    else if (document.getElementById('menu2').checked) {
         document.getElementById('list_contents').style.display = "none";
         document.getElementById('check_calender').style.display = "block";
         document.getElementById('workerBox').style.display = "none";
         show_day();
     }
-    else{
+    else {
         document.getElementById('list_contents').style.display = "none";
         document.getElementById('check_calender').style.display = "none";
         document.getElementById('workerBox').style.display = "block";
         manage_user();
     }
 
+}
+
+function dropdownChangeHandler(event) {
+    var selectedOption = event.target.value;
+    var select = this.getAttribute('id');
+
+    console.log(select + " : " + selectedOption)
+
+    var xhr1 = new XMLHttpRequest(); //flask에 요청
+    xhr1.open("POST", "/check_today", true);
+    xhr1.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhr1.onreadystatechange = function () {
+        if (xhr1.readyState === 4 && xhr1.status === 200) {
+            var result_text = JSON.parse(xhr1.responseText);
+            alert(result_text.result_content);
+            show_day();
+        }
+    };
+    var send_data = JSON.stringify({ 'corporation': corporation, 'id': select, 'check': selectedOption });
+    xhr1.send(send_data);
 }
 
 function show_day() {
@@ -163,8 +183,44 @@ function show_day() {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 document.getElementById('day_nemo').innerHTML = '';
                 var add_html = JSON.parse(xhr.responseText);
-                //console.log(add_html.today_excel);
-                document.getElementById('day_nemo').innerHTML += add_html.today_excel;
+
+                var table_html = add_html.today_excel;
+                var tempElement = document.createElement('div');
+                tempElement.innerHTML = table_html;
+                var xCells = tempElement.querySelectorAll('td');
+                var tableRows = tempElement.querySelectorAll('tr');
+
+                var lists_id = 1;
+                xCells.forEach(function (cell) {
+                    if (cell.innerText.trim() === 'X' || cell.innerText.trim() === 'O') {
+                        var dropdown = document.createElement('select');
+
+                        var optionO = document.createElement('option');
+                        optionO.value = 'O';
+                        optionO.innerText = 'O';
+                        if (cell.innerText.trim() === 'O') {
+                            optionO.selected = true; //'O'면 선택된 상태로 설정
+                        }
+                        dropdown.appendChild(optionO);
+
+                        var optionX = document.createElement('option');
+                        optionX.value = 'X';
+                        optionX.innerText = 'X';
+                        if (cell.innerText.trim() === 'X') {
+                            optionX.selected = true; //'X'면 선택된 상태로 설정
+                        }
+                        dropdown.appendChild(optionX);
+
+                        dropdown.setAttribute('id', xCells[lists_id - 2].innerText);
+                        dropdown.classList.add('status-dropdown');
+                        dropdown.addEventListener('change', dropdownChangeHandler);
+                        cell.innerHTML = '';
+                        cell.appendChild(dropdown);
+                    }
+                    lists_id += 1;
+                });
+
+                document.getElementById('day_nemo').appendChild(tempElement);
             }
         };
         var data = JSON.stringify({ 'corporation': corporation });
@@ -308,24 +364,74 @@ function manage_user() {
             protected_id = data.protected_id
             protected_name = data.protected_name
             protected_birthday = data.protected_birthday
-            for(var i=0; i < worked_id.length; i++){
+            for (var i = 0; i < worked_id.length; i++) {
+                li_div = document.createElement('div')
+                li_div.classList.add('worker_box')
+
                 box = document.createElement('span')
-                box.innerHTML = worked_name[i] + " : " + worked_id[i] + " : " + worked_birthday[i];
+                box.innerHTML = worked_name[i] + " : " + worked_id[i] + " : " + worked_birthday[i] + " : 현장직";
                 box.id = "worked" + i.toString();
-                box.classList.add('worker_box')
-                document.getElementById('worker_nemo').appendChild(box)
+
+                remove_btn = document.createElement('button')
+                remove_btn.textContent = "삭제"
+                remove_btn.setAttribute("id", worked_id[i]);
+                remove_btn.setAttribute("typed", "worked");
+                remove_btn.onclick = function () {
+                    var xhr = new XMLHttpRequest(); //flask에 요청
+                    xhr.open("POST", "/remove_user", true);
+                    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState === 4 && xhr.status === 200) {
+                            console.log("데이터 전송 완료");
+                            alert_text = JSON.parse(xhr.responseText);
+                            alert(alert_text.result_alert);
+                            manage_user();
+                            show_day();
+                        }
+                    };
+                    var data = JSON.stringify({ 'corporation': corporation, 'typed': this.getAttribute('typed'), 'id': this.getAttribute('id') });
+                    xhr.send(data);
+                };
+                li_div.appendChild(box)
+                li_div.appendChild(remove_btn)
+                document.getElementById('worker_nemo').appendChild(li_div)
             }
 
-            for(var i=0; i < protected_id.length; i++){
+            for (var i = 0; i < protected_id.length; i++) {
+                li_div = document.createElement('div')
+                li_div.classList.add('worker_box')
+
                 box = document.createElement('span')
-                box.innerHTML = protected_name[i] + " : " + protected_id[i]  + " : " + protected_birthday[i];
+                box.innerHTML = protected_name[i] + " : " + protected_id[i] + " : " + protected_birthday[i] + " : 안전관리자";
                 box.id = "protected" + i.toString();
-                box.classList.add('worker_box')
-                document.getElementById('worker_nemo').appendChild(box)
+
+                remove_btn = document.createElement('button')
+                remove_btn.textContent = "삭제"
+                remove_btn.setAttribute("id", protected_id[i]);
+                remove_btn.setAttribute("typed", "protected");
+                remove_btn.onclick = function () {
+                    var xhr = new XMLHttpRequest(); //flask에 요청
+                    xhr.open("POST", "/remove_user", true);
+                    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState === 4 && xhr.status === 200) {
+                            console.log("데이터 전송 완료");
+                            alert_text = JSON.parse(xhr.responseText);
+                            alert(alert_text.result_alert);
+                            manage_user();
+                            show_day();
+                        }
+                    };
+                    var data = JSON.stringify({ 'corporation': corporation, 'typed': this.getAttribute('typed'), 'id': this.getAttribute('id') });
+                    xhr.send(data);
+                };
+                li_div.appendChild(box)
+                li_div.appendChild(remove_btn)
+                document.getElementById('worker_nemo').appendChild(li_div)
             }
         }
     };
-    var data = JSON.stringify({ 'corporation': corporation});
+    var data = JSON.stringify({ 'corporation': corporation });
     xhr.send(data);
 }
 

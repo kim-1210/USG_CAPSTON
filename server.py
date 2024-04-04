@@ -61,7 +61,7 @@ def process_image_route():
 @app.route('/check_today', methods=['POST'])
 def check_today():
     check_data = request.json
-    alert = fs.check_today(check_data.get('corporation'), check_data.get('id'))
+    alert = fs.check_today(check_data.get('corporation'), check_data.get('id'), check_data.get('check'))
     return jsonify({'result_content' : alert})
 
 @app.route('/user_login', methods=['POST'])

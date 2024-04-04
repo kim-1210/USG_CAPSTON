@@ -71,7 +71,7 @@ function checking(result_str) { //출석 요청
                         location.href = '/user/main' + queryString;
                     }
                 };
-                xhr.send(JSON.stringify({ 'corporation': corporation, 'id': id }));
+                xhr.send(JSON.stringify({ 'corporation': corporation, 'id': id, 'check' : 'O' }));
             }
         }
     }
