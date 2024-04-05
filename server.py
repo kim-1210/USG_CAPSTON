@@ -8,6 +8,8 @@ import ai_cal as ai
 app = Flask(__name__, static_folder='static')
 socketio = SocketIO(app)
 
+#--------- user ----------
+
 @app.route('/')
 def index():
     return render_template('./user/publiclogin.html')
@@ -28,6 +30,8 @@ def user_main():
     id = request.args.get('id')
     return render_template('./user/main.html', corporation = corporation_name, id = id)
 
+#--------- safe ----------
+
 @app.route('/safe_detector/main')
 def safe_detector_main():
     return render_template('./safe_detector/main.html')
@@ -36,9 +40,15 @@ def safe_detector_main():
 def safe_detector_photoSuggest():
     return render_template('./safe_detector/photoSuggest.html')
 
+@app.route('/safe_detector/detailview')
+def safe_detector_detailview():
+    return render_template('./safe_detector/detailview.html')
+
 @app.route('/safe_detector/list')
 def safe_detector_list():
     return render_template('./safe_detector/list.html')
+
+#--------- detector ----------
 
 @app.route('/detector/login')
 def detector_login():
@@ -48,6 +58,8 @@ def detector_login():
 def detector_main():
     corporation_name = request.args.get('corporation')
     return render_template('./detector/main.html', corporation = corporation_name)
+
+#--------- 기능 ----------
 
 @app.route('/process_image', methods=['POST'])
 def process_image_route():
@@ -138,8 +150,8 @@ def get_datail_suggest():
         frame_base64 = ''
     return jsonify({'title': send_title, 'image' : frame_base64, 'content' : send_cotent})
 
-@app.route('/safe_detector_title', methods=['POST']) #안전관리자 디테일 건의사항 보기
-def safe_detector_title():
+@app.route('/safe_detector_detail', methods=['POST']) #안전관리자 디테일 건의사항 보기
+def safe_detector_detail():
     data = request.json
     title, img, content = fs.get_safe_detail(data.get('corporation'), data.get('id'), int(data.get('cnt')))
     if './suggests' in img:
@@ -147,14 +159,13 @@ def safe_detector_title():
         _, buffer = ai.cv2.imencode('.jpg', read_img)
         frame_base64 = ai.base64.b64encode(buffer).decode('utf-8')
     else:
-        frame_base64 = ''
+        frame_base64 = ' '
     return jsonify({'title': title, 'image' : frame_base64, 'content' : content})
 
 @app.route('/get_safe_suggest', methods=['POST'])
 def get_safe_suggest():
     data = request.json
     titles = fs.get_safe_suggest(data.get('corporation'), data.get('id'))
-    print(titles)
     return jsonify({'titles' : titles})
 
 @app.route('/set_suggest', methods = ['POST'])

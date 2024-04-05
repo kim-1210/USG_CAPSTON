@@ -1,6 +1,9 @@
 
 body{
     margin: 0;
+    width: 100%;
+    height: 100%;
+    padding: 0;
 }
 
 .logo{
@@ -20,54 +23,71 @@ body{
 }
 .logo span[id="logotext"]{
     position:fixed;
-    top: 7px;
+    top: 1%;
     justify-content: center;
     align-items: center;
     color:#000000;
     font-size: 30px;
 }
 
-.block1 {
-    display: flex;
+.imgfile{
+    display: block;
+}
+
+.img_resize{
+    width: 300px;
+    height: 300px;
+}
+
+.underbar {
+    display: block;
     width: 100%;
-    height: 1px; 
+    border-bottom: 1px solid black;
+}
+
+.block1 {
+    display: block;
+    width: 100%;
+    height: 1%; 
     background-color: #DCDCDC; 
 }
 .block2 {
-    display: flex;
+    display: block;
     margin-top: 3%;
     width: 100%;
-    height: 1px; 
+    height: 1%; 
     background-color: #DCDCDC; 
 }
 
 .bigform{
-    display: flex;
+    display: block;
     flex-direction:column;
     width: 100%;
-    height: 90vh;
-    padding-right: 10px;
-    padding-left: 10px;
+    height: 90%;
+    padding-left: 1%;
     box-sizing: border-box;
 }
 .bigform #title{
-    display:flex;
+    border-top: 2px solid #747474;
+    display:block;
     flex-direction:column;
-    height:60px;
     border-bottom: 2px solid #747474;
     font-size: 23px;
+    padding-bottom: 1%;
+    padding-top: 1%;
     white-space: nowrap;
 }
 .bigform #file{
-    display:flex;
+    padding-top: 2%;
+    padding-bottom: 2%;
+    display:block;
     align-items: center;
-    height:36px;
     border-bottom: 2px solid #747474;
     color:#949494;
 }
 
 .bigform #detail{
-    padding-top:10px;
+    padding-top:1%;
     flex-grow: 1;
     font-size: 18px;
     overflow:auto;

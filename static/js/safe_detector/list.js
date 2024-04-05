@@ -33,5 +33,5 @@ function main() {
 
 function enter(cnt){
     var queryString = '?corporation=' + encodeURIComponent(corporation) + '&id=' + encodeURIComponent(user_id) + '&cnt=' + encodeURIComponent(cnt);
-    location.href = '/safe_detector/list' + queryString; //만들어야함
+    location.href = '/safe_detector/detailview' + queryString; //만들어야함
 }

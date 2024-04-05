@@ -91,7 +91,6 @@ function handleClick(corporation, cnt) { //건의사항 리스트 클릭시
             document.getElementById('list_nemo').innerHTML = '';
             var add_html = JSON.parse(xhr_detail.responseText);
             console.log(add_html.title + ", " + add_html.image + ", " + add_html.content)
-            // {'title': send_title, 'image' : send_image, 'content' : send_cotent}
 
             var big_div = document.createElement('div');
             big_div.classList.add('suggest_detail');
@@ -154,23 +153,33 @@ function list_change() {
 }
 
 function dropdownChangeHandler(event) {
-    var selectedOption = event.target.value;
-    var select = this.getAttribute('id');
+    if (confirm('정말 바꾸시겠습니까?')) {
+        var selectedOption = event.target.value;
+        var select = this.getAttribute('id');
 
-    console.log(select + " : " + selectedOption)
+        console.log(select + " : " + selectedOption)
 
-    var xhr1 = new XMLHttpRequest(); //flask에 요청
-    xhr1.open("POST", "/check_today", true);
-    xhr1.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    xhr1.onreadystatechange = function () {
-        if (xhr1.readyState === 4 && xhr1.status === 200) {
-            var result_text = JSON.parse(xhr1.responseText);
-            alert(result_text.result_content);
-            show_day();
+        var xhr1 = new XMLHttpRequest(); //flask에 요청
+        xhr1.open("POST", "/check_today", true);
+        xhr1.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xhr1.onreadystatechange = function () {
+            if (xhr1.readyState === 4 && xhr1.status === 200) {
+                var result_text = JSON.parse(xhr1.responseText);
+                alert(result_text.result_content);
+                show_day();
+            }
+        };
+        var send_data = JSON.stringify({ 'corporation': corporation, 'id': select, 'check': selectedOption });
+        xhr1.send(send_data);
+    }
+    else {
+        if(this.firstElementChild.selected == true){
+            this.lastElementChild.selected = true;
         }
-    };
-    var send_data = JSON.stringify({ 'corporation': corporation, 'id': select, 'check': selectedOption });
-    xhr1.send(send_data);
+        else{
+            this.firstElementChild.selected = true;
+        }
+    }
 }
 
 function show_day() {
@@ -336,14 +345,10 @@ function register() { //등록 함수
     xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
-            if (xhr.status === 200) {
-                console.log("데이터 전송 완료");
-                alert_text = JSON.parse(xhr.responseText);
-                cancel();
-                alert(alert_text.result_alert);
-            } else {
-                console.error("데이터 전송 실패");
-            }
+            console.log("데이터 전송 완료");
+            alert_text = JSON.parse(xhr.responseText);
+            cancel();
+            alert(alert_text.result_alert);
         }
     };
     var data = JSON.stringify({ 'corporation': corporation, 'typed': typed, 'id': id, 'password': password, 'name': name, 'birthday': birthday });
@@ -377,20 +382,22 @@ function manage_user() {
                 remove_btn.setAttribute("id", worked_id[i]);
                 remove_btn.setAttribute("typed", "worked");
                 remove_btn.onclick = function () {
-                    var xhr = new XMLHttpRequest(); //flask에 요청
-                    xhr.open("POST", "/remove_user", true);
-                    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-                    xhr.onreadystatechange = function () {
-                        if (xhr.readyState === 4 && xhr.status === 200) {
-                            console.log("데이터 전송 완료");
-                            alert_text = JSON.parse(xhr.responseText);
-                            alert(alert_text.result_alert);
-                            manage_user();
-                            show_day();
-                        }
-                    };
-                    var data = JSON.stringify({ 'corporation': corporation, 'typed': this.getAttribute('typed'), 'id': this.getAttribute('id') });
-                    xhr.send(data);
+                    if (confirm('정말 삭제하시겠습니까?')) {
+                        var xhr = new XMLHttpRequest(); //flask에 요청
+                        xhr.open("POST", "/remove_user", true);
+                        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+                        xhr.onreadystatechange = function () {
+                            if (xhr.readyState === 4 && xhr.status === 200) {
+                                console.log("데이터 전송 완료");
+                                alert_text = JSON.parse(xhr.responseText);
+                                alert(alert_text.result_alert);
+                                manage_user();
+                                show_day();
+                            }
+                        };
+                        var data = JSON.stringify({ 'corporation': corporation, 'typed': this.getAttribute('typed'), 'id': this.getAttribute('id') });
+                        xhr.send(data);
+                    }
                 };
                 li_div.appendChild(box)
                 li_div.appendChild(remove_btn)
@@ -410,20 +417,22 @@ function manage_user() {
                 remove_btn.setAttribute("id", protected_id[i]);
                 remove_btn.setAttribute("typed", "protected");
                 remove_btn.onclick = function () {
-                    var xhr = new XMLHttpRequest(); //flask에 요청
-                    xhr.open("POST", "/remove_user", true);
-                    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-                    xhr.onreadystatechange = function () {
-                        if (xhr.readyState === 4 && xhr.status === 200) {
-                            console.log("데이터 전송 완료");
-                            alert_text = JSON.parse(xhr.responseText);
-                            alert(alert_text.result_alert);
-                            manage_user();
-                            show_day();
-                        }
-                    };
-                    var data = JSON.stringify({ 'corporation': corporation, 'typed': this.getAttribute('typed'), 'id': this.getAttribute('id') });
-                    xhr.send(data);
+                    if (confirm('정말 삭제하시겠습니까?')) {
+                        var xhr = new XMLHttpRequest(); //flask에 요청
+                        xhr.open("POST", "/remove_user", true);
+                        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+                        xhr.onreadystatechange = function () {
+                            if (xhr.readyState === 4 && xhr.status === 200) {
+                                console.log("데이터 전송 완료");
+                                alert_text = JSON.parse(xhr.responseText);
+                                alert(alert_text.result_alert);
+                                manage_user();
+                                show_day();
+                            }
+                        };
+                        var data = JSON.stringify({ 'corporation': corporation, 'typed': this.getAttribute('typed'), 'id': this.getAttribute('id') });
+                        xhr.send(data);
+                    }
                 };
                 li_div.appendChild(box)
                 li_div.appendChild(remove_btn)
