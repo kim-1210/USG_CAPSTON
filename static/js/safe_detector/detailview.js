@@ -2,7 +2,9 @@ var queryString = window.location.search;
 var urlParams = new URLSearchParams(queryString);
 var corporation = urlParams.get('corporation');
 var user_id = urlParams.get('id');
+var user_name = urlParams.get('name');
 var cnt = urlParams.get('cnt');
+
 
 var xhr = new XMLHttpRequest(); //flask에 요청
 xhr.open("POST", "/safe_detector_detail", true);
@@ -35,6 +37,6 @@ xhr.onreadystatechange = function () {
 xhr.send(JSON.stringify({ 'corporation': corporation, 'id' : user_id, 'cnt' : cnt}));
 
 function back(){
-    var queryString = '?corporation=' + encodeURIComponent(corporation) + '&id=' + encodeURIComponent(user_id);
+    var queryString = '?corporation=' + encodeURIComponent(corporation) + '&id=' + encodeURIComponent(user_id) + '&name=' + encodeURIComponent(user_name);
     location.href = '/safe_detector/list' + queryString;
 }

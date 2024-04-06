@@ -2,6 +2,7 @@ var queryString = window.location.search;
 var urlParams = new URLSearchParams(queryString);
 var corporation = urlParams.get('corporation');
 var id = urlParams.get('id');
+var name = urlParams.get('name');
 const video = document.getElementById('video');
 const canvas = document.getElementById('canvas');
 const context = canvas.getContext('2d');
@@ -67,8 +68,7 @@ function checking(result_str) { //출석 요청
                         var responseData = JSON.parse(xhr.responseText);
                         var dingdong = responseData.result_content;
                         alert(dingdong)
-                        var queryString = '?corporation=' + encodeURIComponent(corporation) + '&id=' + encodeURIComponent(id);
-                        location.href = '/user/main' + queryString;
+                        main();
                     }
                 };
                 xhr.send(JSON.stringify({ 'corporation': corporation, 'id': id, 'check' : 'O' }));
@@ -78,6 +78,6 @@ function checking(result_str) { //출석 요청
 }
 
 function main() {
-    var queryString = '?corporation=' + encodeURIComponent(corporation) + '&id=' + encodeURIComponent(id);
+    var queryString = '?corporation=' + encodeURIComponent(corporation) + '&id=' + encodeURIComponent(id) + '&name=' + encodeURIComponent(name);
     location.href = '/user/main' + queryString;
 }

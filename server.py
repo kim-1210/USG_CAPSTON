@@ -79,8 +79,8 @@ def check_today():
 @app.route('/user_login', methods=['POST'])
 def user_login():
     data = request.json
-    result_bool = fs.login(data.get('corporation'), data.get('typed'), data.get('id'), data.get('password'))
-    return jsonify({'result' : result_bool})
+    result_bool, name = fs.login(data.get('corporation'), data.get('typed'), data.get('id'), data.get('password'))
+    return jsonify({'result' : result_bool, 'name': name})
 
 @app.route('/detector_login', methods=['POST'])
 def detector_login_check():
@@ -171,7 +171,7 @@ def get_safe_suggest():
 @app.route('/set_suggest', methods = ['POST'])
 def set_suggest():
     data = request.json
-    result_str = fs.set_suggest(data.get('corporation'), data.get('title'), data.get('image'), data.get('content'), data.get('id'))
+    result_str = fs.set_suggest(data.get('corporation'), data.get('title'), data.get('image'), data.get('content'), data.get('id'), data.get('name'))
     return jsonify({'send_data' : result_str})
 
 @app.route('/get_id_suggest', methods=['POST'])

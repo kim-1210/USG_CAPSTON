@@ -29,6 +29,10 @@ body{
     font-size: 30px;
 }
 
+input[type="file"] {
+    color: transparent; /* 글자색을 투명으로 설정하여 숨김 */
+}
+
 .block1 {
     display: flex;
     width: 100%;

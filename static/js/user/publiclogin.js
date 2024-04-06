@@ -42,7 +42,7 @@ function login() {
         if (xhr.readyState === 4 && xhr.status === 200) {
             result = JSON.parse(xhr.responseText);
             if(result.result == true){
-                var queryString = '?corporation=' + encodeURIComponent(corporation_name) + '&id='+ encodeURIComponent(id);
+                var queryString = '?corporation=' + encodeURIComponent(corporation_name) + '&id='+ encodeURIComponent(id) + '&name='+ encodeURIComponent(result.name);
                 if(typed == 'worked'){
                     location.href='/user/main' + queryString;
                 }

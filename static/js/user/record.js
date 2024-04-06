@@ -2,6 +2,7 @@ var queryString = window.location.search;
 var urlParams = new URLSearchParams(queryString);
 var corporation = urlParams.get('corporation');
 var id = urlParams.get('id');
+var name = urlParams.get('name');
 
 var monthDropdown = document.getElementById("workmonth");
 for (var month = 1; month <= 12; month++) {
@@ -12,6 +13,6 @@ for (var month = 1; month <= 12; month++) {
 }
 
 function main() {
-    var queryString = '?corporation=' + encodeURIComponent(corporation) + '&id=' + encodeURIComponent(id);
+    var queryString = '?corporation=' + encodeURIComponent(corporation) + '&id=' + encodeURIComponent(id) + '&name=' + encodeURIComponent(name);
     location.href = '/user/main' + queryString;
 }
