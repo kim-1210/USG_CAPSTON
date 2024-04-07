@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/user/safedetector.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/safe_detector/safedetector.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR&display=swap" rel="stylesheet">
@@ -37,7 +37,10 @@
             </div>
         </div>
         
-        <span id = "helmet"><i class="fa-solid fa-helmet-safety"></i><span id = "text">산업안전진단</span></span>
+        <div class="logoText">
+            <span id = "helmet"><i class="fa-solid fa-helmet-safety"></i></span>
+            <span id = "text">산업안전진단</span>
+        </div>
     </div>
 
     <span class = block1></span>
