@@ -7,6 +7,7 @@ xhr.onreadystatechange = function () {
     if (xhr.readyState === 4 && xhr.status === 200) {
         corporation_list = JSON.parse(xhr.responseText);
         options = corporation_list.send_list
+        console.log(options)
         options.forEach(function (option) {
             var optionElement = document.createElement('option');
             optionElement.value = option;

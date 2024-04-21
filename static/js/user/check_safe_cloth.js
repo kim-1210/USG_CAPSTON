@@ -53,7 +53,7 @@ function captureFrame() {
 }
 
 // 프레임 캡처 주기 설정 (3초에 한 번)
-setInterval(captureFrame, 3000);
+setInterval(captureFrame, 500);
 
 function checking(result_str) { //출석 요청
     console.log(result_str)

@@ -12,3 +12,4 @@ class5_protective_model/weights/best.pt
 *.zip
 safty-construction.kro.kr/
 make-apk/
+node_modules
