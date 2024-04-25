@@ -1,9 +1,12 @@
-from charset_normalizer import detect
-from flask import Flask, render_template, Response, request, jsonify
-from flask_socketio import SocketIO, emit
-import sys
 from certificate_file import ssl_context #https 인증서
+from flask import Flask, render_template, Response, request, jsonify
+from flask_socketio import SocketIO
+from watchdog.observers import Observer
+from watchdog.events import FileSystemEventHandler
+
+import sys
 import firebase_storage as fs
+
 import ai_cal as ai
 
 app = Flask(__name__, static_folder='static')
@@ -193,7 +196,7 @@ def get_manage_user():
     return jsonify({'worked_id': worked_id, 'worked_name' : worked_name, 'worked_birthday' : worked_birthday, 'protected_id': protected_id, 'protected_name' : protected_name, 'protected_birthday' : protected_birthday})
 
 if __name__ == "__main__":
-    #socketio.run(app, ssl_context = ssl_context, debug=True, host="0.0.0.0", port=8080) #외부연결
-    socketio.run(app, debug=True, host="127.0.0.1", port=8080) #로컬연결
+    socketio.run(app, ssl_context = ssl_context, debug=True, host="0.0.0.0", port=8080) #외부연결
+    #socketio.run(app, debug=True, host="127.0.0.1", port=8080) #로컬연결
 
 #domain = safty-construction.kro.kr

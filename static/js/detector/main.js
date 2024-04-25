@@ -1,8 +1,14 @@
+const { fuchsia } = require("color-name");
+
 var queryString = window.location.search;
 var urlParams = new URLSearchParams(queryString);
 var corporation = urlParams.get('corporation');
 var user_name = urlParams.get('name');
 var dataList = document.getElementById('list');
+
+var per_timer = null; //당일 출근 관련 변수
+var per_O_X = [];
+
 document.getElementById('userName').innerHTML = "관리자 : " + user_name;
 
 document.getElementById('list_contents').style.display = "block";
@@ -136,6 +142,11 @@ function list_change() {
         document.getElementById('list_contents').style.display = "block";
         document.getElementById('check_calender').style.display = "none";
         document.getElementById('workerBox').style.display = "none";
+
+        if (per_timer != null) {
+            clearInterval(timer); // 타이머 중지
+            per_timer = null;
+        }
     }
     else if (document.getElementById('menu2').checked) {
         document.getElementById('list_contents').style.display = "none";
@@ -148,6 +159,11 @@ function list_change() {
         document.getElementById('check_calender').style.display = "none";
         document.getElementById('workerBox').style.display = "block";
         manage_user();
+
+        if (per_timer != null) {
+            clearInterval(timer); // 타이머 중지
+            per_timer = null;
+        }
     }
 
 }
@@ -173,13 +189,52 @@ function dropdownChangeHandler(event) {
         xhr1.send(send_data);
     }
     else {
-        if(this.firstElementChild.selected == true){
+        if (this.firstElementChild.selected == true) {
             this.lastElementChild.selected = true;
         }
-        else{
+        else {
             this.firstElementChild.selected = true;
         }
     }
+}
+
+function per_go_to_work_check() { //당일 출근 쓰레드
+    document.getElementById('search_if').style.display = 'none';
+    var xhr = new XMLHttpRequest(); //flask에 요청
+    xhr.open("POST", "/get_today", true);
+    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            document.getElementById('day_nemo').innerHTML = '';
+            var add_html = JSON.parse(xhr.responseText);
+
+            var table_html = add_html.today_excel;
+            var tempElement = document.createElement('div');
+            tempElement.innerHTML = table_html;
+            
+            var xCells = tempElement.querySelectorAll('td');
+            var cnt_list = 0;
+            var temp_per_O_X = [];
+            xCells.forEach(function (cell) {
+                if (cell.innerText.trim() === 'X' || cell.innerText.trim() === 'O') {
+                    temp_per_O_X.push(cell.innerText.trim())
+                }
+            });
+            if(temp_per_O_X.length != per_O_X.length){ //사람이 늘었다면
+                show_day();
+            }
+            else{
+                per_O_X.forEach(cell =>{ //출근이 바뀌었다면
+                    if(cell != temp_per_O_X[cnt_list]){
+                        show_day();
+                    }
+                    cnt_list = cnt_list + 1;
+                });
+            }
+        }
+    };
+    var data = JSON.stringify({ 'corporation': corporation });
+    xhr.send(data);
 }
 
 function show_day() {
@@ -198,7 +253,7 @@ function show_day() {
                 tempElement.innerHTML = table_html;
                 var xCells = tempElement.querySelectorAll('td');
                 var tableRows = tempElement.querySelectorAll('tr');
-
+                per_O_X = [];
                 var lists_id = 1;
                 xCells.forEach(function (cell) {
                     if (cell.innerText.trim() === 'X' || cell.innerText.trim() === 'O') {
@@ -208,6 +263,7 @@ function show_day() {
                         optionO.value = 'O';
                         optionO.innerText = 'O';
                         if (cell.innerText.trim() === 'O') {
+                            per_O_X.push('O')
                             optionO.selected = true; //'O'면 선택된 상태로 설정
                         }
                         dropdown.appendChild(optionO);
@@ -216,6 +272,7 @@ function show_day() {
                         optionX.value = 'X';
                         optionX.innerText = 'X';
                         if (cell.innerText.trim() === 'X') {
+                            per_O_X.push('X')
                             optionX.selected = true; //'X'면 선택된 상태로 설정
                         }
                         dropdown.appendChild(optionX);
@@ -230,12 +287,21 @@ function show_day() {
                 });
 
                 document.getElementById('day_nemo').appendChild(tempElement);
+                //쓰레드로 flask의 callback 계산
+                if (per_timer == null) {
+                    per_timer = setInterval(show_day, 60000); //1분 마다 갱신
+                }
             }
         };
         var data = JSON.stringify({ 'corporation': corporation });
         xhr.send(data);
     }
     else { //총 출근
+        if (per_timer != null) {
+            clearInterval(timer); // 타이머 중지
+            per_timer = null;
+        }
+
         document.getElementById('day_nemo').innerHTML = '';
         var xhr1 = new XMLHttpRequest(); //flask에 요청
         xhr1.open("POST", "/get_year_file", true);

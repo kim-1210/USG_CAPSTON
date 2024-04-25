@@ -13,3 +13,5 @@ class5_protective_model/weights/best.pt
 safty-construction.kro.kr/
 make-apk/
 node_modules
+*.py
+__pycache__/certificate_file.cpython-311.pyc
