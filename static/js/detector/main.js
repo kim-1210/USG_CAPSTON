@@ -14,30 +14,7 @@ document.getElementById('userName').innerHTML = "관리자 : " + user_name;
 document.getElementById('list_contents').style.display = "block";
 document.getElementById('check_calender').style.display = "none";
 document.getElementById('workerBox').style.display = "none";
-
-var xhr_suggest = new XMLHttpRequest(); //flask에 요청
-xhr_suggest.open("POST", "/get_list_detector", true);
-xhr_suggest.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-xhr_suggest.onreadystatechange = function () {
-    if (xhr_suggest.readyState === 4 && xhr_suggest.status === 200) {
-        document.getElementById('list_nemo').innerHTML = '';
-        var data = JSON.parse(xhr_suggest.responseText);
-        var titles = data.data_list
-        for (var i = 0; i < titles.length; i++) {
-            var div_list = document.createElement('div');
-            div_list.innerText = titles[i];
-            div_list.classList.add("list_item");
-            div_list.setAttribute('data-value', i);
-            div_list.onclick = function () {
-                var value = this.getAttribute('data-value');
-                handleClick(corporation, value);
-            };
-            document.getElementById('list_nemo').appendChild(div_list);
-        }
-    }
-};
-var data = JSON.stringify({ 'corporation': corporation });
-xhr_suggest.send(data);
+list_change();
 
 $(function () {
     //input을 datepicker로 선언
@@ -62,7 +39,7 @@ $(function () {
     $('#datepicker').datepicker('setDate', 'today');
 });
 
-function show_list() {
+function show_list() { //건의사항 리스트 
     var xhr_suggest = new XMLHttpRequest(); //flask에 요청
     xhr_suggest.open("POST", "/get_list_detector", true);
     xhr_suggest.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
@@ -142,6 +119,7 @@ function list_change() {
         document.getElementById('list_contents').style.display = "block";
         document.getElementById('check_calender').style.display = "none";
         document.getElementById('workerBox').style.display = "none";
+        show_list();
 
         if (per_timer != null) {
             clearInterval(timer); // 타이머 중지

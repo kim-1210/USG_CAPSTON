@@ -11,7 +11,8 @@ class5_protective_model/weights/best.pt
 /protective_model5
 *.zip
 safty-construction.kro.kr/
-make-apk/
+make_apk/
 node_modules
-*.py
-__pycache__/certificate_file.cpython-311.pyc
+__pycache__/
+package-lock.json
+package.json
