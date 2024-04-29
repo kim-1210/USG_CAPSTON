@@ -9,12 +9,13 @@ var dataList = document.getElementById('list');
 var per_timer = null; //당일 출근 관련 변수
 var per_O_X = [];
 
-document.getElementById('userName').innerHTML = "관리자 : " + user_name;
+var loading_modal = document.getElementById("loading_modal");
 
-document.getElementById('list_contents').style.display = "block";
-document.getElementById('check_calender').style.display = "none";
-document.getElementById('workerBox').style.display = "none";
-list_change();
+$(document).ready(function() {
+    list_change();
+});
+
+document.getElementById('userName').innerHTML = "관리자 : " + user_name;
 
 $(function () {
     //input을 datepicker로 선언
@@ -59,6 +60,7 @@ function show_list() { //건의사항 리스트
                 };
                 document.getElementById('list_nemo').appendChild(div_list);
             }
+            loading_modal.style.zIndex = -2;
         }
     };
     var data = JSON.stringify({ 'corporation': corporation });
@@ -114,7 +116,7 @@ function handleClick(corporation, cnt) { //건의사항 리스트 클릭시
 }
 
 function list_change() {
-
+    loading_modal.style.zIndex = 10000;
     if (document.getElementById('menu1').checked) {
         document.getElementById('list_contents').style.display = "block";
         document.getElementById('check_calender').style.display = "none";
@@ -269,6 +271,7 @@ function show_day() {
                 if (per_timer == null) {
                     per_timer = setInterval(show_day, 60000); //1분 마다 갱신
                 }
+                loading_modal.style.zIndex = -2;
             }
         };
         var data = JSON.stringify({ 'corporation': corporation });
@@ -339,6 +342,7 @@ function show_day() {
                         }
                     });
                 });
+                loading_modal.style.zIndex = -2;
             }
         };
         var send_data = JSON.stringify({ 'corporation': corporation });
@@ -363,6 +367,7 @@ function show_excel() {
                 add_html = JSON.parse(xhr.responseText);
                 var modifiedData = add_html.excel_data.replace(/dataframe/g, 'allday');
                 document.getElementById('day_nemo').innerHTML += modifiedData;
+                loading_modal.style.zIndex = -2;
             }
         };
 
@@ -481,6 +486,7 @@ function manage_user() {
                 li_div.appendChild(box)
                 li_div.appendChild(remove_btn)
                 document.getElementById('worker_nemo').appendChild(li_div)
+                loading_modal.style.zIndex = -2;
             }
         }
     };

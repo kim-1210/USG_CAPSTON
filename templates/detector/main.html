@@ -25,122 +25,122 @@
     <script src="https://kit.fontawesome.com/9f8bb06fc7.js" crossorigin="anonymous"></script>
 </head>
 
-<body>
-
-    <div class="topbar">
-        <div class="logoBox">
-            <span id="helmet"><i class="fa-solid fa-helmet-safety"></i></span>
-            <span id="text">산업안전진단</span>
-        </div>
-        <div class="userinfoBox">
-            <span id="userName">관리자 : </span>
-        </div>
-    </div>
-
-    <div class="mainBox">
-        <div class="sideBox">
-            <div class="menuBox">
-                <input type="radio" name="menu" value="1" id="menu1" checked="true" onclick="list_change()">
-                <label for="menu1">요청된 건의사항</label>
+<body style="width: 100%; height: 100%;">
+    <div class="main_window">
+        <div class="topbar">
+            <div class="logoBox">
+                <span id="helmet"><i class="fa-solid fa-helmet-safety"></i></span>
+                <span id="text">산업안전진단</span>
             </div>
-            <div class="menuBox">
-                <input type="radio" name="menu" value="2" id="menu2" onclick="list_change()">
-                <label for="menu2">출근명부</label>
-            </div>
-            <div class="menuBox">
-                <input type="radio" name="menu" value="3" id="menu3" onclick="list_change()">
-                <label for="menu3">직원관리</label>
-            </div>
-
-            <div class="buttonBox">
-                <div class="workerbutton" onclick="show()">
-                    <button>작업자 등록</button>
-                </div>
-            </div>
-
-            <div class="image_container">
-                <img src="{{url_for('static', filename='images/user/safe3.png')}}" width="100%" height="100%">
-                <div class="cover">
-                    <span id="text1"><span id="color2">안전</span>의 시작</span>
-                    <span id="text2">그것은 <span id="color1">이해</span>와 <span id="color1">인정</span>이 아닐까요? </span>
-                </div>
+            <div class="userinfoBox">
+                <span id="userName">관리자 : </span>
             </div>
         </div>
-        <!--사이드 박스옆에 라디오 버튼 누르면 각 버튼에 해당하는거 뜨는 화면-->
-        <div class="jqBox" id="radioscreen">
-            <!-- 건의사항 div -->
-            <div class="listBox" id="list_contents">
-                <div class="list_button"><!--클릭되면?-->
-                    <input type="button" value="목록" name="list" id="f_list" onclick="show_list()">
+
+        <div class="mainBox">
+            <div class="sideBox">
+                <div class="menuBox">
+                    <input type="radio" name="menu" value="1" id="menu1" checked="true" onclick="list_change()">
+                    <label for="menu1">요청된 건의사항</label>
                 </div>
-                <div class="list_nemo" id="list_nemo"> <!--여기서 실행-->
+                <div class="menuBox">
+                    <input type="radio" name="menu" value="2" id="menu2" onclick="list_change()">
+                    <label for="menu2">출근명부</label>
+                </div>
+                <div class="menuBox">
+                    <input type="radio" name="menu" value="3" id="menu3" onclick="list_change()">
+                    <label for="menu3">직원관리</label>
+                </div>
+
+                <div class="buttonBox">
+                    <div class="workerbutton" onclick="show()">
+                        <button>작업자 등록</button>
+                    </div>
+                </div>
+
+                <div class="image_container">
+                    <img src="{{url_for('static', filename='images/user/safe3.png')}}" width="100%" height="100%">
+                    <div class="cover">
+                        <span id="text1"><span id="color2">안전</span>의 시작</span>
+                        <span id="text2">그것은 <span id="color1">이해</span>와 <span id="color1">인정</span>이 아닐까요? </span>
+                    </div>
                 </div>
             </div>
-
-            <!-- 출근명부 div -->
-            <div class="dayBox" id="check_calender">
-                <div class="day_container">
-                    <div class="day_radio"><!--클릭되면?-->
-                        <input type="radio" name="day" value="1" id="f_tday" checked="true" onclick="show_day()">
-                        <label for="f_tday">Day</label>
+            <!--사이드 박스옆에 라디오 버튼 누르면 각 버튼에 해당하는거 뜨는 화면-->
+            <div class="jqBox" id="radioscreen">
+                <!-- 건의사항 div -->
+                <div class="listBox" id="list_contents">
+                    <div class="list_button"><!--클릭되면?-->
+                        <input type="button" value="목록" name="list" id="f_list" onclick="show_list()">
                     </div>
-
-                    <div class="day_radio"><!--클릭되면?-->
-                        <input type="radio" name="day" value="2" id="f_aday" onclick="show_day()">
-                        <label for="f_aday">All Day</label>
+                    <div class="list_nemo" id="list_nemo"> <!--여기서 실행-->
                     </div>
+                </div>
 
-                    <div class="search_if" id="search_if">
-                        <div>
-                            <span class="span_style">년</span>
-                            <select id="year_dropdown" class="select_box year_design"></select>
+                <!-- 출근명부 div -->
+                <div class="dayBox" id="check_calender">
+                    <div class="day_container">
+                        <div class="day_radio"><!--클릭되면?-->
+                            <input type="radio" name="day" value="1" id="f_tday" checked="true" onclick="show_day()">
+                            <label for="f_tday">Day</label>
                         </div>
-                        <div>
-                            <span class="span_style">월</span>
-                            <select id="month_dropdown" class="select_box month_design"></select>
+
+                        <div class="day_radio"><!--클릭되면?-->
+                            <input type="radio" name="day" value="2" id="f_aday" onclick="show_day()">
+                            <label for="f_aday">All Day</label>
                         </div>
-                        <div>
-                            <span class="span_style">ID</span>
-                            <input type="text" list="list" id="id_dropdown" placeholder="id" value="전체"
-                                class="id_dropdown"></input>
-                            <datalist id="list"></datalist>
+
+                        <div class="search_if" id="search_if">
+                            <div>
+                                <span class="span_style">년</span>
+                                <select id="year_dropdown" class="select_box year_design"></select>
+                            </div>
+                            <div>
+                                <span class="span_style">월</span>
+                                <select id="month_dropdown" class="select_box month_design"></select>
+                            </div>
+                            <div>
+                                <span class="span_style">ID</span>
+                                <input type="text" list="list" id="id_dropdown" placeholder="id" value="전체"
+                                    class="id_dropdown"></input>
+                                <datalist id="list"></datalist>
+                            </div>
+                            <button onclick="show_excel()" class="show_button">출력</button>
                         </div>
-                        <button onclick="show_excel()" class="show_button">출력</button>
+
                     </div>
+                    <div class="day_nemo" id="day_nemo"> <!--여기서 실행-->
+                    </div>
+                </div>
 
-                </div>
-                <div class="day_nemo" id="day_nemo"> <!--여기서 실행-->
-                </div>
-            </div>
+                <!--직원관리-->
+                <div class="workerBox" id="workerBox">
+                    <div class="worker_button"> <!--클릭되면?-->
+                        <input type="button" value="직원" name="worker_button" id="worker_button">
+                    </div>
+                    <div class="worker_nemo" id="worker_nemo"> <!--여기서 실행-->
 
-            <!--직원관리-->
-            <div class="workerBox" id="workerBox">
-                <div class="worker_button"> <!--클릭되면?-->
-                    <input type="button" value="직원" name="worker_button" id="worker_button">
-                </div>
-                <div class="worker_nemo" id="worker_nemo"> <!--여기서 실행-->
-                    
-                    
+
                         <!-- <div class ="worker_item">
-                            <div class="work_1">
-                                <input type="button" value="X" name="worker_delete" id="worker_delete">
-                                <span>작업자</span>
-                            </div>
-                            <div class="work_2">
-                                이미지넣기
-                                <img src="{{url_for('static', filename='images/user/safe2.png')}}" id="worker_img">
-                            </div>
-                        </div> -->
+                                <div class="work_1">
+                                    <input type="button" value="X" name="worker_delete" id="worker_delete">
+                                    <span>작업자</span>
+                                </div>
+                                <div class="work_2">
+                                    이미지넣기
+                                    <img src="{{url_for('static', filename='images/user/safe2.png')}}" id="worker_img">
+                                </div>
+                            </div> -->
 
-                </div> 
+                    </div>
+                </div>
+
             </div>
 
         </div>
-
-    </div>
     </div>
 
-    <div class="modalbackground">
+    <div class="modalbackground"> <!--작업자등록 모달창-->
         <div class="window">
             <div class="popup">
 
@@ -180,14 +180,16 @@
                     <div class="popupcancel">
                         <button id="cancel" onclick="cancel()">취소</button>
                     </div>
-                    <div class="popupok" >
+                    <div class="popupok">
                         <button id="ok" onclick="register()">등록</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    
+    <div class="loading_modal" id="loading_modal">
+        <div class="loader"></div>
+    </div>
     <script src="{{url_for('static', filename='js/detector/main.js')}}"></script>
 </body>
 
