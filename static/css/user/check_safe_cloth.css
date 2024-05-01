@@ -15,13 +15,12 @@ html {
 
 .logo{
     display: flex;
-    padding-bottom: 3%;
+    margin-bottom: 1%;
     justify-content: center;
     align-items: center;
 }
 .logo span[id="back"]{
     position:relative;
-    top: 3px;
     margin-right : 90%;
     justify-content: center;
     align-items: center;
@@ -29,8 +28,7 @@ html {
     color:#000000;
 }
 .logo span[id="logotext"]{
-    position:fixed;
-    top: 7px;
+    position: absolute;
     justify-content: center;
     align-items: center;
     color:#000000;

@@ -1,12 +1,19 @@
-from charset_normalizer import detect
+from certificate_file import ssl_context #https 인증서
 from flask import Flask, render_template, Response, request, jsonify
-from flask_socketio import SocketIO, emit
+from flask_sslify import SSLify
+from flask_socketio import SocketIO
+from watchdog.observers import Observer
+from watchdog.events import FileSystemEventHandler
+
 import sys
 import firebase_storage as fs
+
 import ai_cal as ai
 
 app = Flask(__name__, static_folder='static')
-socketio = SocketIO(app)
+sslify = SSLify(app)
+
+#--------- user ----------
 
 @app.route('/')
 def index():
@@ -28,6 +35,8 @@ def user_main():
     id = request.args.get('id')
     return render_template('./user/main.html', corporation = corporation_name, id = id)
 
+#--------- safe ----------
+
 @app.route('/safe_detector/main')
 def safe_detector_main():
     return render_template('./safe_detector/main.html')
@@ -36,9 +45,15 @@ def safe_detector_main():
 def safe_detector_photoSuggest():
     return render_template('./safe_detector/photoSuggest.html')
 
+@app.route('/safe_detector/detailview')
+def safe_detector_detailview():
+    return render_template('./safe_detector/detailview.html')
+
 @app.route('/safe_detector/list')
 def safe_detector_list():
     return render_template('./safe_detector/list.html')
+
+#--------- detector ----------
 
 @app.route('/detector/login')
 def detector_login():
@@ -48,6 +63,8 @@ def detector_login():
 def detector_main():
     corporation_name = request.args.get('corporation')
     return render_template('./detector/main.html', corporation = corporation_name)
+
+#--------- 기능 ----------
 
 @app.route('/process_image', methods=['POST'])
 def process_image_route():
@@ -67,8 +84,8 @@ def check_today():
 @app.route('/user_login', methods=['POST'])
 def user_login():
     data = request.json
-    result_bool = fs.login(data.get('corporation'), data.get('typed'), data.get('id'), data.get('password'))
-    return jsonify({'result' : result_bool})
+    result_bool, name = fs.login(data.get('corporation'), data.get('typed'), data.get('id'), data.get('password'))
+    return jsonify({'result' : result_bool, 'name': name})
 
 @app.route('/detector_login', methods=['POST'])
 def detector_login_check():
@@ -138,8 +155,8 @@ def get_datail_suggest():
         frame_base64 = ''
     return jsonify({'title': send_title, 'image' : frame_base64, 'content' : send_cotent})
 
-@app.route('/safe_detector_title', methods=['POST']) #안전관리자 디테일 건의사항 보기
-def safe_detector_title():
+@app.route('/safe_detector_detail', methods=['POST']) #안전관리자 디테일 건의사항 보기
+def safe_detector_detail():
     data = request.json
     title, img, content = fs.get_safe_detail(data.get('corporation'), data.get('id'), int(data.get('cnt')))
     if './suggests' in img:
@@ -147,20 +164,19 @@ def safe_detector_title():
         _, buffer = ai.cv2.imencode('.jpg', read_img)
         frame_base64 = ai.base64.b64encode(buffer).decode('utf-8')
     else:
-        frame_base64 = ''
+        frame_base64 = ' '
     return jsonify({'title': title, 'image' : frame_base64, 'content' : content})
 
 @app.route('/get_safe_suggest', methods=['POST'])
 def get_safe_suggest():
     data = request.json
     titles = fs.get_safe_suggest(data.get('corporation'), data.get('id'))
-    print(titles)
     return jsonify({'titles' : titles})
 
 @app.route('/set_suggest', methods = ['POST'])
 def set_suggest():
     data = request.json
-    result_str = fs.set_suggest(data.get('corporation'), data.get('title'), data.get('image'), data.get('content'), data.get('id'))
+    result_str = fs.set_suggest(data.get('corporation'), data.get('title'), data.get('image'), data.get('content'), data.get('id'), data.get('name'))
     return jsonify({'send_data' : result_str})
 
 @app.route('/get_id_suggest', methods=['POST'])
@@ -181,4 +197,9 @@ def get_manage_user():
     return jsonify({'worked_id': worked_id, 'worked_name' : worked_name, 'worked_birthday' : worked_birthday, 'protected_id': protected_id, 'protected_name' : protected_name, 'protected_birthday' : protected_birthday})
 
 if __name__ == "__main__":
-    socketio.run(app, debug=True, host="127.0.0.1", port=8080)
+    #app.run(debug=True, host="0.0.0.0", port=8080)  # 외부 연결 및 SSL/TLS 설정
+    app.run(ssl_context=ssl_context, debug=True, host="0.0.0.0", port=8080)  # 외부 연결 및 SSL/TLS 설정
+    #socketio.run(app, ssl_context = ssl_context, debug=True, host="0.0.0.0", port=8080) #외부연결
+    #socketio.run(app, debug=True, host="127.0.0.1", port=8080) #로컬연결
+
+#domain = safty-construction.kro.kr

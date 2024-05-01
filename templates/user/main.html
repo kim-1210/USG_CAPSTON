@@ -36,7 +36,10 @@
             </div>
         </div>
 
-        <span id="helmet"><i class="fa-solid fa-helmet-safety"></i><span id="text">산업안전진단</span></span>
+        <div class="logoText">
+            <span id = "helmet"><i class="fa-solid fa-helmet-safety"></i></span>
+            <span id = "text">산업안전진단</span>
+        </div>
     </div>
 
     <span class=block1></span>
@@ -85,50 +88,7 @@
             </div>
         </div>
     </div>
-
-
-    <script>
-        document.querySelector('.appearlabel').addEventListener('click',
-            function Show_Hide(e) {
-                e.stopPropagation(); // 부모 클릭 이벤트를 방지.
-                var checkbox = document.getElementById('slidemenuicon');
-                var sidebar = document.querySelector('.sidebar');
-                if (checkbox.checked) {
-                    checkbox.checked = false;
-                    sidebar.style.left = '-200px';
-                }
-                else {
-                    checkbox.checked = true;
-                    sidebar.style.left = '0';
-                }
-            });
-        document.querySelector('.sidebar').addEventListener('click', function (e) {
-            e.stopPropagation();
-        });
-        document.querySelector('.slidemenu').addEventListener('click',
-            function Show_Hide() {
-                var checkbox = document.getElementById('slidemenuicon');
-                var sidebar = document.querySelector('.sidebar');
-                if (checkbox.checked) {
-                    checkbox.checked = false;
-                    sidebar.style.left = '-200px';
-                }
-                else {
-                    checkbox.checked = true;
-                    sidebar.style.left = '0';
-                }
-            });
-    </script>
-
-    <script>
-        //이건뭐지....?
-        function show() {
-            document.querySelector(".modalbackground").className = "modalbackground show";
-        }
-        function cancel() {
-            document.querySelector(".modalbackground").className = "modalbackground";
-        }
-    </script>
+    
     <script src="{{url_for('static', filename='js/user/main.js')}}">/*나중에 이걸로 바꿀거임*/</script>
 </body>
 

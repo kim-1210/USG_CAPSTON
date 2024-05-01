@@ -29,8 +29,8 @@
         </div>
 
         <div class ="suggestContainer">
-            <input type="file" accept="image/*" onchange="loadFile(this)">
-            <button>AI검사</button>
+            <input type="file" accept="image/*" onchange="loadFile(this)" id="img_load">
+            <button id="aiBtn"><i class="fa-solid fa-magnifying-glass"></i> AI검사</button>
             <input type="text" placeholder="제목" name="suggestTitle" id ="suggestTitle">
             <textarea placeholder="내용을 입력하세요" name="suggestText" id="suggestText"></textarea>
             <button id="btn1" onclick="upload()">

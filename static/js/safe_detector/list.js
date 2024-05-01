@@ -2,6 +2,7 @@ var queryString = window.location.search;
 var urlParams = new URLSearchParams(queryString);
 var corporation = urlParams.get('corporation');
 var user_id = urlParams.get('id');
+var user_name = urlParams.get('name');
 
 var xhr = new XMLHttpRequest(); //flask에 요청
 xhr.open("POST", "/get_safe_suggest", true);
@@ -27,11 +28,11 @@ xhr.onreadystatechange = function () {
 xhr.send(JSON.stringify({ 'corporation': corporation, 'id' : user_id}));
 
 function main() {
-    var queryString = '?corporation=' + encodeURIComponent(corporation) + '&id=' + encodeURIComponent(user_id);
+    var queryString = '?corporation=' + encodeURIComponent(corporation) + '&id=' + encodeURIComponent(user_id) + '&name=' + encodeURIComponent(user_name);
     location.href = '/safe_detector/main' + queryString;
 }
 
 function enter(cnt){
-    var queryString = '?corporation=' + encodeURIComponent(corporation) + '&id=' + encodeURIComponent(user_id) + '&cnt=' + encodeURIComponent(cnt);
-    location.href = '/safe_detector/list' + queryString; //만들어야함
+    var queryString = '?corporation=' + encodeURIComponent(corporation) + '&id=' + encodeURIComponent(user_id) + '&name=' + encodeURIComponent(user_name) + '&cnt=' + encodeURIComponent(cnt);
+    location.href = '/safe_detector/detailview' + queryString; //만들어야함
 }

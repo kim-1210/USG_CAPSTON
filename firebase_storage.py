@@ -13,6 +13,8 @@ import threading
 import cv2
 import time
 import hashlib #비밀번호 해쉬화
+import numpy as np
+import base64
 #형식
 #corporation/user/type/id => {password, name, birthday}
 #corporation/detector/id => {password, name}
@@ -99,15 +101,15 @@ def login(corporation, typed, id, password): #로그인
         hash_password = hashlib.sha256(password.encode()).hexdigest()
         if hash_password == information_dict['password']:
             print('로그인 성공!')
-            return True
+            return True, information_dict['name']
         else:
             print('로그인 실패!')
-            return False
+            return False, ''
     except Exception as err:
         print('로그인에 실패했습니다.')
         return False
     
-def detector_login(corporation, id, password): #로그인
+def detector_login(corporation, id, password): #관리자 로그인
     try:
         id_dict = db.child(corporation).child('detector').child(id).get()
         information_dict = dict(id_dict.val())
@@ -191,15 +193,23 @@ def get_all_excel(corporation, year, month, user = 'all'): #달 마다의 데이
         print("찾지못함")
         return '찾지 못 했습니다.'
 
-def set_suggest(corporation, title, image, content, id): #건의사항 올리기
-    table = pd.read_excel(f'./suggests/{corporation}/suggest.xlsx', index=False)
-    imgs = os.listdir('./temping/image')
-    name = f'{str(len(imgs) + 1)}.png'
-    temp = pd.DataFrame({'title' : title, 'image' : image, 'content' : content, 'id': id})
+def set_suggest(corporation, title, image, content, id, id_name): #건의사항 올리기
+    table = pd.read_excel(f'./suggests/{corporation}/suggest.xlsx')
+    if image != '-':
+        imgs = os.listdir(f'./suggests/{corporation}/image/') #이미지가 들어가는 번호로 이름을 새겨넣음
+        name = f'./suggests/{corporation}/image/{str(len(imgs) + 1)}.jpg'
+
+        image_data = image.split(',')[1] 
+        image_bytes = base64.b64decode(image_data) 
+        image_np = np.frombuffer(image_bytes, dtype=np.uint8)
+        image_cv2 = cv2.imdecode(image_np, cv2.IMREAD_COLOR)
+        cv2.imwrite(name, image_cv2)
+    else:
+        name = ' '
+
+    temp = pd.DataFrame({'title' : [title], 'image' : [name], 'content' : [content], 'id': [id], 'name': [id_name]})
     table = pd.concat([table, temp], axis=0)
-    name = f'./suggests/{corporation}/image/{str(len(imgs) + 1)}.jpg'
-    print(name)
-    cv2.imwrite(name, imgs)
+    
     table.to_excel(f'./suggests/{corporation}/suggest.xlsx', index=False)
     return "건의사항이 제출되었습니다."
 

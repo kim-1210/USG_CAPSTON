@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,25 +10,23 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR&display=swap" rel="stylesheet">
     <title>출근 기록</title>
-    <script 
-    src="https://kit.fontawesome.com/9f8bb06fc7.js" 
-    crossorigin="anonymous"
-></script>
+    <script src="https://kit.fontawesome.com/9f8bb06fc7.js" crossorigin="anonymous"></script>
 </head>
+
 <body>
     <div class="logo">
         <!--돌아가기 버튼-->
         <span id="back" onclick="main()"><i class="fa-solid fa-chevron-left"></i></span>
         <span id="logotext">출근 기록</span>
     </div>
-    <span class = block1></span>
-    <span class = block2></span>
+    <span class=block1></span>
+    <span class=block2></span>
 
-    <div class = "monthBox">
-        <select id = "workmonth" name = "workmonth"></select>
+    <div class="monthBox">
+        <select id="workmonth" name="workmonth"></select>
     </div>
 
-    <div class="calendar" id = "calendar">
+    <div class="calendar" id="calendar">
         <div class="calendar_day" id="1">1<span class="cal_check" id="c_c1">O</span></div>
         <div class="calendar_day" id="2">2<span class="cal_check" id="c_c2">X</span></div>
         <div class="calendar_day" id="3">3</div>
@@ -59,9 +58,9 @@
         <div class="calendar_day" id="29">29</div>
         <div class="calendar_day" id="30">30</div>
         <div class="calendar_day" id="31">31</div>
-</div>
     </div>
 
-<script src="{{url_for('static', filename='js/user/record.js')}}"></script>
+    <script src="{{url_for('static', filename='js/user/record.js')}}"></script>
 </body>
+
 </html>

@@ -7,6 +7,7 @@ xhr.onreadystatechange = function () {
     if (xhr.readyState === 4 && xhr.status === 200) {
         corporation_list = JSON.parse(xhr.responseText);
         options = corporation_list.send_list
+        console.log(options)
         options.forEach(function (option) {
             var optionElement = document.createElement('option');
             optionElement.value = option;
@@ -42,7 +43,7 @@ function login() {
         if (xhr.readyState === 4 && xhr.status === 200) {
             result = JSON.parse(xhr.responseText);
             if(result.result == true){
-                var queryString = '?corporation=' + encodeURIComponent(corporation_name) + '&id='+ encodeURIComponent(id);
+                var queryString = '?corporation=' + encodeURIComponent(corporation_name) + '&id='+ encodeURIComponent(id) + '&name='+ encodeURIComponent(result.name);
                 if(typed == 'worked'){
                     location.href='/user/main' + queryString;
                 }

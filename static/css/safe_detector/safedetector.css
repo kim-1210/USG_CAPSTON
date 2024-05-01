@@ -7,27 +7,27 @@ body{
 
 .logo {
     display:flex;
-    padding-bottom: 2%;
+    margin-bottom: 4%;
+    width:100%;
     font-family: "Noto Serif KR", serif;
 }
-.logo span[id="helmet"]{
-    padding-left: 55px;
-    justify-content: center;
-    align-items: center;
+.logoText{
+    position: absolute;
+    width:100%;
+    text-align: center;
+    top:-3px;
+}
+span[id="helmet"]{
     font-size: 35px;
     color:#FFA500;
 }
 .logo span[id="text"]{
-    padding-left: 10px;
-    justify-content: center;
-    align-items: center;
     font-size: 30px;
     color:#323232;
 }
-
 .slidemenu{
     padding-left:10px;
-    padding-top: 20px;
+    padding-top: 15px;
     font-size:24px;
     color:white;
 }
