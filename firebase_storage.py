@@ -207,7 +207,9 @@ def set_suggest(corporation, title, image, content, id, id_name): #건의사항 
     else:
         name = ' '
 
-    temp = pd.DataFrame({'title' : [title], 'image' : [name], 'content' : [content], 'id': [id], 'name': [id_name]})
+    dt = datetime.datetime.now()
+    result = dt.strftime("%Y-%m-%d")
+    temp = pd.DataFrame({'title' : [title], 'image' : [name], 'content' : [content], 'id': [id], 'name': [id_name], 'date' : [result]})
     table = pd.concat([table, temp], axis=0)
     
     table.to_excel(f'./suggests/{corporation}/suggest.xlsx', index=False)
@@ -221,8 +223,14 @@ def get_id_suggest(corporation, id):
 
 def get_suggest(corporation): #건의 사항 리스트 출력
     table = pd.read_excel(f'./suggests/{corporation}/suggest.xlsx')
-    send_data = table['title'].to_list()
-    return send_data
+    send_data_title = table['title'].to_list()
+    send_data_id = table['id'].to_list()
+    send_data_date = table['date'].to_list()
+    new_send_data_date = []
+    for i in send_data_date:
+        formatted_date = str(i.date())
+        new_send_data_date.append(formatted_date)
+    return send_data_title, send_data_id, new_send_data_date
 
 def get_detail_suggest(corporation, cnt): #내용 출력 (예정 : 이름 , id 출력)
     table = pd.read_excel(f'./suggests/{corporation}/suggest.xlsx')

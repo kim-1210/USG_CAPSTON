@@ -134,8 +134,8 @@ def get_id():
 @app.route('/get_list_detector', methods=['POST']) #안전관리자도 이걸로 뽑기
 def get_list_detector():
     corporation = request.json.get('corporation','')
-    send_data = fs.get_suggest(corporation)
-    return jsonify({'data_list' : send_data})
+    send_data_title, send_data_id, send_data_date = fs.get_suggest(corporation)
+    return jsonify({'title_list' : send_data_title, 'id_list' : send_data_id, 'date_list' : send_data_date})
 
 @app.route('/get_year_file', methods=['POST'])
 def get_year_file():
@@ -197,9 +197,7 @@ def get_manage_user():
     return jsonify({'worked_id': worked_id, 'worked_name' : worked_name, 'worked_birthday' : worked_birthday, 'protected_id': protected_id, 'protected_name' : protected_name, 'protected_birthday' : protected_birthday})
 
 if __name__ == "__main__":
-    #app.run(debug=True, host="0.0.0.0", port=8080)  # 외부 연결 및 SSL/TLS 설정
-    app.run(ssl_context=ssl_context, debug=True, host="0.0.0.0", port=8080)  # 외부 연결 및 SSL/TLS 설정
-    #socketio.run(app, ssl_context = ssl_context, debug=True, host="0.0.0.0", port=8080) #외부연결
-    #socketio.run(app, debug=True, host="127.0.0.1", port=8080) #로컬연결
+    app.run(debug=True, host="127.0.0.1", port=8080)  # 외부 연결 및 SSL/TLS 설정
+    #app.run(ssl_context=ssl_context, debug=True, host="0.0.0.0", port=8080)  # 외부 연결 및 SSL/TLS 설정
 
 #domain = safty-construction.kro.kr
