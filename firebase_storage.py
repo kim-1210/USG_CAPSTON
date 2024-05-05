@@ -107,7 +107,7 @@ def login(corporation, typed, id, password): #로그인
             return False, ''
     except Exception as err:
         print('로그인에 실패했습니다.')
-        return False
+        return False, ''
     
 def detector_login(corporation, id, password): #관리자 로그인
     try:
@@ -196,6 +196,7 @@ def get_all_excel(corporation, year, month, user = 'all'): #달 마다의 데이
 def set_suggest(corporation, title, image, content, id, id_name): #건의사항 올리기
     table = pd.read_excel(f'./suggests/{corporation}/suggest.xlsx')
     if image != '-':
+        print(f"형태는 : {len(image)}")
         imgs = os.listdir(f'./suggests/{corporation}/image/') #이미지가 들어가는 번호로 이름을 새겨넣음
         name = f'./suggests/{corporation}/image/{str(len(imgs) + 1)}.jpg'
 
@@ -228,7 +229,7 @@ def get_suggest(corporation): #건의 사항 리스트 출력
     send_data_date = table['date'].to_list()
     new_send_data_date = []
     for i in send_data_date:
-        formatted_date = str(i.date())
+        formatted_date = i
         new_send_data_date.append(formatted_date)
     return send_data_title, send_data_id, new_send_data_date
 

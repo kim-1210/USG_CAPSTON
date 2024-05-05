@@ -7,7 +7,6 @@ xhr.onreadystatechange = function () {
     if (xhr.readyState === 4 && xhr.status === 200) {
         corporation_list = JSON.parse(xhr.responseText);
         options = corporation_list.send_list
-        console.log(options)
         options.forEach(function (option) {
             var optionElement = document.createElement('option');
             optionElement.value = option;
@@ -35,6 +34,7 @@ function login() {
     var corporation_name = document.getElementById('corporation_drop').value;
     var id = document.getElementById('idinput').value;
     var pw = document.getElementById('pwinput').value;
+    var fail_cnt = 0;
 
     var xhr = new XMLHttpRequest(); //flask에 요청
     xhr.open("POST", "/user_login", true);
@@ -42,20 +42,27 @@ function login() {
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             result = JSON.parse(xhr.responseText);
-            if(result.result == true){
-                var queryString = '?corporation=' + encodeURIComponent(corporation_name) + '&id='+ encodeURIComponent(id) + '&name='+ encodeURIComponent(result.name);
-                if(typed == 'worked'){
-                    location.href='/user/main' + queryString;
+            if (result.result == true) {
+                var queryString = '?corporation=' + encodeURIComponent(corporation_name) + '&id=' + encodeURIComponent(id) + '&name=' + encodeURIComponent(result.name);
+                if (typed == 'worked') {
+                    location.href = '/user/main' + queryString;
                 }
-                else{
-                    location.href='/safe_detector/main' + queryString;
+                else {
+                    location.href = '/safe_detector/main' + queryString;
                 }
             }
             else{
-                alert('로그인 실패!!')
+                if (fail_cnt == 0) {
+                    alert('로그인 실패!!')
+                    document.getElementById('idinput').value = "";
+                    document.getElementById('pwinput').value = "";
+                }
+                fail_cnt++;
+                if(fail_cnt == 3){fail_cnt = 0;}
+                return;
             }
         }
     };
-    var data = JSON.stringify({'corporation' : corporation_name, 'typed' : typed, 'id' : id, 'password' : pw});
+    var data = JSON.stringify({ 'corporation': corporation_name, 'typed': typed, 'id': id, 'password': pw });
     xhr.send(data);
 }

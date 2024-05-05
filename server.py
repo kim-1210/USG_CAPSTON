@@ -196,8 +196,17 @@ def get_manage_user():
     worked_id, worked_name, worked_birthday, protected_id, protected_name, protected_birthday = fs.get_manage_user(corporation)
     return jsonify({'worked_id': worked_id, 'worked_name' : worked_name, 'worked_birthday' : worked_birthday, 'protected_id': protected_id, 'protected_name' : protected_name, 'protected_birthday' : protected_birthday})
 
+@app.route('/get_img_ai_check', methods=['POST'])
+def get_img_ai_check():
+    datas = request.json
+    imgs = datas.get('image', '')
+    print("asdadd")
+    img, _ = ai.img_ai_check(imgs)
+    return jsonify({'img' : img})
+
+
 if __name__ == "__main__":
-    app.run(debug=True, host="127.0.0.1", port=8080)  # 외부 연결 및 SSL/TLS 설정
+    app.run(debug=True, host="127.0.0.1", port=8080)  # 내부 실행
     #app.run(ssl_context=ssl_context, debug=True, host="0.0.0.0", port=8080)  # 외부 연결 및 SSL/TLS 설정
 
 #domain = safty-construction.kro.kr

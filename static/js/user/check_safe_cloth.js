@@ -33,7 +33,7 @@ async function startCamera() {
     }
 }
 
-setInterval(startCamera, 1);
+setInterval(startCamera, 1000);
 // 이미지 전송 함수
 function sendImageToServer(imageData) {
     const xhr = new XMLHttpRequest();
@@ -47,13 +47,13 @@ function sendImageToServer(imageData) {
             var resultImage = document.getElementById('resultImage');
             resultImage.src = 'data:image/jpeg;base64,' + responseData.result_image;
 
-            // 바운딩 박스 표시
-            var boundingBox = document.getElementById('boundingBox');
-            var boundingBoxInfo = responseData.bounding_box;
-            boundingBox.style.left = boundingBoxInfo[0] + 'px';
-            boundingBox.style.top = boundingBoxInfo[1] + 'px';
-            boundingBox.style.width = (boundingBoxInfo[2] - boundingBoxInfo[0]) + 'px';
-            boundingBox.style.height = (boundingBoxInfo[3] - boundingBoxInfo[1]) + 'px';
+            // // 바운딩 박스 표시
+            // var boundingBox = document.getElementById('boundingBox');
+            // var boundingBoxInfo = responseData.bounding_box;
+            // boundingBox.style.left = boundingBoxInfo[0] + 'px';
+            // boundingBox.style.top = boundingBoxInfo[1] + 'px';
+            // boundingBox.style.width = (boundingBoxInfo[2] - boundingBoxInfo[0]) + 'px';
+            // boundingBox.style.height = (boundingBoxInfo[3] - boundingBoxInfo[1]) + 'px';
         }
     };
 
