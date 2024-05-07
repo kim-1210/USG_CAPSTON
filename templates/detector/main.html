@@ -120,18 +120,6 @@
                     </div>
                     <div class="worker_nemo" id="worker_nemo"> <!--여기서 실행-->
 
-
-                        <!-- <div class ="worker_item">
-                                <div class="work_1">
-                                    <input type="button" value="X" name="worker_delete" id="worker_delete">
-                                    <span>작업자</span>
-                                </div>
-                                <div class="work_2">
-                                    이미지넣기
-                                    <img src="{{url_for('static', filename='images/user/safe2.png')}}" id="worker_img">
-                                </div>
-                            </div> -->
-
                     </div>
                 </div>
 
@@ -187,8 +175,9 @@
             </div>
         </div>
     </div>
+    
     <div class="loading_modal" id="loading_modal">
-        <div class="loader"></div>
+        <div class="loader" id="loader"></div>
     </div>
     <script src="{{url_for('static', filename='js/detector/main.js')}}"></script>
 </body>

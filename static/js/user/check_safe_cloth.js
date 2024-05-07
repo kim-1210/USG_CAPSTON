@@ -3,21 +3,37 @@ var urlParams = new URLSearchParams(queryString);
 var corporation = urlParams.get('corporation');
 var id = urlParams.get('id');
 var name = urlParams.get('name');
-const video = document.getElementById('video');
 const canvas = document.getElementById('canvas');
 const context = canvas.getContext('2d');
+const video = document.getElementById('video'); //element는 canvas다 
+
+
+let stream;
 
 async function startCamera() {
     try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } });
-        video.srcObject = stream;
+        // const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } })
+        // video.srcObject = stream;
+        
+        // navigator.mediaDevices.getUserMedia({video:true}).then(stream => {
+        //     video.srcObject = stream;
+        //     video.play()
+        // })
+
+        stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        const videoTrack = stream.getVideoTracks()[0];
+        const imageCapture = new ImageCapture(videoTrack);
+        const bitmap = await imageCapture.grabFrame();
+        const context1 = video.getContext('2d');
+        context1.drawImage(bitmap, 0, 0, video.width, video.height);
+        
     }
     catch (error) {
         alert("카메라가 없습니다.")
     }
 }
 
-startCamera();
+setInterval(startCamera, 1000);
 // 이미지 전송 함수
 function sendImageToServer(imageData) {
     const xhr = new XMLHttpRequest();
@@ -31,13 +47,13 @@ function sendImageToServer(imageData) {
             var resultImage = document.getElementById('resultImage');
             resultImage.src = 'data:image/jpeg;base64,' + responseData.result_image;
 
-            // 바운딩 박스 표시
-            var boundingBox = document.getElementById('boundingBox');
-            var boundingBoxInfo = responseData.bounding_box;
-            boundingBox.style.left = boundingBoxInfo[0] + 'px';
-            boundingBox.style.top = boundingBoxInfo[1] + 'px';
-            boundingBox.style.width = (boundingBoxInfo[2] - boundingBoxInfo[0]) + 'px';
-            boundingBox.style.height = (boundingBoxInfo[3] - boundingBoxInfo[1]) + 'px';
+            // // 바운딩 박스 표시
+            // var boundingBox = document.getElementById('boundingBox');
+            // var boundingBoxInfo = responseData.bounding_box;
+            // boundingBox.style.left = boundingBoxInfo[0] + 'px';
+            // boundingBox.style.top = boundingBoxInfo[1] + 'px';
+            // boundingBox.style.width = (boundingBoxInfo[2] - boundingBoxInfo[0]) + 'px';
+            // boundingBox.style.height = (boundingBoxInfo[3] - boundingBoxInfo[1]) + 'px';
         }
     };
 

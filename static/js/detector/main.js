@@ -1,5 +1,3 @@
-const { fuchsia } = require("color-name");
-
 var queryString = window.location.search;
 var urlParams = new URLSearchParams(queryString);
 var corporation = urlParams.get('corporation');
@@ -10,6 +8,7 @@ var per_timer = null; //당일 출근 관련 변수
 var per_O_X = [];
 
 var loading_modal = document.getElementById("loading_modal");
+var loader = document.getElementById("loader");
 
 $(document).ready(function() {
     list_change();
@@ -48,10 +47,12 @@ function show_list() { //건의사항 리스트
         if (xhr_suggest.readyState === 4 && xhr_suggest.status === 200) {
             document.getElementById('list_nemo').innerHTML = '';
             var data = JSON.parse(xhr_suggest.responseText);
-            var titles = data.data_list
+            var titles = data.title_list
+            var ids = data.id_list //공지사항 올린 id
+            var dates = data.date_list //공지사항 날짜
             for (var i = 0; i < titles.length; i++) {
                 var div_list = document.createElement('div');
-                div_list.innerText = titles[i];
+                div_list.innerText = titles[i] + " : " + ids[i] + " : " + dates[i];
                 div_list.classList.add("list_item");
                 div_list.setAttribute('data-value', i);
                 div_list.onclick = function () {
@@ -61,6 +62,7 @@ function show_list() { //건의사항 리스트
                 document.getElementById('list_nemo').appendChild(div_list);
             }
             loading_modal.style.zIndex = -2;
+            loader.style.display = "none";
         }
     };
     var data = JSON.stringify({ 'corporation': corporation });
@@ -117,6 +119,8 @@ function handleClick(corporation, cnt) { //건의사항 리스트 클릭시
 
 function list_change() {
     loading_modal.style.zIndex = 10000;
+    loader.style.display = "block";
+
     if (document.getElementById('menu1').checked) {
         document.getElementById('list_contents').style.display = "block";
         document.getElementById('check_calender').style.display = "none";
@@ -124,7 +128,7 @@ function list_change() {
         show_list();
 
         if (per_timer != null) {
-            clearInterval(timer); // 타이머 중지
+            clearInterval(per_timer); // 타이머 중지
             per_timer = null;
         }
     }
@@ -141,7 +145,7 @@ function list_change() {
         manage_user();
 
         if (per_timer != null) {
-            clearInterval(timer); // 타이머 중지
+            clearInterval(per_timer); // 타이머 중지
             per_timer = null;
         }
     }
@@ -269,9 +273,10 @@ function show_day() {
                 document.getElementById('day_nemo').appendChild(tempElement);
                 //쓰레드로 flask의 callback 계산
                 if (per_timer == null) {
-                    per_timer = setInterval(show_day, 60000); //1분 마다 갱신
+                    per_timer = setInterval(per_go_to_work_check, 60000); //1분 마다 갱신
                 }
                 loading_modal.style.zIndex = -2;
+                loader.style.display = "none";
             }
         };
         var data = JSON.stringify({ 'corporation': corporation });
@@ -279,7 +284,7 @@ function show_day() {
     }
     else { //총 출근
         if (per_timer != null) {
-            clearInterval(timer); // 타이머 중지
+            clearInterval(per_timer); // 타이머 중지
             per_timer = null;
         }
 
@@ -343,6 +348,7 @@ function show_day() {
                     });
                 });
                 loading_modal.style.zIndex = -2;
+                loader.style.display = "none";
             }
         };
         var send_data = JSON.stringify({ 'corporation': corporation });
@@ -368,6 +374,7 @@ function show_excel() {
                 var modifiedData = add_html.excel_data.replace(/dataframe/g, 'allday');
                 document.getElementById('day_nemo').innerHTML += modifiedData;
                 loading_modal.style.zIndex = -2;
+                loader.style.display = "none";
             }
         };
 
@@ -487,6 +494,7 @@ function manage_user() {
                 li_div.appendChild(remove_btn)
                 document.getElementById('worker_nemo').appendChild(li_div)
                 loading_modal.style.zIndex = -2;
+                loader.style.display = "none";
             }
         }
     };
@@ -496,10 +504,14 @@ function manage_user() {
 
 function show() {
     document.querySelector(".modalbackground").className = "modalbackground show";
+    document.querySelector(".modalbackground").style.zIndex = 4000;
+    document.querySelector('.modalbackground').style.opacity = 1;
 }
 
 function cancel() {
     document.querySelector(".modalbackground").className = "modalbackground";
+    document.querySelector(".modalbackground").style.zIndex = -1;
+    document.querySelector('.modalbackground').style.opacity = 0;
     document.getElementById('name').value = '';
     document.getElementById('id').value = '';
     document.getElementById('pw').value = '';
