@@ -5,6 +5,28 @@ body{
     height: 100%;
 }
 
+.loader {
+    border: 12px solid #f3f3f3; /* Light grey */
+    border-top: 12px solid #FFA500; /* Blue */
+    border-left: 12px solid #FFA500; /* Blue */
+    border-right: 12px solid #FFA500; /* Blue */
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    animation: spins 2s linear infinite;
+    position:fixed;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    z-index: 10000;
+  }
+  
+  @keyframes spins {
+    0% { transform:translate(-50%,-50%) rotate(0deg); }
+    100% { transform:translate(-50%,-50%) rotate(360deg); }
+  }
+
+
 .logo{
     display: flex;
     margin-bottom: 1%;

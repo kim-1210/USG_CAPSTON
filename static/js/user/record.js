@@ -16,3 +16,7 @@ function main() {
     var queryString = '?corporation=' + encodeURIComponent(corporation) + '&id=' + encodeURIComponent(id) + '&name=' + encodeURIComponent(name);
     location.href = '/user/main' + queryString;
 }
+
+$(window).load(function(){
+    $('.loadingbox').fadeOut();
+});

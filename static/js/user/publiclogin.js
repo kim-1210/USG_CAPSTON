@@ -66,3 +66,7 @@ function login() {
     var data = JSON.stringify({ 'corporation': corporation_name, 'typed': typed, 'id': id, 'password': pw });
     xhr.send(data);
 }
+
+$(window).load(function(){
+    $('.loadingbox').fadeOut();
+});

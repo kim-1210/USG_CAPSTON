@@ -13,3 +13,7 @@ function user_record(){
     var queryString = '?corporation=' + encodeURIComponent(corporation) + '&id=' + encodeURIComponent(id) + '&name=' + encodeURIComponent(name);
     location.href = '/user/record' + queryString;
 }
+
+$(window).load(function(){
+    $('.loadingbox').fadeOut();
+});
