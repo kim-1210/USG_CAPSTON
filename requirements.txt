@@ -6,3 +6,9 @@ flask
 flask-socketio
 matplotlib
 seaborn
+watchdog
+base64
+time
+hashlib
+datetime
+json
