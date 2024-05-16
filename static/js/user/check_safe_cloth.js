@@ -7,10 +7,6 @@ const canvas = document.getElementById('canvas');
 const context = canvas.getContext('2d');
 const video = document.getElementById('video'); //element는 canvas다 
 
-$(window).load(function(){
-    $('.loadingbox').fadeOut();
-});
-
 let stream;
 
 async function startCamera() {
@@ -29,7 +25,7 @@ async function startCamera() {
         const bitmap = await imageCapture.grabFrame();
         const context1 = video.getContext('2d');
         context1.drawImage(bitmap, 0, 0, video.width, video.height);
-        
+        $('.loadingbox').fadeOut();
     }
     catch (error) {
         alert("카메라가 없습니다.")
@@ -49,7 +45,8 @@ function sendImageToServer(imageData) {
             var responseData = JSON.parse(xhr.responseText);
             var resultImage = document.getElementById('resultImage');
             resultImage.src = 'data:image/jpeg;base64,' + responseData.result_image;
-
+            var checking_reslut = responseData.result_check;
+            checking(checking_reslut);
             // // 바운딩 박스 표시
             // var boundingBox = document.getElementById('boundingBox');
             // var boundingBoxInfo = responseData.bounding_box;
@@ -72,13 +69,16 @@ function captureFrame() {
 }
 
 // 프레임 캡처 주기 설정 (3초에 한 번)
-setInterval(captureFrame, 500);
+setInterval(captureFrame, 1000);
 
 function checking(result_str) { //출석 요청
     console.log(result_str)
-    if (result_str.includes('Person') == false) { //사람이 있다.
-        if (result_str.includes('NoHelMet') == false && result_str.includes('NoVest') == false) {
-            if (result_str.includes('HelMet') == true && result_str.includes('Vest') == true) {
+    if (result_str.includes('Person') == true) { //사람이 있다.
+        console.log("사람성공")
+        if (result_str.includes('Non-Helmet') == false && result_str.includes('NoVest') == false) {
+            console.log("없음성공")
+            if (result_str.includes('Helmet') == true && result_str.includes('Vest') == true) {
+                console.log("출석성공")
                 var xhr = new XMLHttpRequest();
                 xhr.open("POST", "/check_today", true);
                 xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");

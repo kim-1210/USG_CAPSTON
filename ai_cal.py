@@ -15,7 +15,7 @@ model = torch.hub.load('./ai/yolov5', 'custom', path='./ai/safty_models4/weights
 labeling = ['Gloves', 'Helmet', 'Non-Helmet', 'Person', 'Shoes', 'Vest', 'bare-arms']
 def ok_check(detecting_list):
     result = ''
-    matching = {'NoHelMet' : 0, 'NoVest' : 0, 'Person' : 0, 'HelMet' : 0, 'Vest' : 0}
+    matching = {'Gloves' : 0, 'Helmet' : 0, 'Non-Helmet' : 0, 'Person' : 0, 'Shoes' : 0, 'Vest' : 0, 'bare-arms' : 0}
     for i in detecting_list:
         matching[i] = matching[i] + 1
     for i in matching.keys():
