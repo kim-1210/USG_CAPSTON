@@ -254,13 +254,19 @@ def get_safe_detail(corporation, id, cnt): #안전관리자 앱 - 리스트
     titles = re_table['title'].to_list()
     images = re_table['image'].to_list()
     contents = re_table['content'].to_list()
-    return titles[cnt], images[cnt], contents[cnt]
+    dates = re_table['date'].to_list()
+    names = re_table['name'].to_list()
+    return titles[cnt], images[cnt], contents[cnt], dates[cnt], names[cnt]
 
 def get_safe_suggest(corporation, id): #건의 사항 리스트 출력
     table = pd.read_excel(f'./suggests/{corporation}/suggest.xlsx')
     re_table = table.loc[table['id'] == id]
-    send_data = re_table['title'].to_list()
-    return send_data
+    titles = re_table['title'].to_list()
+    contents = re_table['content'].to_list()
+    dates = re_table['date'].to_list()
+
+
+    return titles , contents,dates
 
 def get_manage_user(corporation): #이름이랑 id 출력
     worked = db.child(corporation).child('user').child('worked').get().val()

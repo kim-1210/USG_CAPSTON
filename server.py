@@ -1,14 +1,13 @@
-from certificate_file import ssl_context #https 인증서
+#from certificate_file import ssl_context #https 인증서
 from flask import Flask, render_template, Response, request, jsonify
 from flask_sslify import SSLify
 from flask_socketio import SocketIO
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
-
 import sys
 import firebase_storage as fs
 
-import ai_cal as ai
+#import ai_cal as ai
 
 app = Flask(__name__, static_folder='static')
 sslify = SSLify(app)
@@ -149,8 +148,8 @@ def get_datail_suggest():
     send_title, send_image, send_cotent = fs.get_detail_suggest(data.get('corporation'), int(data.get('cnt')))
     if './suggests' in send_image:
         read_img = fs.cv2.imread(send_image)
-        _, buffer = ai.cv2.imencode('.jpg', read_img)
-        frame_base64 = ai.base64.b64encode(buffer).decode('utf-8')
+        #_, buffer = ai.cv2.imencode('.jpg', read_img)
+        #frame_base64 = ai.base64.b64encode(buffer).decode('utf-8')
     else:
         frame_base64 = ''
     return jsonify({'title': send_title, 'image' : frame_base64, 'content' : send_cotent})
@@ -158,20 +157,20 @@ def get_datail_suggest():
 @app.route('/safe_detector_detail', methods=['POST']) #안전관리자 디테일 건의사항 보기
 def safe_detector_detail():
     data = request.json
-    title, img, content = fs.get_safe_detail(data.get('corporation'), data.get('id'), int(data.get('cnt')))
+    title, img, content, date, name = fs.get_safe_detail(data.get('corporation'), data.get('id'), int(data.get('cnt')))
     if './suggests' in img:
         read_img = fs.cv2.imread(img)
-        _, buffer = ai.cv2.imencode('.jpg', read_img)
-        frame_base64 = ai.base64.b64encode(buffer).decode('utf-8')
+        #_, buffer = ai.cv2.imencode('.jpg', read_img)
+        #frame_base64 = ai.base64.b64encode(buffer).decode('utf-8')
     else:
         frame_base64 = ' '
-    return jsonify({'title': title, 'image' : frame_base64, 'content' : content})
+    return jsonify({'title': title, 'image' : frame_base64, 'content' : content, 'date':date, 'name':name})
 
 @app.route('/get_safe_suggest', methods=['POST'])
 def get_safe_suggest():
     data = request.json
-    titles = fs.get_safe_suggest(data.get('corporation'), data.get('id'))
-    return jsonify({'titles' : titles})
+    titles,contents, dates= fs.get_safe_suggest(data.get('corporation'), data.get('id'))
+    return jsonify({'titles' : titles , "contents" :contents ,"dates" : dates})
 
 @app.route('/set_suggest', methods = ['POST'])
 def set_suggest():
@@ -182,7 +181,7 @@ def set_suggest():
 @app.route('/get_id_suggest', methods=['POST'])
 def get_id_suggest():
     data = request.json
-    send_data = fs.get_id_suggest(data.get('corporation'), data.get('id'))
+    send_data = fs.get_id_suggest(data.get('corporation'), data.get('id'),)
     return jsonify({'send_data' : send_data})
 
 @app.route('/get_corporation', methods=['POST'])
@@ -196,13 +195,13 @@ def get_manage_user():
     worked_id, worked_name, worked_birthday, protected_id, protected_name, protected_birthday = fs.get_manage_user(corporation)
     return jsonify({'worked_id': worked_id, 'worked_name' : worked_name, 'worked_birthday' : worked_birthday, 'protected_id': protected_id, 'protected_name' : protected_name, 'protected_birthday' : protected_birthday})
 
-@app.route('/get_img_ai_check', methods=['POST'])
-def get_img_ai_check():
-    datas = request.json
-    imgs = datas.get('image', '')
-    print("asdadd")
-    img, _ = ai.img_ai_check(imgs)
-    return jsonify({'img' : img})
+#@app.route('/get_img_ai_check', methods=['POST'])
+#def get_img_ai_check():
+    #datas = request.json
+    #imgs = datas.get('image', '')
+   # print("asdadd")
+  #  #img, _ = ai.img_ai_check(imgs)
+ #   return jsonify({'img' : img})
 
 
 if __name__ == "__main__":
