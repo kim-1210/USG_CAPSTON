@@ -494,6 +494,7 @@ function manage_user() {
   xhr.onreadystatechange = function () {
     if (xhr.readyState === 4 && xhr.status === 200) {
       data = JSON.parse(xhr.responseText);
+      console.log(corporation)
       document.getElementById("worker_nemo").innerHTML = "";
       worked_id = data.worked_id;
       worked_name = data.worked_name;
@@ -509,7 +510,7 @@ function manage_user() {
         self_Pic.classList.add("self_Pic");
 
         self_img = document.createElement("img");
-        self_img.src = "/static/images/img.png";
+        //self_img.src = "/static/images/img.png";
         
 
         self_Pic.appendChild(self_img);
@@ -627,9 +628,9 @@ function manage_user() {
         li_div.appendChild(self_Pic);
         li_div.appendChild(box);
         document.getElementById("worker_nemo").appendChild(li_div);
-        loading_modal.style.zIndex = -2;
-        loader.style.display = "none";
       }
+      loading_modal.style.zIndex = -2;
+      loader.style.display = "none";
     }
   };
   var data = JSON.stringify({ corporation: corporation });

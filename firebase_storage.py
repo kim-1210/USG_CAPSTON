@@ -272,18 +272,20 @@ def get_manage_user(corporation): #이름이랑 id 출력
     worked_id = []
     worked_name = []
     worked_birthday = []
-    for i,k in worked.items():
-        worked_id.append(i)
-        worked_name.append(k['name'])
-        worked_birthday.append(k['birthday'])
+    if worked is not None:
+        for i,k in worked.items():
+            worked_id.append(i)
+            worked_name.append(k['name'])
+            worked_birthday.append(k['birthday'])
     
     protected_id = []
     protected_name = []
     protected_birthday = []
-    for i,k in protected.items():
-        protected_id.append(i)
-        protected_name.append(k['name'])
-        protected_birthday.append(k['birthday'])
+    if protected is not None:
+        for i,k in protected.items():
+            protected_id.append(i)
+            protected_name.append(k['name'])
+            protected_birthday.append(k['birthday'])
     return worked_id, worked_name, worked_birthday, protected_id, protected_name, protected_birthday
 
 def use_thread():
