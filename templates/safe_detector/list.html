@@ -41,17 +41,19 @@
       ></span>
       <span id="logotext">작성 리스트</span>
     </div>
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">제목</th>
-          <th scope="col">사용자</th>
-          <th scope="col">날짜</th>
-        </tr>
-      </thead>
-      <tbody class="tbody"></tbody>
-    </table>
+    <div style="width: 100%; height: 100%; overflow-y: auto;">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">제목</th>
+            <th scope="col">사용자</th>
+            <th scope="col">날짜</th>
+          </tr>
+        </thead>
+        <tbody class="tbody"></tbody>
+      </table>
+    </div>
     <script src="{{url_for('static', filename='js/safe_detector/list.js')}}"></script>
   </body>
 </html>
