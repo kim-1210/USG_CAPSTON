@@ -264,9 +264,7 @@ def get_safe_suggest(corporation, id): #건의 사항 리스트 출력
     titles = re_table['title'].to_list()
     contents = re_table['content'].to_list()
     dates = re_table['date'].to_list()
-
-
-    return titles , contents,dates
+    return titles , contents, dates
 
 def get_manage_user(corporation): #이름이랑 id 출력
     worked = db.child(corporation).child('user').child('worked').get().val()

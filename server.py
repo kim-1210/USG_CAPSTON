@@ -158,20 +158,20 @@ def get_datail_suggest():
 @app.route('/safe_detector_detail', methods=['POST']) #안전관리자 디테일 건의사항 보기
 def safe_detector_detail():
     data = request.json
-    title, img, content = fs.get_safe_detail(data.get('corporation'), data.get('id'), int(data.get('cnt')))
+    title, img, content, date, name = fs.get_safe_detail(data.get('corporation'), data.get('id'), int(data.get('cnt')))
     if './suggests' in img:
         read_img = fs.cv2.imread(img)
         _, buffer = ai.cv2.imencode('.jpg', read_img)
         frame_base64 = ai.base64.b64encode(buffer).decode('utf-8')
     else:
         frame_base64 = ' '
-    return jsonify({'title': title, 'image' : frame_base64, 'content' : content})
+    return jsonify({'title': title, 'image' : frame_base64, 'content' : content, 'date':date, 'name':name})
 
 @app.route('/get_safe_suggest', methods=['POST'])
 def get_safe_suggest():
     data = request.json
-    titles = fs.get_safe_suggest(data.get('corporation'), data.get('id'))
-    return jsonify({'titles' : titles})
+    titles,contents, dates= fs.get_safe_suggest(data.get('corporation'), data.get('id'))
+    return jsonify({'titles' : titles , "contents" :contents ,"dates" : dates})
 
 @app.route('/set_suggest', methods = ['POST'])
 def set_suggest():
