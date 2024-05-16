@@ -11,15 +11,13 @@ let stream;
 
 async function startCamera() {
     try {
-        // const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } })
-        // video.srcObject = stream;
-        
-        // navigator.mediaDevices.getUserMedia({video:true}).then(stream => {
-        //     video.srcObject = stream;
-        //     video.play()
-        // })
 
-        stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        stream = await navigator.mediaDevices.getUserMedia({ video: { 
+            width: { ideal: 1080 }, 
+            height: { ideal: 1920 },
+            facingMode: 'user',
+            bitrate: { ideal: 2000000 }
+        }  });
         const videoTrack = stream.getVideoTracks()[0];
         const imageCapture = new ImageCapture(videoTrack);
         const bitmap = await imageCapture.grabFrame();
