@@ -7,6 +7,9 @@ const canvas = document.getElementById('canvas');
 const context = canvas.getContext('2d');
 const video = document.getElementById('video'); //element는 canvas다 
 
+$(window).load(function(){
+    $('.loadingbox').fadeOut();
+});
 
 let stream;
 
@@ -98,6 +101,3 @@ function main() {
     location.href = '/user/main' + queryString;
 }
 
-$(window).load(function(){
-    $('.loadingbox').fadeOut();
-});
