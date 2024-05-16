@@ -1,4 +1,3 @@
-@ -1,203 +1,212 @@
 from certificate_file import ssl_context #https 인증서
 from flask import Flask, render_template, Response, request, jsonify
 from flask_sslify import SSLify
