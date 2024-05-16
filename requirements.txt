@@ -7,8 +7,5 @@ flask-socketio
 matplotlib
 seaborn
 watchdog
-base64
-time
-hashlib
 datetime
-json
+flask_sslify
