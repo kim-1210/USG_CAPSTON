@@ -84,7 +84,7 @@ function show_list() {
   );
   xhr_suggest.onreadystatechange = function () {
     if (xhr_suggest.readyState === 4 && xhr_suggest.status === 200) {
-      var tbody = document.querySelector(".tbody");
+      var tbody = document.getElementById("tbody1");
       tbody.innerHTML = "";
       var data = JSON.parse(xhr_suggest.responseText);
       var titles = data.title_list;
@@ -130,11 +130,10 @@ function handleClick(corporation, cnt) {
   xhr_detail.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
   xhr_detail.onreadystatechange = function () {
     if (xhr_detail.readyState === 4 && xhr_detail.status === 200) {
-      document.getElementById("list_nemo").innerHTML = "";
+      document.getElementById("list_nemo1").style.display = "none";
+      document.getElementById("list_nemo2").style.display = "block";
+      document.getElementById("list_nemo2").innerHTML = "";
       var add_html = JSON.parse(xhr_detail.responseText);
-      console.log(
-        add_html.title + ", " + add_html.image + ", " + add_html.content
-      );
 
       var big_div = document.createElement("div");
       big_div.classList.add("suggest_detail");
@@ -168,7 +167,7 @@ function handleClick(corporation, cnt) {
       content_span.classList.add("content");
       big_div.appendChild(content_span);
 
-      document.getElementById("list_nemo").appendChild(big_div);
+      document.getElementById("list_nemo2").appendChild(big_div);
     }
   };
   var data = JSON.stringify({ corporation: corporation, cnt: cnt });
@@ -180,6 +179,8 @@ function list_change() {
   loader.style.display = "block";
 
   if (document.getElementById("menu1").checked) {
+    document.getElementById("list_nemo1").style.display = "block";
+    document.getElementById("list_nemo2").style.display = "none";
     document.getElementById("list_contents").style.display = "block";
     document.getElementById("check_calender").style.display = "none";
     document.getElementById("workerBox").style.display = "none";
@@ -247,7 +248,6 @@ function per_go_to_work_check() {
   xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
   xhr.onreadystatechange = function () {
     if (xhr.readyState === 4 && xhr.status === 200) {
-      document.getElementById("day_nemo").innerHTML = "";
       var add_html = JSON.parse(xhr.responseText);
 
       var table_html = add_html.today_excel;
@@ -262,6 +262,7 @@ function per_go_to_work_check() {
           temp_per_O_X.push(cell.innerText.trim());
         }
       });
+
       if (temp_per_O_X.length != per_O_X.length) {
         //사람이 늘었다면
         show_day();
@@ -274,6 +275,7 @@ function per_go_to_work_check() {
           cnt_list = cnt_list + 1;
         });
       }
+
     }
   };
   var data = JSON.stringify({ corporation: corporation });
