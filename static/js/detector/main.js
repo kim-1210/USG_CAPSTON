@@ -505,18 +505,33 @@ function manage_user() {
         li_div = document.createElement("div");
         li_div.classList.add("worker_box");
 
-        box = document.createElement("span");
+        self_Pic = document.createElement("div");
+        self_Pic.classList.add("self_Pic");
+
+        self_img = document.createElement("img");
+        self_img.src = "/static/images/img.png";
+        
+
+        self_Pic.appendChild(self_img);
+
+        box = document.createElement("div");
+        box.classList.add("worker_info");
         box.innerHTML =
+          "이름: " +
           worked_name[i] +
-          " : " +
+          "<br>" +
+           "아이디: " +
           worked_id[i] +
-          " : " +
+          "<br>" +
+          "생일: " +
           worked_birthday[i] +
-          " : 현장직";
+          "<br>"+
+          "직군: 현장직";
         box.id = "worked" + i.toString();
 
         remove_btn = document.createElement("button");
-        remove_btn.textContent = "삭제";
+        remove_btn.classList.add("remove_btn");
+        remove_btn.textContent = "X";
         remove_btn.setAttribute("id", worked_id[i]);
         remove_btn.setAttribute("typed", "worked");
         remove_btn.onclick = function () {
@@ -544,8 +559,9 @@ function manage_user() {
             xhr.send(data);
           }
         };
-        li_div.appendChild(box);
         li_div.appendChild(remove_btn);
+        li_div.appendChild(self_Pic);
+        li_div.appendChild(box);
         document.getElementById("worker_nemo").appendChild(li_div);
       }
 
@@ -553,18 +569,33 @@ function manage_user() {
         li_div = document.createElement("div");
         li_div.classList.add("worker_box");
 
-        box = document.createElement("span");
+        self_Pic = document.createElement("div");
+        self_Pic.classList.add("self_Pic");
+
+        self_img = document.createElement("img");
+        self_img.src = "/static/images/img.png";
+        
+
+        self_Pic.appendChild(self_img);
+
+        box = document.createElement("div");
+        box.classList.add("worker_info");
         box.innerHTML =
+          "이름: " +
           protected_name[i] +
-          " : " +
+          "<br>" +
+          "아이디: " +
           protected_id[i] +
-          " : " +
+          "<br>" +
+          "생일: " +
           protected_birthday[i] +
-          " : 안전관리자";
+          "<br>" +
+          "직군: 안전관리자";
         box.id = "protected" + i.toString();
 
         remove_btn = document.createElement("button");
-        remove_btn.textContent = "삭제";
+        remove_btn.classList.add("remove_btn");
+        remove_btn.textContent = "X";
         remove_btn.setAttribute("id", protected_id[i]);
         remove_btn.setAttribute("typed", "protected");
         remove_btn.onclick = function () {
@@ -592,8 +623,9 @@ function manage_user() {
             xhr.send(data);
           }
         };
-        li_div.appendChild(box);
         li_div.appendChild(remove_btn);
+        li_div.appendChild(self_Pic);
+        li_div.appendChild(box);
         document.getElementById("worker_nemo").appendChild(li_div);
         loading_modal.style.zIndex = -2;
         loader.style.display = "none";

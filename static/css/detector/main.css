@@ -235,9 +235,51 @@ body {
 }
 
 .worker_box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 23%;
+  height: 55%;
   font-size: 130%;
-  padding-left: 2%;
-  flex-direction: row;
+  margin-top: 0.5%;
+  margin-left: 1.7%;
+  border: 2px solid #000000;
+}
+
+.remove_btn {
+  display: flex;
+  justify-content: center;
+  margin-top:3%;
+  width:13%;
+  height:11%;
+  font-size:100%;
+  border-radius: 5px;
+  background-color: white;
+  border-color: #FF3232;
+  color:#C83232;
+}
+.remove_btn:hover {
+  background-color: #FF3232;
+  border-color: #C83232;
+  color: white;
+}
+
+.self_Pic {
+  display:flex;
+  justify-content: center;
+  margin-top: 2%;
+  margin-bottom: 2%;
+  width:60%;
+  height:50%;
+  border: 2px solid #000000;
+}
+
+.worker_info{
+  display:flex;
+  text-align: left;
+  width:60%;
+  height:35%;
+  font-size: 90%;
 }
 
 .worker_nemo {
@@ -245,6 +287,7 @@ body {
   padding-top: 0.5%;
   overflow-y: scroll;
   overflow-x: hidden;
+  flex-wrap: wrap;
   width: 94%;
   height: 78%;
   border: 1px solid #a3a2a2;
@@ -282,6 +325,7 @@ body {
 }
 
 .worker_button input[type="button"] {
+  margin-top:1.3%;
   text-align: center;
   align-items: center;
   width: 158px;
@@ -291,7 +335,6 @@ body {
   color: #1a73e8;
   font-size: 22px;
   font-weight: bold;
-  border-radius: 10px;
 }
 
 .worker_button input[type="button"]:hover {
