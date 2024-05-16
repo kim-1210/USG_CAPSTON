@@ -70,6 +70,10 @@ html {
     font-weight: bold;
     font-size: 18px;
 } */
+.list-table {
+  overflow-y: auto;
+  max-height: 100vh;
+}
 
 td {
   box-sizing: border-box;

@@ -286,6 +286,11 @@ body {
   color: white;
 }
 
+.table {
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
 .worker_button input[type="button"] {
   text-align: center;
   align-items: center;
