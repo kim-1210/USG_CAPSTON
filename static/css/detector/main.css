@@ -252,7 +252,7 @@ body {
   margin-top:3%;
   width:13%;
   height:11%;
-  font-size:100%;
+  font-size:2.5vmin;
   border-radius: 5px;
   background-color: white;
   border-color: #FF3232;
@@ -274,12 +274,17 @@ body {
   border: 2px solid #000000;
 }
 
+.self_img {
+  width:100%;
+  height:auto;
+}
+
 .worker_info{
   display:flex;
   text-align: left;
   width:60%;
   height:35%;
-  font-size: 90%;
+  font-size: 2.3vmin;
 }
 
 .worker_nemo {
@@ -379,8 +384,11 @@ body {
 
   td {
     text-align: center;
-
     height: 1px;
+  }
+
+  tbody tr:nth-child(odd) {  
+    background-color: #F2F2F2;
   }
 }
 
@@ -395,6 +403,10 @@ body {
     text-align: center;
 
     height: 1px;
+  }
+
+  tbody tr:nth-child(odd) {  
+    background-color: #F2F2F2;
   }
 }
 

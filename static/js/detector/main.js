@@ -512,7 +512,8 @@ function manage_user() {
         self_Pic.classList.add("self_Pic");
 
         self_img = document.createElement("img");
-        //self_img.src = "/static/images/img.png";
+        self_img.classList.add("self_img");
+        self_img.src = "/static/images/img.png";
 
 
         self_Pic.appendChild(self_img);
@@ -576,6 +577,7 @@ function manage_user() {
         self_Pic.classList.add("self_Pic");
 
         self_img = document.createElement("img");
+        self_img.classList.add("self_img");
         self_img.src = "/static/images/img.png";
 
 
