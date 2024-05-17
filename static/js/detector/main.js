@@ -465,26 +465,28 @@ function register() {
   var password = document.getElementById("pw").value;
   var birthday = year + month + day;
 
-  var xhr = new XMLHttpRequest(); //flask에 요청
-  xhr.open("POST", "/create_user", true);
-  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState === 4 && xhr.status === 200) {
-      console.log("데이터 전송 완료");
-      alert_text = JSON.parse(xhr.responseText);
-      cancel();
-      alert(alert_text.result_alert);
-    }
-  };
-  var data = JSON.stringify({
-    corporation: corporation,
-    typed: typed,
-    id: id,
-    password: password,
-    name: name,
-    birthday: birthday,
-  });
-  xhr.send(data);
+  if (name.length != 0 && id.length != 0 && password.length != 0 && birthday.length != 0) {
+    var xhr = new XMLHttpRequest(); //flask에 요청
+    xhr.open("POST", "/create_user", true);
+    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+        console.log("데이터 전송 완료");
+        alert_text = JSON.parse(xhr.responseText);
+        cancel();
+        alert(alert_text.result_alert);
+      }
+    };
+    var data = JSON.stringify({
+      corporation: corporation,
+      typed: typed,
+      id: id,
+      password: password,
+      name: name,
+      birthday: birthday,
+    });
+    xhr.send(data);
+  }
 }
 
 function manage_user() {
@@ -511,7 +513,7 @@ function manage_user() {
 
         self_img = document.createElement("img");
         //self_img.src = "/static/images/img.png";
-        
+
 
         self_Pic.appendChild(self_img);
 
@@ -521,12 +523,12 @@ function manage_user() {
           "이름: " +
           worked_name[i] +
           "<br>" +
-           "아이디: " +
+          "아이디: " +
           worked_id[i] +
           "<br>" +
           "생일: " +
           worked_birthday[i] +
-          "<br>"+
+          "<br>" +
           "직군: 현장직";
         box.id = "worked" + i.toString();
 
@@ -575,7 +577,7 @@ function manage_user() {
 
         self_img = document.createElement("img");
         self_img.src = "/static/images/img.png";
-        
+
 
         self_Pic.appendChild(self_img);
 

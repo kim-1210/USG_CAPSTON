@@ -39,6 +39,10 @@ xhr.onreadystatechange = function () {
       newRow.appendChild(newCell3);
       tbody.appendChild(newRow);
     }
+
+    setTimeout(() => {
+      $('.loadingbox').fadeOut();
+    }, 500);
   }
 };
 

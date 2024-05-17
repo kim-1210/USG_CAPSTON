@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,12 +10,13 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR&display=swap" rel="stylesheet">
     <title>메인 홈페이지</title>
-    <script 
-        src="https://kit.fontawesome.com/9f8bb06fc7.js" 
-        crossorigin="anonymous"
-    ></script>
+    <script src="https://kit.fontawesome.com/9f8bb06fc7.js" crossorigin="anonymous"></script>
 </head>
+
 <body>
+    <div class="loadingbox">
+        <div class="loader"></div>
+    </div>
     <div class="logo">
         <div class="slidemenu">
             <input type="checkbox" id="slidemenuicon">
@@ -36,15 +38,15 @@
                 </ul>
             </div>
         </div>
-        
+
         <div class="logoText">
-            <span id = "helmet"><i class="fa-solid fa-helmet-safety"></i></span>
-            <span id = "text">산업안전진단</span>
+            <span id="helmet"><i class="fa-solid fa-helmet-safety"></i></span>
+            <span id="text">산업안전진단</span>
         </div>
     </div>
 
-    <span class = block1></span>
-    <span class = block2></span>
+    <span class=block1></span>
+    <span class=block2></span>
 
     <!-- 한국산업안전보건공단 사고사망속보 API넣어줘 ㅠㅠ-->
 
@@ -53,19 +55,19 @@
         <div class="cover">
             <span id="text1">잊어버린건 없으신가요?</span>
             <span id="text2">한 순간의 선택 </span>
-            <span id="text3"><span id = color1>생명</span>을 <span id = color2>위협</span>합니다. </span>
+            <span id="text3"><span id=color1>생명</span>을 <span id=color2>위협</span>합니다. </span>
         </div>
     </div>
 
     <div class="mainbody">
         <div class="selectmenu1">
             <button id="btn1" onclick="send_suggest()">
-                <span id = "btn1_text"><i class="fa-solid fa-camera"></i><br>작업 촬영</span>
+                <span id="btn1_text"><i class="fa-solid fa-camera"></i><br>작업 촬영</span>
             </button>
         </div>
         <div class="selectmenu2">
             <button id="btn2" onclick="show_list()">
-                <span id = "btn2_text"><i class="fa-solid fa-list-ul"></i><br>건의사항 리스트</span>
+                <span id="btn2_text"><i class="fa-solid fa-list-ul"></i><br>건의사항 리스트</span>
             </button>
             </button>
         </div>
@@ -80,10 +82,10 @@
                     </div>
                 </div>
                 <div class="popuplogo">
-                    <span id="app"> 
-                        작업에 맞는 복장을<br> 
+                    <span id="app">
+                        작업에 맞는 복장을<br>
                         입지 않고 작업 하시다<br>
-                        사고를 당하시는 경우가<br> 
+                        사고를 당하시는 경우가<br>
                         많아 사고를 줄이는데<br>
                         도움이 되기 위해 <br>
                         개발하게 되었습니다.</span>
@@ -93,6 +95,7 @@
     </div>
 
     <script src="{{url_for('static', filename='js/safe_detector/main.js')}}"></script>
-    
+
 </body>
+
 </html>

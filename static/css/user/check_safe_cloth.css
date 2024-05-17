@@ -7,12 +7,18 @@ html {
 }
 
 .container {
-    position: relative; /* .loading과 상대적으로 위치하도록 설정 */
+    position: fixed; /* .loading과 상대적으로 위치하도록 설정 */
     z-index: 1;
     width: 100%;
     height: 100%;
 }
-
+.loadingbox{
+    position: fixed;
+    background-color: rgba(155, 155, 155, 0.8);
+    width: 100%;
+    height: 100%;
+    z-index: 10000;
+}
 .loader {
     border: 12px solid #f3f3f3; /* Light grey */
     border-top: 12px solid #FFA500; /* Blue */
@@ -26,7 +32,6 @@ html {
     top:50%;
     left:50%;
     transform:translate(-50%,-50%);
-    z-index: 10000;
   }
   
   @keyframes spins {
@@ -88,17 +93,19 @@ html {
     /*건들지마*/
     margin-top: 10%;
     margin-left: 12%;
-    width: 75%;
+    width: 90%;
     height: 85%;
     display: none;
 }
 
 img.result-image {
     /*영상 디자인*/
-    margin-top: 10%;
-    margin-left: 12%;
-    width: 75%;
-    height: 85%;
+    margin-top: 3%;
+    margin-left: 4%;
+    width: 92%;
+    height: 95%;
+    border-radius: 20px;
+    border: 3px solid #FFA500; 
 }
 
 div.bounding-box {

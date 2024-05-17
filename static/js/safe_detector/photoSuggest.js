@@ -126,6 +126,7 @@ function upload() { //건의사항 업로드
 }
 
 function ai_check() {
+    $('.loadingbox').fadeIn();
     if (target_img !== null) {
         const xhr = new XMLHttpRequest();
         xhr.open("POST", "/get_img_ai_check", true);
@@ -144,6 +145,7 @@ function ai_check() {
                 container.appendChild(newImage)
                 target_img = newImage.src
                 alert("검사를 완료하였습니다.")
+                $('.loadingbox').fadeOut();
             }
         };
 
@@ -151,7 +153,7 @@ function ai_check() {
         xhr.send(JSON.stringify(data));
     }
     else{
-        alert("이미지를 넣어주세요.")
+        alert("올바른 이미지를 넣어주세요.")
     }
 }
 

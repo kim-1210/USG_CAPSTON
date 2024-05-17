@@ -200,7 +200,6 @@ def get_manage_user():
 def get_img_ai_check():
     datas = request.json
     imgs = datas.get('image', '')
-    print("asdadd")
     img, _ = ai.img_ai_check(imgs)
     return jsonify({'img' : img})
 

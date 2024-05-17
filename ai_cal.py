@@ -11,7 +11,7 @@ import cv2
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
-model = torch.hub.load('./ai/yolov5', 'custom', path='./ai/safty_models4/weights/best.pt', source='local')
+model = torch.hub.load('./ai/yolov5', 'custom', path='./ai/safty_modeling/weights/best.pt', source='local')
 labeling = ['Gloves', 'Helmet', 'Non-Helmet', 'Person', 'Shoes', 'Vest', 'bare-arms']
 def ok_check(detecting_list):
     result = ''
@@ -36,7 +36,7 @@ def process_image(image_data):
     for box in result.xyxy[0]:
         x1, y1, x2, y2, score, label = box.tolist()
         detecting_name.append(labeling[int(label)])
-        if labeling[int(label)] != 'Non-Helmet':
+        if labeling[int(label)] != 'Non-Helmet' and labeling[int(label)] != 'Shoes' and labeling[int(label)] != 'bare-arms' and labeling[int(label)] != 'Gloves':
             x1, y1, x2, y2 = int(x1), int(y1), int(x2), int(y2)  # 바운딩 박스 좌표를 정수형으로 변환
             cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 0, 255), 2)  # 바운딩 박스 그리기
             #label_text = f'{labeling[int(label)]}'  # 정수로 변환한 label을 사용하여 labeling 리스트에서 해당하는 클래스명 가져오기

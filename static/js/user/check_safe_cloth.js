@@ -23,14 +23,16 @@ async function startCamera() {
         const bitmap = await imageCapture.grabFrame();
         const context1 = video.getContext('2d');
         context1.drawImage(bitmap, 0, 0, video.width, video.height);
-        $('.loadingbox').fadeOut();
+        setTimeout(() => {
+            $('.loadingbox').fadeOut();
+          }, 400);
     }
     catch (error) {
         alert("카메라가 없습니다.")
     }
 }
 
-setInterval(startCamera, 1000);
+setInterval(startCamera, 500);
 // 이미지 전송 함수
 function sendImageToServer(imageData) {
     const xhr = new XMLHttpRequest();
@@ -67,7 +69,7 @@ function captureFrame() {
 }
 
 // 프레임 캡처 주기 설정 (3초에 한 번)
-setInterval(captureFrame, 1000);
+setInterval(captureFrame, 500);
 
 function checking(result_str) { //출석 요청
     console.log(result_str)

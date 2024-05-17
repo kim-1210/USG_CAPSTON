@@ -4,6 +4,10 @@ var corporation = urlParams.get('corporation');
 var user_id = urlParams.get('id');
 var user_name = urlParams.get('name');
 
+setTimeout(() => {
+    $('.loadingbox').fadeOut();
+  }, 500);
+
 document.querySelector('.appearlabel').addEventListener('click',
     function Show_Hide(e) {
         e.stopPropagation(); // 부모(slidemenu) 클릭 이벤트를 방지.

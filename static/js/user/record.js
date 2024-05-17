@@ -18,5 +18,7 @@ function main() {
 }
 
 $(window).load(function(){
-    $('.loadingbox').fadeOut();
+    setTimeout(() => {
+        $('.loadingbox').fadeOut();
+      }, 500);
 });

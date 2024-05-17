@@ -14,6 +14,6 @@ function user_record(){
     location.href = '/user/record' + queryString;
 }
 
-$(window).load(function(){
+setTimeout(() => {
     $('.loadingbox').fadeOut();
-});
+  }, 500);

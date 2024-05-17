@@ -29,6 +29,8 @@ xhr.onreadystatechange = function () {
 };
 xhr.send();
 
+var c_cnt = 0
+
 function login() {
     var corporation_name = document.getElementById('corporation_drop').value;
     var id = document.getElementById('idinput').value;
@@ -40,15 +42,24 @@ function login() {
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             result = JSON.parse(xhr.responseText);
-            if(result.result == true){
+            if (result.result == true) {
                 var queryString = '?corporation=' + encodeURIComponent(corporation_name) + '&name=' + encodeURIComponent(result.name);
-                location.href='/detector/main' + queryString;
+                location.href = '/detector/main' + queryString;
             }
-            else{
+            else {
                 alert('로그인 실패!!')
             }
         }
+        else {
+            c_cnt += 1
+            if (c_cnt == 3) {
+                document.getElementById('idinput').value = "";
+                document.getElementById('pwinput').value = "";
+                alert("아이디 및 비밀번호를 다시 한번 확인해주세요.")
+                c_cnt = 0;
+            }
+        }
     };
-    var data = JSON.stringify({'corporation' : corporation_name, 'id' : id, 'password' : pw});
+    var data = JSON.stringify({ 'corporation': corporation_name, 'id': id, 'password': pw });
     xhr.send(data);
 }
