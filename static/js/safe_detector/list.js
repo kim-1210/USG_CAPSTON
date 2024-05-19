@@ -4,6 +4,10 @@ var corporation = urlParams.get("corporation");
 var user_id = urlParams.get("id");
 var user_name = urlParams.get("name");
 
+setTimeout(() => {
+  $('.loadingbox').fadeOut();
+}, 500);
+
 var xhr = new XMLHttpRequest(); //flask에 요청
 xhr.open("POST", "/get_safe_suggest", true);
 xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");

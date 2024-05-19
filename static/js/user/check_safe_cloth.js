@@ -28,7 +28,7 @@ async function startCamera() {
           }, 400);
     }
     catch (error) {
-        alert("카메라가 없습니다.")
+       alert("카메라가 없습니다.")
     }
 }
 
@@ -76,7 +76,7 @@ function checking(result_str) { //출석 요청
     if (result_str.includes('Person') == true) { //사람이 있다.
         console.log("사람성공")
         if (result_str.includes('Non-Helmet') == false && result_str.includes('NoVest') == false) {
-            console.log("없음성공")
+            console.log("없음성공")      
             if (result_str.includes('Helmet') == true && result_str.includes('Vest') == true) {
                 console.log("출석성공")
                 var xhr = new XMLHttpRequest();
@@ -90,8 +90,15 @@ function checking(result_str) { //출석 요청
                         main();
                     }
                 };
+                const text =document.getElementById('bottomtext');
+                text.innerHTML='출석 완료 <br> 안전한 하루 되십시오';
                 xhr.send(JSON.stringify({ 'corporation': corporation, 'id': id, 'check' : 'O' }));
+                
             }
+        }
+        else{
+            const text =document.getElementById('bottomtext');
+            text.innerHTML='알맞은 복장을 <br> 착용해 주세요';
         }
     }
 }
@@ -101,3 +108,7 @@ function main() {
     location.href = '/user/main' + queryString;
 }
 
+
+$(window).load(function(){
+    $('.loadingbox').fadeOut();
+});
