@@ -34,7 +34,7 @@ xhr.onreadystatechange = function () {
         });
         year_drop_down.selectedIndex = 0;
 
-        for(var i = 1; i<=12; i++){
+        for (var i = 1; i <= 12; i++) {
             op = document.createElement('option');
             op.text = i + " 월";
             op.value = i;
@@ -46,7 +46,7 @@ xhr.onreadystatechange = function () {
 };
 xhr.send(JSON.stringify({ corporation: corporation }));
 
-function find_checked_date(){
+function find_checked_date() {
     $('.loadingbox').fadeIn();
     year_drop_down = document.getElementById('year_drop_down');
     year = year_drop_down.options[year_drop_down.selectedIndex].value;
@@ -60,8 +60,24 @@ function find_checked_date(){
             var responseData = JSON.parse(xhr1.responseText);
             var date_data = responseData.excel_data;
             document.getElementById('date_show').innerHTML = date_data;
+
+            var temp1 = document.getElementById('date_show').querySelectorAll('thead th');
+
+            temp1.forEach(function (header) {
+                if (header.textContent === 'name') {
+                    header.textContent = "이름";
+                } else if (header.textContent === 'id') {
+                    header.textContent = "아이디";
+                } else if (header.textContent === 'check') {
+                    header.textContent = "출근 상태";
+                } else if (header.textContent === 'check_time') {
+                    header.textContent = "출근 시간";
+                } else if (header.textContent === 'day') {
+                    header.textContent = "일";
+                }
+            });
             $('.loadingbox').fadeOut();
         }
     };
-    xhr1.send(JSON.stringify({ corporation: corporation, year : year, month : month, id : id }));
+    xhr1.send(JSON.stringify({ corporation: corporation, year: year, month: month, id: id }));
 }

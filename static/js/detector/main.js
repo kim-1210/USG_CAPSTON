@@ -296,7 +296,22 @@ function show_day() {
 
         var table_html = add_html.today_excel;
         var tempElement = document.createElement("div");
+        console.log(table_html)
         tempElement.innerHTML = table_html;
+        var temp1 = tempElement.querySelectorAll('thead th');
+
+        temp1.forEach(function(header) {
+          if (header.textContent === 'name') {
+            header.textContent = "이름";
+          } else if (header.textContent === 'id') {
+            header.textContent = "아이디";
+          } else if (header.textContent === 'check') {
+            header.textContent = "출근 상태";
+          } else if (header.textContent === 'check_time') {
+            header.textContent = "출근 시간";
+          }
+        });
+        
         var xCells = tempElement.querySelectorAll("td");
         var tableRows = tempElement.querySelectorAll("tr");
         per_O_X = [];
@@ -436,6 +451,21 @@ function show_excel() {
         add_html = JSON.parse(xhr.responseText);
         var modifiedData = add_html.excel_data.replace(/dataframe/g, "allday");
         document.getElementById("day_nemo").innerHTML += modifiedData;
+        var temp1 = document.getElementById("day_nemo").querySelectorAll('thead th');
+
+        temp1.forEach(function(header) {
+          if (header.textContent === 'name') {
+            header.textContent = "이름";
+          } else if (header.textContent === 'id') {
+            header.textContent = "아이디";
+          } else if (header.textContent === 'check') {
+            header.textContent = "출근 상태";
+          } else if (header.textContent === 'check_time') {
+            header.textContent = "출근 시간";
+          } else if (header.textContent === 'day') {
+            header.textContent = "일";
+          }
+        });
         loading_modal.style.zIndex = -2;
         loader.style.display = "none";
       }
