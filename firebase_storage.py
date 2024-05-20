@@ -187,7 +187,6 @@ def get_all_excel(corporation, year, month, user = 'all'): #달 마다의 데이
         if user != '전체':
             table_excel = table_excel.loc[table_excel['id'] == user]
         html_transfer = table_excel.to_html()
-        print(html_transfer)
         return html_transfer
     except Exception as err:
         print("찾지못함")
@@ -246,6 +245,7 @@ def get_year_file(corporation): #년도 가져오기
     for i in file_list:
         if 'today' not in i:
             send_list.append(i.replace('.xlsx', ''))
+    print(send_list)
     return send_list
 
 def get_safe_detail(corporation, id, cnt): #안전관리자 앱 - 리스트
