@@ -26,44 +26,12 @@
         </div>
         <span class=block1></span>
         <span class=block2></span>
-
-        <div class="monthBox">
-            <select id="workmonth" name="workmonth"></select>
-        </div>
-
-        <div class="calendar" id="calendar">
-            <div class="calendar_day" id="1">1<span class="cal_check" id="c_c1">O</span></div>
-            <div class="calendar_day" id="2">2<span class="cal_check" id="c_c2">X</span></div>
-            <div class="calendar_day" id="3">3</div>
-            <div class="calendar_day" id="4">4</div>
-            <div class="calendar_day" id="5">5</div>
-            <div class="calendar_day" id="6">6</div>
-            <div class="calendar_day" id="7">7</div>
-            <div class="calendar_day" id="8">8</div>
-            <div class="calendar_day" id="9">9</div>
-            <div class="calendar_day" id="10">10</div>
-            <div class="calendar_day" id="11">11</div>
-            <div class="calendar_day" id="12">12</div>
-            <div class="calendar_day" id="13">13</div>
-            <div class="calendar_day" id="14">14</div>
-            <div class="calendar_day" id="15">15</div>
-            <div class="calendar_day" id="16">16</div>
-            <div class="calendar_day" id="17">17</div>
-            <div class="calendar_day" id="18">18</div>
-            <div class="calendar_day" id="19">19</div>
-            <div class="calendar_day" id="20">20</div>
-            <div class="calendar_day" id="21">21</div>
-            <div class="calendar_day" id="22">22</div>
-            <div class="calendar_day" id="23">23</div>
-            <div class="calendar_day" id="24">24</div>
-            <div class="calendar_day" id="25">25</div>
-            <div class="calendar_day" id="26">26</div>
-            <div class="calendar_day" id="27">27</div>
-            <div class="calendar_day" id="28">28</div>
-            <div class="calendar_day" id="29">29</div>
-            <div class="calendar_day" id="30">30</div>
-            <div class="calendar_day" id="31">31</div>
-        </div>
+        <select id="year_drop_down">
+        </select>
+        <select id="month_drop_down">
+        </select>
+        <input type="button" value="출력" onclick="find_checked_date()">
+        <div id="date_show" style="width: 50%; height: 50%;"></div>
     </div>
 
     <script src="{{url_for('static', filename='js/user/record.js')}}"></script>
