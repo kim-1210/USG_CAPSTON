@@ -2,8 +2,13 @@ var queryString = window.location.search;
 var urlParams = new URLSearchParams(queryString);
 var corporation = urlParams.get('corporation');
 var id = urlParams.get('id');
-var name = urlParams.get('name');
+var name1 = urlParams.get('name');
 const currentDate = new Date();
+
+function main() {
+    var queryString = '?corporation=' + encodeURIComponent(corporation) + '&id=' + encodeURIComponent(id) + '&name=' + encodeURIComponent(name1);
+    location.href = '/user/main' + queryString;
+}
 
 var xhr = new XMLHttpRequest(); //flask에 요청
 xhr.open("POST", "/get_year_file", true);
@@ -36,17 +41,10 @@ xhr.onreadystatechange = function () {
             month_drop_down.appendChild(op);
         }
         month_drop_down.selectedIndex = month - 1;
-
-        console.log("년도 : " + year_list + " 달 : " + month);
         find_checked_date();
     }
 };
 xhr.send(JSON.stringify({ corporation: corporation }));
-
-function main() {
-    var queryString = '?corporation=' + encodeURIComponent(corportion) + '&id=' + encodeURIComponent(id) + '&name=' + encodeURIComponent(name);
-    location.href = '/user/main' + queryString;
-}
 
 function find_checked_date(){
     $('.loadingbox').fadeIn();
@@ -61,7 +59,6 @@ function find_checked_date(){
         if (xhr1.readyState === 4 && xhr1.status === 200) {
             var responseData = JSON.parse(xhr1.responseText);
             var date_data = responseData.excel_data;
-            console.log(date_data)
             document.getElementById('date_show').innerHTML = date_data;
             $('.loadingbox').fadeOut();
         }
