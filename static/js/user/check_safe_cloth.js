@@ -53,7 +53,9 @@ function sendImageToServer(imageData) {
             var resultImage = document.getElementById('resultImage');
             resultImage.src = 'data:image/jpeg;base64,' + responseData.result_image;
             var checking_reslut = responseData.result_check;
-            checking(checking_reslut);
+            if(checking_reslut.length > 0){
+                checking(checking_reslut);
+            }
 
         }
     };

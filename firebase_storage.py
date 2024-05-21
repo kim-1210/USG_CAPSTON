@@ -15,6 +15,7 @@ import time
 import hashlib #비밀번호 해쉬화
 import numpy as np
 import base64
+from filelock import FileLock, Timeout
 #형식
 #corporation/user/type/id => {password, name, birthday}
 #corporation/detector/id => {password, name}
@@ -113,7 +114,7 @@ def detector_login(corporation, id, password): #관리자 로그인
     try:
         id_dict = db.child(corporation).child('detector').child(id).get()
         information_dict = dict(id_dict.val())
-        hash_password = password
+        hash_password = hashlib.sha256(password.encode()).hexdigest()
         if hash_password == information_dict['password']:
             print('로그인 성공!')
             return True, information_dict['name']
@@ -124,7 +125,7 @@ def detector_login(corporation, id, password): #관리자 로그인
         print('로그인에 실패했습니다.')
         return False
 
-def check_today(corporation, id, enter_value): #출석하기
+def check_def(corporation, id, enter_value):
     try:
         table_excel = pd.read_excel(f'./corporation_excel/{corporation}/today.xlsx')
         table_excel.loc[table_excel['id'] == id, 'check'] = enter_value
@@ -139,6 +140,20 @@ def check_today(corporation, id, enter_value): #출석하기
             return '출근을 취소하였습니다.'
     except Exception as err:
         return '장비 충족 실패'
+
+def check_today(corporation, id, enter_value): #출석하기
+    path = f'./corporation_excel/{corporation}/today.xlsx'
+    lock_path = f'{path}.lock'
+    return_answer = ''
+    while True:
+        try:
+            with FileLock(lock_path): #잠금을 거므로써 병목현상 제거
+                return_answer = check_def(corporation, id, enter_value)
+            break
+        except Timeout:
+                # Timeout 예외가 발생하면 잠금을 얻을 때까지 반복
+            continue
+    return return_answer
 
 def new_date(): #다음날이 되면 excel에 넣고 새로 뽑기
     file_list = os.listdir('./corporation_excel/')
