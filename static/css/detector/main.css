@@ -379,12 +379,10 @@ body {
   th {
     text-align: center;
     width: 200px;
-    height: 30px;
   }
 
   td {
     text-align: center;
-    height: 1px;
   }
 
   tbody tr:nth-child(odd) {  
@@ -393,6 +391,8 @@ body {
 }
 
 .allday {
+  height:1px;
+  
   th {
     text-align: center;
     width: 200px;
@@ -401,8 +401,6 @@ body {
 
   td {
     text-align: center;
-
-    height: 1px;
   }
 
   tbody tr:nth-child(odd) {  
