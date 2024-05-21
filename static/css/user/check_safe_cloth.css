@@ -19,7 +19,7 @@ html {
     background-color: rgba(155, 155, 155, 0.8);
     width: 100%;
     height: 100%;
-    z-index: 10000;
+    z-index: 100001;
 }
 .loader {
     border: 12px solid #f3f3f3; /* Light grey */
@@ -144,4 +144,24 @@ div.bounding-box {
     position: absolute;
     border: 2px solid red;
     display: none;
+}
+
+.explain_modal{
+    position: fixed;
+    z-index: 100000;
+    background-color: rgba(164, 157, 157, 0.6);
+    width: 100%;
+    height: 100%;
+    display: none;
+}
+.explain_window{
+    position: fixed;
+    width: 60%;
+    height: 20%;
+    background-color: rgb(185, 185, 185);
+    border-radius: 20px;
+    margin-left: 20%;
+    margin-top: 50%;
+    text-align: center;
+    padding-top: 10%;
 }

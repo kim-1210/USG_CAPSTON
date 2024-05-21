@@ -26,12 +26,12 @@
         </div>
         <span class=block1></span>
         <span class=block2></span>
-        <select id="year_drop_down">
+        <select id="year_drop_down" style="margin-left: 30%; width: 20%; height: 15%;">
         </select>
-        <select id="month_drop_down">
+        <select id="month_drop_down" style="width: 15%; height: 15%;">
         </select>
         <input type="button" value="출력" onclick="find_checked_date()">
-        <div id="date_show" style="width: 50%; height: 50%;"></div>
+        <div id="date_show" style="width: 100%; height: auto; overflow-y: auto; margin-top: 3%; margin-left: 10%;"></div>
     </div>
 
     <script src="{{url_for('static', filename='js/user/record.js')}}"></script>

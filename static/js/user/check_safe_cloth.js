@@ -8,7 +8,7 @@ const context = canvas.getContext('2d');
 const video = document.getElementById('video'); //element는 canvas다 
 
 let stream;
-
+var one_play = 0;
 async function startCamera() {
     try {
 
@@ -25,7 +25,14 @@ async function startCamera() {
         context1.drawImage(bitmap, 0, 0, video.width, video.height);
         setTimeout(() => {
             $('.loadingbox').fadeOut();
+            if(one_play == 0){
+                one_play += 1;
+                document.getElementById('explain_modal').style.display = 'block';
+            }
           }, 400);
+        setTimeout(() => {
+            $('.explain_modal').fadeOut();
+          }, 3000);
     }
     catch (error) {
        alert("카메라가 없습니다.")
@@ -47,13 +54,7 @@ function sendImageToServer(imageData) {
             resultImage.src = 'data:image/jpeg;base64,' + responseData.result_image;
             var checking_reslut = responseData.result_check;
             checking(checking_reslut);
-            // // 바운딩 박스 표시
-            // var boundingBox = document.getElementById('boundingBox');
-            // var boundingBoxInfo = responseData.bounding_box;
-            // boundingBox.style.left = boundingBoxInfo[0] + 'px';
-            // boundingBox.style.top = boundingBoxInfo[1] + 'px';
-            // boundingBox.style.width = (boundingBoxInfo[2] - boundingBoxInfo[0]) + 'px';
-            // boundingBox.style.height = (boundingBoxInfo[3] - boundingBoxInfo[1]) + 'px';
+
         }
     };
 
@@ -107,8 +108,3 @@ function main() {
     var queryString = '?corporation=' + encodeURIComponent(corporation) + '&id=' + encodeURIComponent(id) + '&name=' + encodeURIComponent(name);
     location.href = '/user/main' + queryString;
 }
-
-
-$(window).load(function(){
-    $('.loadingbox').fadeOut();
-});
