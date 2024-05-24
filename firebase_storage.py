@@ -305,14 +305,18 @@ def get_manage_user(corporation): #이름이랑 id 출력
     return worked_id, worked_name, worked_birthday, protected_id, protected_name, protected_birthday
 
 def use_thread():
+    check = 0
     while True:
         date = datetime.datetime.now()
-        if date.hour == 0 and date.minute < 19:
+        if date.hour == 0 and date.minute < 19 and check == 0:
             new_date()
-        time.sleep(600000)
+            check = 1
+        elif date.hour >= 0 and date.minute > 19 and check == 1:
+            check = 0
+        time.sleep(300)
 
-# t = threading.Thread(target = use_thread) #다음 날이 되면 자동으로 new_date()가됨
-# t.start()
+t = threading.Thread(target = use_thread) #다음 날이 되면 자동으로 new_date()가됨
+t.start()
 
 # all_day
 # 일 / 이름 / id / 출근여부
