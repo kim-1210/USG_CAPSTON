@@ -1,9 +1,23 @@
-body{
+body,
+html{
     margin: 0;
     padding:0;
     width:100%;
     height: 100%;
+    
 }
+
+.main_screen{
+    position: fixed; /* .loading과 상대적으로 위치하도록 설정 */
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+
+
 .loadingbox{
     position: relative;
     background-color: rgba(145, 145, 145, 1);
@@ -71,43 +85,113 @@ body{
     background-color: #DCDCDC; 
 }
 
-.monthBox{
-    display: flex;
-    margin-top: 8%;
-    justify-content: center;
-    align-items: center;
+.date_select{
+    width:100%;
+    height:5%;
+    display: flex;               /* Flexbox 레이아웃 사용 */
+    justify-content: center;     /* 수평 정렬 */
+    align-items: center; 
+    gap:10px;
 }
-.monthBox select{
-    width: 20%;
-    padding : 2px;
-    padding-left: 5px;
-    border: none;
-    border-bottom: solid #aaaaaa 1px;
-    font-size: 20px;
+.ee{
+    background-color:  antiquewhite;
+    width:100%;
+    height: 90;
+    flex-grow: 1;
 }
 
-.calendar {
-    display: grid;
-    margin-top: 20%;
-    grid-template-columns: repeat(7, 14.3%);
-    border: 1px solid #a3a2a2;
-    border-width: 2px;
-    border-radius: 15px;
+#year_drop_down{
+    width: 80px;
+    border: 1px solid #C4C4C4;
+    box-sizing: border-box;
+    border-radius: 10px;
+    font-size: 14px;
+    line-height: 16px;  
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
-.calendar_day {
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    align-items: center;
-    border: 1px solid #a3a2a2;
-    border-width: 2px;
-    border-radius: 15px;
-    padding: 5px;
-    font-size: 12px;
+#month_drop_down{
+    width: 60px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border: 1px solid #C4C4C4;
+    box-sizing: border-box;
+    border-radius: 10px;
+    font-size: 14px;
+    line-height: 16px;  
 }
-.cal_check{
-    text-align: center;
-    align-items: center;
-    font-size: 20px;
+input[type="button"] {
+    width:80px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-radius: 10px;
+    border: 1px solid #C4C4C4;
+    background-color: #fff;
+    font-size:14px;
+}
+input[type="button"]:active{
+    width:80px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-radius: 10px;
+    border: 1px solid #C4C4C4;
+    background-color: #796d61;
+    color:white;
+    font-size:14px;
+}
+
+
+#date_show{
+    width: 100%; 
+    height:70%;
+    overflow-y:auto;
+    display: flex;               /* Flexbox 레이아웃 사용 */
+    justify-content: center;     /* 수평 정렬 */
+    align-items: flex-start;         /* 수직 정렬 (선택적) */
+}
+
+table {
+    font-size: 0.8em;
+    width: 90%;
+    border-style: hidden;
+    border-collapse: collapse;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,.25);
+
+  }
+  thead {
     font-weight: bold;
+    color: #fff;
+    background: #796d61;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+  }
+  td:first-child,
+  th:first-child{
+    border-top-left-radius: 5px;
+  }
+  td:last-child,
+  th:last-child{
+    border-top-right-radius: 5px;
+  }
+  tr{
+    border-radius: 5px;
+  }
+    
+   td, th {
+    text-align: center;
+    padding: .6em .4em;
+    vertical-align: middle;
+  }
+  td {
+     border-bottom: 1px solid rgba(0,0,0,.1);
+     background-color: #fff;
 }
+td:first-child{
+    border-bottom-left-radius: 5px;
+}
+td:last-child{
+border-bottom-right-radius: 5px;
+}
+
+  

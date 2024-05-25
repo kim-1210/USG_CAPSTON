@@ -24,15 +24,18 @@
             <span id="back" onclick="main()"><i class="fa-solid fa-chevron-left"></i></span>
             <span id="logotext">출근 기록</span>
         </div>
-        <span class=block1></span>
-        <span class=block2></span>
-        <select id="year_drop_down" style="margin-left: 30%; width: 20%; height: 15%;">
-        </select>
-        <select id="month_drop_down" style="width: 15%; height: 15%;">
-        </select>
-        <input type="button" value="출력" onclick="find_checked_date()">
-        <div id="date_show" style="width: 100%; height: auto; overflow-y: auto; margin-top: 3%; margin-left: 10%;"></div>
-    </div>
+        <div class="ee">
+            <span class=block1></span>
+            <span class=block2></span>
+            <div class ="date_select">
+                <select id="year_drop_down" >
+                </select>
+                <select id="month_drop_down">
+                </select>
+                <input type="button" value="출력" onclick="find_checked_date()">
+            </div>
+            <div id="date_show"></div>
+        </div>
 
     <script src="{{url_for('static', filename='js/user/record.js')}}"></script>
 </body>
