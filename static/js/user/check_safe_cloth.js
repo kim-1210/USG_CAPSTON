@@ -12,12 +12,14 @@ var one_play = 0;
 async function startCamera() {
     try {
 
-        stream = await navigator.mediaDevices.getUserMedia({ video: { 
-            width: { ideal: 1080 }, 
-            height: { ideal: 1920 },
-            facingMode: 'user',
-            bitrate: { ideal: 2000000 }
-        }  });
+        stream = await navigator.mediaDevices.getUserMedia({
+            video: {
+                width: { ideal: 1080 },
+                height: { ideal: 1920 },
+                facingMode: 'user',
+                bitrate: { ideal: 2000000 }
+            }
+        });
         const videoTrack = stream.getVideoTracks()[0];
         const imageCapture = new ImageCapture(videoTrack);
         const bitmap = await imageCapture.grabFrame();
@@ -25,17 +27,17 @@ async function startCamera() {
         context1.drawImage(bitmap, 0, 0, video.width, video.height);
         setTimeout(() => {
             $('.loadingbox').fadeOut();
-            if(one_play == 0){
+            if (one_play == 0) {
                 one_play += 1;
                 document.getElementById('explain_modal').style.display = 'block';
             }
-          }, 400);
+        }, 400);
         setTimeout(() => {
             $('.explain_modal').fadeOut();
-          }, 3000);
+        }, 3000);
     }
     catch (error) {
-       alert("카메라가 없습니다.")
+        alert("카메라가 없습니다.")
     }
 }
 
@@ -53,7 +55,7 @@ function sendImageToServer(imageData) {
             var resultImage = document.getElementById('resultImage');
             resultImage.src = 'data:image/jpeg;base64,' + responseData.result_image;
             var checking_reslut = responseData.result_check;
-            if(checking_reslut.length > 0){
+            if (checking_reslut.length > 0) {
                 checking(checking_reslut);
             }
 
@@ -79,7 +81,7 @@ function checking(result_str) { //출석 요청
     if (result_str.includes('Person') == true) { //사람이 있다.
         console.log("사람성공")
         if (result_str.includes('Non-Helmet') == false && result_str.includes('NoVest') == false) {
-            console.log("없음성공")      
+            console.log("없음성공")
             if (result_str.includes('Helmet') == true && result_str.includes('Vest') == true) {
                 console.log("출석성공")
                 var xhr = new XMLHttpRequest();
@@ -89,19 +91,19 @@ function checking(result_str) { //출석 요청
                     if (xhr.readyState === 4 && xhr.status === 200) {
                         var responseData = JSON.parse(xhr.responseText);
                         var dingdong = responseData.result_content;
+                        const text = document.getElementById('bottomtext');
+                        text.innerHTML = '출석 완료 <br> 안전한 하루 되십시오';
                         alert(dingdong)
                         main();
                     }
                 };
-                const text =document.getElementById('bottomtext');
-                text.innerHTML='출석 완료 <br> 안전한 하루 되십시오';
-                xhr.send(JSON.stringify({ 'corporation': corporation, 'id': id, 'check' : 'O' }));
-                
+                xhr.send(JSON.stringify({ 'corporation': corporation, 'id': id, 'check': 'O' }));
+
             }
         }
-        else{
-            const text =document.getElementById('bottomtext');
-            text.innerHTML='알맞은 복장을 <br> 착용해 주세요';
+        else {
+            const text = document.getElementById('bottomtext');
+            text.innerHTML = '알맞은 복장을 <br> 착용해 주세요';
         }
     }
 }

@@ -65,6 +65,11 @@ def detector_main():
     return render_template('./detector/main.html', corporation = corporation_name)
 
 #--------- 기능 ----------
+@app.route('/true_false_enter', methods=['POST'])
+def true_false_enter():
+    check_data = request.json
+    true_false_check, check_time = fs.true_false_enter(check_data.get('corporation'), check_data.get('id'))
+    return jsonify({'true_false_check' : true_false_check, 'check_time' : check_time})
 
 @app.route('/process_image', methods=['POST'])
 def process_image_route():

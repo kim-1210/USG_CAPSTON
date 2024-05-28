@@ -125,6 +125,14 @@ def detector_login(corporation, id, password): #관리자 로그인
         print('로그인에 실패했습니다.')
         return False
 
+def true_false_enter(corporation, id):
+    try:
+        table_excel = pd.read_excel(f'./corporation_excel/{corporation}/today.xlsx')
+        rr = table_excel[table_excel['id'] == id]
+        return rr['check'].values[0], rr['check_time'].values[0]
+    except Exception as err:
+        print("에러")
+
 def check_def(corporation, id, enter_value):
     try:
         table_excel = pd.read_excel(f'./corporation_excel/{corporation}/today.xlsx')
