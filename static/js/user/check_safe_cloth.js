@@ -41,6 +41,10 @@ async function startCamera() {
     }
 }
 
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 setInterval(startCamera, 500);
 // 이미지 전송 함수
 function sendImageToServer(imageData) {
@@ -48,17 +52,17 @@ function sendImageToServer(imageData) {
     xhr.open("POST", "/process_image", true);
     xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 
-    xhr.onreadystatechange = function () {
+    xhr.onreadystatechange = async  function () {
         if (xhr.readyState == 4 && xhr.status == 200) {
             // 서버에서의 응답 처리
             var responseData = JSON.parse(xhr.responseText);
             var resultImage = document.getElementById('resultImage');
             resultImage.src = 'data:image/jpeg;base64,' + responseData.result_image;
             var checking_reslut = responseData.result_check;
+            await sleep(1000); // 2초간 대기
             if (checking_reslut.length > 0) {
                 checking(checking_reslut);
             }
-
         }
     };
 
@@ -75,7 +79,8 @@ function captureFrame() {
 
 // 프레임 캡처 주기 설정 (3초에 한 번)
 setInterval(captureFrame, 500);
-
+var one_check = 0;
+var pre_texting = "";
 function checking(result_str) { //출석 요청
     console.log(result_str)
     if (result_str.includes('Person') == true) { //사람이 있다.
@@ -83,22 +88,32 @@ function checking(result_str) { //출석 요청
         if (result_str.includes('Non-Helmet') == false && result_str.includes('NoVest') == false) {
             console.log("없음성공")
             if (result_str.includes('Helmet') == true && result_str.includes('Vest') == true) {
-                console.log("출석성공")
-                var xhr = new XMLHttpRequest();
-                xhr.open("POST", "/check_today", true);
-                xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-                xhr.onreadystatechange = function () {
-                    if (xhr.readyState === 4 && xhr.status === 200) {
-                        var responseData = JSON.parse(xhr.responseText);
-                        var dingdong = responseData.result_content;
-                        const text = document.getElementById('bottomtext');
-                        text.innerHTML = '출석 완료 <br> 안전한 하루 되십시오';
-                        alert(dingdong)
-                        main();
-                    }
-                };
-                xhr.send(JSON.stringify({ 'corporation': corporation, 'id': id, 'check': 'O' }));
-
+                if (pre_texting == result_str) {
+                    console.log("출석성공")
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("POST", "/check_today", true);
+                    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState === 4 && xhr.status === 200) {
+                            if (one_check == 0) {
+                                var responseData = JSON.parse(xhr.responseText);
+                                var dingdong = responseData.result_content;
+                                const text = document.getElementById('bottomtext');
+                                text.innerHTML = '출석 완료 <br> 안전한 하루 되십시오';
+                                alert(dingdong)
+                                main();
+                            }
+                            if (one_check > 2) {
+                                one_check = 0;
+                            }
+                            one_check += 1
+                        }
+                    };
+                    xhr.send(JSON.stringify({ 'corporation': corporation, 'id': id, 'check': 'O' }));
+                }
+                else {
+                    pre_texting = result_str;
+                }
             }
         }
         else {
