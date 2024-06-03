@@ -290,6 +290,27 @@ def get_safe_suggest(corporation, id): #건의 사항 리스트 출력
     dates = re_table['date'].to_list()
     return titles , contents, dates
 
+def get_location(corporation):
+    location = db.child(corporation).child('location').get().val()
+    lat = 0
+    long = 0
+    cnt = 0
+    for i, k in location.items():
+        if cnt == 0:
+            lat = k
+        else:
+            long = k
+        cnt += 1
+    return lat, long
+
+def set_location(corporation, long, lat):
+    location = db.child(corporation).child('location')
+    location.update({
+        'latitude' : lat,
+        'longitude' : long
+    })
+
+
 def get_manage_user(corporation): #이름이랑 id 출력
     worked = db.child(corporation).child('user').child('worked').get().val()
     protected = db.child(corporation).child('user').child('protected').get().val()

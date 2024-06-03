@@ -9,6 +9,8 @@ var per_O_X = [];
 
 var loading_modal = document.getElementById("loading_modal");
 var loader = document.getElementById("loader");
+var latitude;
+var longitude;
 
 $(document).ready(function () {
   list_change();
@@ -184,6 +186,7 @@ function list_change() {
     document.getElementById("list_contents").style.display = "block";
     document.getElementById("check_calender").style.display = "none";
     document.getElementById("workerBox").style.display = "none";
+    document.getElementById("enter_location").style.display = "none";
     show_list();
 
     if (per_timer != null) {
@@ -194,11 +197,20 @@ function list_change() {
     document.getElementById("list_contents").style.display = "none";
     document.getElementById("check_calender").style.display = "block";
     document.getElementById("workerBox").style.display = "none";
+    document.getElementById("enter_location").style.display = "none";
     show_day();
+  }
+  else if (document.getElementById("menu5").checked) {
+    document.getElementById("list_contents").style.display = "none";
+    document.getElementById("check_calender").style.display = "none";
+    document.getElementById("workerBox").style.display = "none";
+    document.getElementById("enter_location").style.display = "block";
+    find_location();
   } else {
     document.getElementById("list_contents").style.display = "none";
     document.getElementById("check_calender").style.display = "none";
     document.getElementById("workerBox").style.display = "block";
+    document.getElementById("enter_location").style.display = "none";
     manage_user();
 
     if (per_timer != null) {
@@ -208,12 +220,75 @@ function list_change() {
   }
 }
 
+function update_location() {
+  var xhr = new XMLHttpRequest(); //flask에 요청
+  xhr.open("POST", "/set_location", true);
+  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === 4 && xhr.status === 200) {
+      var add_html = JSON.parse(xhr.responseText);
+      alert(add_html.alert_text);
+      location.reload(true);
+    }
+  };
+  var data = JSON.stringify({ corporation: corporation, long: longitude, lat: latitude });
+  xhr.send(data);
+}
+
+function find_location() {
+  var xhr = new XMLHttpRequest(); //flask에 요청
+  xhr.open("POST", "/get_location", true);
+  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === 4 && xhr.status === 200) {
+      var add_html = JSON.parse(xhr.responseText);
+      latitude = add_html.lat;
+      longitude = add_html.long;
+      show_map();
+    }
+  };
+  var data = JSON.stringify({ corporation: corporation });
+  xhr.send(data);
+}
+
+function show_map() {
+  const container = document.getElementById('location_map');
+  document.getElementById('print_location').textContent = '경도 : ' + latitude + " 위도 : " + longitude;
+  const options = {
+    center: new kakao.maps.LatLng(latitude, longitude),
+    level: 2
+  };
+
+  const map = new kakao.maps.Map(container, options);
+  const markerPosition = new kakao.maps.LatLng(latitude, longitude);
+
+  // 마커를 생성합니다
+  const marker = new kakao.maps.Marker({
+    position: markerPosition
+  });
+
+  // 마커가 지도 위에 표시되도록 설정합니다
+  marker.setMap(map);
+
+  kakao.maps.event.addListener(map, 'click', function (mouseEvent) {
+    // 클릭한 위도, 경도 정보를 가져옵니다 
+    const latlng = mouseEvent.latLng;
+
+    // 마커 위치를 클릭한 위치로 옮깁니다
+    marker.setPosition(latlng);
+    latitude = latlng.getLat();
+    longitude = latlng.getLng();
+    document.getElementById('print_location').textContent = '경도 : ' + latitude + " 위도 : " + longitude;
+  });
+
+  loading_modal.style.zIndex = -2;
+  loader.style.display = "none";
+}
+
 function dropdownChangeHandler(event) {
   if (confirm("정말 바꾸시겠습니까?")) {
     var selectedOption = event.target.value;
     var select = this.getAttribute("id");
-
-    console.log(select + " : " + selectedOption);
 
     var xhr1 = new XMLHttpRequest(); //flask에 요청
     xhr1.open("POST", "/check_today", true);
@@ -296,11 +371,10 @@ function show_day() {
 
         var table_html = add_html.today_excel;
         var tempElement = document.createElement("div");
-        console.log(table_html)
         tempElement.innerHTML = table_html;
         var temp1 = tempElement.querySelectorAll('thead th');
 
-        temp1.forEach(function(header) {
+        temp1.forEach(function (header) {
           if (header.textContent === 'name') {
             header.textContent = "이름";
           } else if (header.textContent === 'id') {
@@ -311,7 +385,7 @@ function show_day() {
             header.textContent = "출근 시간";
           }
         });
-        
+
         var xCells = tempElement.querySelectorAll("td");
         var tableRows = tempElement.querySelectorAll("tr");
         per_O_X = [];
@@ -453,7 +527,7 @@ function show_excel() {
         document.getElementById("day_nemo").innerHTML += modifiedData;
         var temp1 = document.getElementById("day_nemo").querySelectorAll('thead th');
 
-        temp1.forEach(function(header) {
+        temp1.forEach(function (header) {
           if (header.textContent === 'name') {
             header.textContent = "이름";
           } else if (header.textContent === 'id') {

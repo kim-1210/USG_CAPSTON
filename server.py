@@ -208,9 +208,20 @@ def get_img_ai_check():
     img, _ = ai.img_ai_check(imgs)
     return jsonify({'img' : img})
 
+@app.route('/get_location', methods = ['POST'])
+def get_location():
+    data = request.json
+    latitude, longitude = fs.get_location(data.get('corporation'))
+    return jsonify({'lat' : latitude, 'long' : longitude})
+
+@app.route('/set_location', methods = ['POST'])
+def set_location():
+    data = request.json
+    fs.set_location(data.get('corporation'), data.get('long'), data.get('lat'))
+    return jsonify({'alert_text' : '수정을 완료하였습니다.'})
 
 if __name__ == "__main__":
-    app.run(debug=True, host="127.0.0.1", port=8080)  # 내부 실행
-    #app.run(ssl_context=ssl_context, debug=True, host="0.0.0.0", port=8080)  # 외부 연결 및 SSL/TLS 설정
+    #app.run(debug=True, host="127.0.0.1", port=8080)  # 내부 실행
+    app.run(ssl_context=ssl_context, debug=True, host="0.0.0.0", port=8080)  # 외부 연결 및 SSL/TLS 설정
 
 #domain = safty-construction.kro.kr

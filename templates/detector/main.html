@@ -25,6 +25,8 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
     <title>메인 홈페이지</title>
     <script src="https://kit.fontawesome.com/9f8bb06fc7.js" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c7376a0469ad343de110832339ef4ccb"></script>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c7376a0469ad343de110832339ef4ccb&libraries=services"></script>
 </head>
 
 <body style="width: 100%; height: 100%;">
@@ -52,6 +54,10 @@
                 <div class="menuBox">
                     <input type="radio" name="menu" value="3" id="menu3" onclick="list_change()">
                     <label for="menu3">직원관리</label>
+                </div>
+                <div class="menuBox">
+                    <input type="radio" name="menu" value="5" id="menu5" onclick="list_change()">
+                    <label for="menu5">출근위치</label>
                 </div>
                 <div class="menuBox">
                     <input type="radio" name="menu" value="4" id="menu4" onclick="list_change()">
@@ -129,6 +135,16 @@
                     <div class="worker_nemo" id="worker_nemo"> <!--여기서 실행-->
 
                     </div>
+                </div>
+
+                <!--출근위치 관리-->
+                <div class="enter_location" id="enter_location">
+                    <button class="location_button" onclick="update_location()">업데이트</button>
+                    <span id="print_location"></span>
+                    <br>
+                    <div class="location_map" id="location_map">
+
+                    </div>                
                 </div>
 
             </div>
