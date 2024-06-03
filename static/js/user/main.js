@@ -30,6 +30,10 @@ function user_check_safe_cloth() {
     xhr.send(JSON.stringify({ corporation: corporation, id: id }));
 }
 
+function logout() {
+    location.href = '/';
+}
+
 function user_record() {
     var queryString = '?corporation=' + encodeURIComponent(corporation) + '&id=' + encodeURIComponent(id) + '&name=' + encodeURIComponent(name);
     location.href = '/user/record' + queryString;

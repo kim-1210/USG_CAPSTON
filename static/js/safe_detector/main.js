@@ -8,41 +8,9 @@ setTimeout(() => {
     $('.loadingbox').fadeOut();
   }, 500);
 
-document.querySelector('.appearlabel').addEventListener('click',
-    function Show_Hide(e) {
-        e.stopPropagation(); // 부모(slidemenu) 클릭 이벤트를 방지.
-        var checkbox = document.getElementById('slidemenuicon');
-        var sidebar = document.querySelector('.sidebar');
-        if (checkbox.checked) {
-            checkbox.checked = false;
-            sidebar.style.left = '-200px';
-        }
-        else {
-            checkbox.checked = true;
-            sidebar.style.left = '0';
-        }
-    });
-document.querySelector('.sidebar').addEventListener('click', function (e) {
-    e.stopPropagation();
-});
-document.querySelector('.slidemenu').addEventListener('click',
-    function Show_Hide() {
-        var checkbox = document.getElementById('slidemenuicon');
-        var sidebar = document.querySelector('.sidebar');
-        if (checkbox.checked) {
-            checkbox.checked = false;
-            sidebar.style.left = '-200px';
-        }
-        else {
-            checkbox.checked = true;
-            sidebar.style.left = '0';
-        }
-    });
-function show() {
-    document.querySelector(".modalbackground").className = "modalbackground show";
-}
-function cancel() {
-    document.querySelector(".modalbackground").className = "modalbackground";
+
+function logout() {
+    location.href = '/';
 }
 
 function send_suggest() {

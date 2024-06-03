@@ -759,3 +759,7 @@ function cancel() {
   document.getElementById("id").value = "";
   document.getElementById("pw").value = "";
 }
+
+function logout() {
+  location.href = "/detector/login";
+}

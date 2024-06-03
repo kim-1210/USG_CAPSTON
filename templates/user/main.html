@@ -19,26 +19,9 @@
     </div>
     
     <div class="logo">
-        <div class="slidemenu">
-            <input type="checkbox" id="slidemenuicon">
-
-            <label for="slidemenuicon">
-                <span></span>
-                <span></span>
-                <span></span>
-            </label>
-
-            <div class="sidebar">
-                <ul>
-                    <li>
-                        <input type="button" id="btntext" onclick="show()">
-                        <label class="appearlabel" for="btntext">
-                            <a>개발 목적</a>
-                        </label>
-                    </li>
-                </ul>
-            </div>
-        </div>
+        <span id="icon" onclick="logout()">
+            <i class="fa-solid fa-unlock"></i>
+        </span>
 
         <div class="logoText">
             <span id = "helmet"><i class="fa-solid fa-helmet-safety"></i></span>
@@ -69,27 +52,6 @@
             <button id="btn2" onclick="user_record()">
                 <span id="btn2_text"><i class="fa-solid fa-calendar"></i><br>출근 기록</span>
             </button>
-        </div>
-    </div>
-
-    <div class="modalbackground">
-        <div class="window">
-            <div class="popup">
-                <div class="popupaction">
-                    <div class="popupcancel">
-                        <button id="cancel" onclick="cancel()">X</button>
-                    </div>
-                </div>
-                <div class="popuplogo">
-                    <span id="app">
-                        작업에 맞는 복장을<br>
-                        입지 않고 작업 하시다<br>
-                        사고를 당하시는 경우가<br>
-                        많아 사고를 줄이는데<br>
-                        도움이 되기 위해 <br>
-                        개발하게 되었습니다.</span>
-                </div>
-            </div>
         </div>
     </div>
     
