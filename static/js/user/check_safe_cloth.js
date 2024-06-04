@@ -44,8 +44,6 @@ async function startCamera() {
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
-
-setInterval(startCamera, 200);
 // 이미지 전송 함수
 function sendImageToServer(imageData) {
     const xhr = new XMLHttpRequest();
@@ -78,6 +76,7 @@ function captureFrame() {
 }
 
 // 프레임 캡처 주기 설정 (3초에 한 번)
+setInterval(startCamera, 200);
 setInterval(captureFrame, 200);
 var one_check = 0;
 var pre_texting = "";

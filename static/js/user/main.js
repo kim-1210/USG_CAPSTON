@@ -60,42 +60,7 @@ function deg2rad(deg) {
 var cur_lat = 0;
 var cur_long = 0;
 
-function cur_location() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-            function (position) {
-                cur_lat = position.coords.latitude;
-                cur_long = position.coords.longitude;
-            },
-            function (error) {
-                switch (error.code) {
-                    case error.PERMISSION_DENIED:
-                        alert("User denied the request for Geolocation.");
-                        break;
-                    case error.POSITION_UNAVAILABLE:
-                        alert("Location information is unavailable.");
-                        break;
-                    case error.TIMEOUT:
-                        alert("The request to get user location timed out.");
-                        break;
-                    case error.UNKNOWN_ERROR:
-                        alert("An unknown error occurred.");
-                        break;
-                }
-            },
-            {
-                enableHighAccuracy: true,
-                timeout: 10000,
-                maximumAge: 0
-            }
-        );
-    } else {
-        alert("Geolocation is not supported by this browser.");
-    }
-}
-
-function place_in_check(){
-    cur_location();
+function place_in_check() {
     const xhr = new XMLHttpRequest();
     xhr.open("POST", "/get_location", true);
     xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
@@ -104,20 +69,52 @@ function place_in_check(){
         if (xhr.readyState == 4 && xhr.status == 200) {
             // 서버에서의 응답 처리
             var responseData = JSON.parse(xhr.responseText);
-            var fix_lat = responseData.lat;
-            var fix_long = responseData.long;
-            var range_distance = getDistanceFromLatLonInKm(fix_lat, fix_long, cur_lat, cur_long);
-            if(range_distance > 500){
-                alert('지정된 위치에서 너무 멉니다.')
-            }
-            else{
-                user_check_safe_cloth();
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    function (position) {
+                        cur_lat = position.coords.latitude;
+                        cur_long = position.coords.longitude;
+                        var fix_lat = responseData.lat;
+                        var fix_long = responseData.long;
+                        var range_distance = getDistanceFromLatLonInKm(fix_lat, fix_long, cur_lat, cur_long);
+                        if (range_distance > 500) {
+                            alert('지정된 위치에서 너무 멉니다.')
+                        }
+                        else {
+                            user_check_safe_cloth();
+                        }
+                    },
+                    function (error) {
+                        switch (error.code) {
+                            case error.PERMISSION_DENIED:
+                                alert("User denied the request for Geolocation.");
+                                break;
+                            case error.POSITION_UNAVAILABLE:
+                                alert("Location information is unavailable.");
+                                break;
+                            case error.TIMEOUT:
+                                alert("The request to get user location timed out.");
+                                break;
+                            case error.UNKNOWN_ERROR:
+                                alert("An unknown error occurred.");
+                                break;
+                        }
+                    },
+                    {
+                        enableHighAccuracy: true,
+                        timeout: 10000,
+                        maximumAge: 0
+                    }
+                );
+            } else {
+                alert("Geolocation is not supported by this browser.");
             }
         }
     };
 
     // 이미지 데이터를 JSON 형태로 변환하여 전송
-    xhr.send(JSON.stringify({ corporation: corporation}));
+    xhr.send(JSON.stringify({ corporation: corporation }));
 }
 
 setTimeout(() => {
