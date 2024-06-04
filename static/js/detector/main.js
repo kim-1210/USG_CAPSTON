@@ -11,6 +11,7 @@ var loading_modal = document.getElementById("loading_modal");
 var loader = document.getElementById("loader");
 var latitude;
 var longitude;
+var checkbox_nothing = document.getElementById('nothing');
 
 $(document).ready(function () {
   list_change();
@@ -221,18 +222,34 @@ function list_change() {
 }
 
 function update_location() {
-  var xhr = new XMLHttpRequest(); //flask에 요청
-  xhr.open("POST", "/set_location", true);
-  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState === 4 && xhr.status === 200) {
-      var add_html = JSON.parse(xhr.responseText);
-      alert(add_html.alert_text);
-      location.reload(true);
-    }
-  };
-  var data = JSON.stringify({ corporation: corporation, long: longitude, lat: latitude });
-  xhr.send(data);
+  if (checkbox_nothing.checked == true) {
+    var xhr = new XMLHttpRequest(); //flask에 요청
+    xhr.open("POST", "/set_location", true);
+    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+        var add_html = JSON.parse(xhr.responseText);
+        alert(add_html.alert_text);
+        location.reload(true);
+      }
+    };
+    var data = JSON.stringify({ corporation: corporation, long: -181, lat: -181 });
+    xhr.send(data);
+  }
+  else {
+    var xhr = new XMLHttpRequest(); //flask에 요청
+    xhr.open("POST", "/set_location", true);
+    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+        var add_html = JSON.parse(xhr.responseText);
+        alert(add_html.alert_text);
+        location.reload(true);
+      }
+    };
+    var data = JSON.stringify({ corporation: corporation, long: longitude, lat: latitude });
+    xhr.send(data);
+  }
 }
 
 function find_location() {
@@ -244,7 +261,40 @@ function find_location() {
       var add_html = JSON.parse(xhr.responseText);
       latitude = add_html.lat;
       longitude = add_html.long;
-      show_map();
+      if ((latitude < -180 || longitude < -180) && navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          function (position) {
+            checkbox_nothing.checked = true;
+            latitude = position.coords.latitude;
+            longitude = position.coords.longitude;
+            show_map();
+          },
+          function (error) {
+            switch (error.code) {
+              case error.PERMISSION_DENIED:
+                alert("User denied the request for Geolocation.");
+                break;
+              case error.POSITION_UNAVAILABLE:
+                alert("Location information is unavailable.");
+                break;
+              case error.TIMEOUT:
+                alert("The request to get user location timed out.");
+                break;
+              case error.UNKNOWN_ERROR:
+                alert("An unknown error occurred.");
+                break;
+            }
+          },
+          {
+            enableHighAccuracy: true,
+            timeout: 10000,
+            maximumAge: 0
+          }
+        )
+      }
+      else{
+        show_map();
+      }
     }
   };
   var data = JSON.stringify({ corporation: corporation });

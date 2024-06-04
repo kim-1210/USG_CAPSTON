@@ -77,12 +77,17 @@ function place_in_check() {
                         cur_long = position.coords.longitude;
                         var fix_lat = responseData.lat;
                         var fix_long = responseData.long;
-                        var range_distance = getDistanceFromLatLonInKm(fix_lat, fix_long, cur_lat, cur_long);
-                        if (range_distance > 500) {
-                            alert('지정된 위치에서 너무 멉니다.')
+                        if (fix_lat < -180 || fix_long < -180) {
+                            user_check_safe_cloth();
                         }
                         else {
-                            user_check_safe_cloth();
+                            var range_distance = getDistanceFromLatLonInKm(fix_lat, fix_long, cur_lat, cur_long);
+                            if (range_distance > 500) {
+                                alert('지정된 위치에서 너무 멉니다.')
+                            }
+                            else {
+                                user_check_safe_cloth();
+                            }
                         }
                     },
                     function (error) {
