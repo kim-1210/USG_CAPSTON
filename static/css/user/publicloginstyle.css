@@ -28,7 +28,7 @@ body{
 
 .container{
     display: flex;
-    margin-top: 18%;
+    margin-top: 2%;
     margin-left: 2.35%;
     padding-top: 7%;
     padding-bottom: 20%;
@@ -40,8 +40,8 @@ body{
     border-radius: 10px;
 }
 div.content_screen{
-    width: 80vw;
-    height: 70vh;
+    width: 80%;
+    height: 70%;
 }
 .appinfo{
     width: 100%;
@@ -106,7 +106,7 @@ div.content_screen{
     cursor: pointer;
 }
 .loginbuttonBox{
-    margin-top: 45%;
+    margin-top: 20%;
     height: 30%;
     display: flex;
     align-items: center;
