@@ -34,13 +34,12 @@ def create_user(corporation, typed, id, password, name, birthday, img): #안전�
         data = {'password' : hash_password, 'name' : name, 'birthday' : birthday}
         db.child(corporation).child('user').child(typed).child(id).update(data)
         if typed == 'worked':
-            table_excel = pd.read_excel(f'./corporation_excel/{corporation}/today.xlsx')
-            temp = pd.DataFrame({'name' : [name], 'id' : [id], 'check' : ['X'], 'check_time' : ['-']})
-            table_excel = pd.concat([table_excel, temp], axis=0)
-            table_excel.to_excel(f'./corporation_excel/{corporation}/today.xlsx', index=False)
-
             save_check = face.set_feature(img, id, corporation)
             if save_check: 
+                table_excel = pd.read_excel(f'./corporation_excel/{corporation}/today.xlsx')
+                temp = pd.DataFrame({'name' : [name], 'id' : [id], 'check' : ['X'], 'check_time' : ['-']})
+                table_excel = pd.concat([table_excel, temp], axis=0)
+                table_excel.to_excel(f'./corporation_excel/{corporation}/today.xlsx', index=False)
                 return '직원 정보를 추가 하였습니다.'
             else:
                 return '직원의 얼굴이 보이질 않습니다.'
