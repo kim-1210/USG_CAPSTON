@@ -39,9 +39,11 @@ def create_user(corporation, typed, id, password, name, birthday, img): #안전�
             table_excel = pd.concat([table_excel, temp], axis=0)
             table_excel.to_excel(f'./corporation_excel/{corporation}/today.xlsx', index=False)
 
-            face.set_feature(img, id, corporation)
-
-        return '직원 정보를 추가 하였습니다.'
+            save_check = face.set_feature(img, id, corporation)
+            if save_check: 
+                return '직원 정보를 추가 하였습니다.'
+            else:
+                return '직원의 얼굴이 보이질 않습니다.'
     elif id in find_data:
         return 'id가 이미 존재합니다.'
     else:    

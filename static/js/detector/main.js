@@ -850,6 +850,8 @@ function cancel() {
   document.getElementById("name").value = "";
   document.getElementById("id").value = "";
   document.getElementById("pw").value = "";
+  document.getElementById('img_upload').innerHTML = "";
+  document.getElementById("img_load").value = "";
 }
 
 function logout() {
