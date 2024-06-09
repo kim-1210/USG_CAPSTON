@@ -167,7 +167,7 @@
 
     <div class="modalbackground"> <!--작업자등록 모달창-->
         <div class="window">
-            <div class="popup">
+            <div class="popup" style="overflow-y: auto;">
 
                 <div class="popuplogo">
                     <span>작업자 등록</span>
@@ -201,6 +201,14 @@
                     <br>
                     <input id="pw" type="password" placeholder="패스워드 입력" />
                 </div>
+                <div class="popuptitle">
+                    <span>얼굴 사진</span>
+                    <div id="img_upload" class="image">
+                        <!--사진 구역-->
+                    </div>
+                    <input type="file" accept="image/*" onchange="loadFile(this)" id="img_load">
+                </div>
+                <br>
                 <div class="popupaction">
                     <div class="popupcancel">
                         <button id="cancel" onclick="cancel()">취소</button>

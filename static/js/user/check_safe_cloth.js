@@ -14,10 +14,9 @@ async function startCamera() {
 
         stream = await navigator.mediaDevices.getUserMedia({
             video: {
-                width: { ideal: 1080 },
-                height: { ideal: 1920 },
-                facingMode: 'user',
-                bitrate: { ideal: 2000000 }
+                width: { ideal: 480 },
+                height: { ideal: 640 },
+                facingMode: 'user'
             }
         });
         const videoTrack = stream.getVideoTracks()[0];
@@ -50,22 +49,23 @@ function sendImageToServer(imageData) {
     xhr.open("POST", "/process_image", true);
     xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 
-    xhr.onreadystatechange = async  function () {
+    xhr.onreadystatechange = async function () {
         if (xhr.readyState == 4 && xhr.status == 200) {
             // 서버에서의 응답 처리
             var responseData = JSON.parse(xhr.responseText);
             var resultImage = document.getElementById('resultImage');
             resultImage.src = 'data:image/jpeg;base64,' + responseData.result_image;
             var checking_reslut = responseData.result_check;
+            var face_checking = responseData.face_checking;
             await sleep(1000); // 2초간 대기
             if (checking_reslut.length > 0) {
-                checking(checking_reslut);
+                checking(checking_reslut, face_checking);
             }
         }
     };
 
     // 이미지 데이터를 JSON 형태로 변환하여 전송
-    xhr.send(JSON.stringify({ image_data: imageData }));
+    xhr.send(JSON.stringify({ image_data: imageData, image_id: id, image_corporation: corporation }));
 }
 
 // 프레임 캡처 및 이미지 전송
@@ -76,14 +76,14 @@ function captureFrame() {
 }
 
 // 프레임 캡처 주기 설정 (3초에 한 번)
-setInterval(startCamera, 200);
-setInterval(captureFrame, 200);
+setInterval(startCamera, 1000);
+setInterval(captureFrame, 1000);
 var one_check = 0;
 var pre_texting = "";
 
-function checking(result_str) { //출석 요청
+function checking(result_str, face_result) { //출석 요청
     console.log(result_str)
-    if (result_str.includes('Person') == true) { //사람이 있다.
+    if (result_str.includes('Person') == true && face_result == true) { //사람이 있다.
         console.log("사람성공")
         if (result_str.includes('Non-Helmet') == false && result_str.includes('NoVest') == false) {
             console.log("없음성공")

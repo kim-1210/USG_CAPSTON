@@ -8,6 +8,8 @@ import base64
 import pandas as pd
 import numpy as np
 import cv2
+import face_check as face
+import threading
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
@@ -23,33 +25,68 @@ def ok_check(detecting_list):
             result += i + ', '
     return result
 
-def process_image(image_data):
-    # base64로 인코딩된 이미지 데이터를 디코딩
-    _, img_encoded = image_data.split(",", 1)
-    img_decoded = base64.b64decode(img_encoded)
-    nparr = np.frombuffer(img_decoded, np.uint8)
-    frame = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+class Drawing(threading.Thread):
+    def __init__(self, target, args=()):
+        super().__init__()
+        self._target = target
+        self._args = args
+        self._detecting_name = []
+        self._bounding_boxes = []
+        self._frame = None
+    def run(self):
+        self._detecting_name, self._bounding_boxes, self._frame = self._target(*self._args)
+    def get_result(self):
+        self.join()
+        return self._detecting_name, self._bounding_boxes, self._frame
 
-    result = model(frame)
+def draw_bounding_boxes(result, frame):
     detecting_name = []
-    # 예측된 바운딩 박스 그리기
+    bounding_boxes = []
     for box in result.xyxy[0]:
         x1, y1, x2, y2, score, label = box.tolist()
         detecting_name.append(labeling[int(label)])
         if labeling[int(label)] != 'Non-Helmet' and labeling[int(label)] != 'Shoes' and labeling[int(label)] != 'bare-arms' and labeling[int(label)] != 'Gloves':
             x1, y1, x2, y2 = int(x1), int(y1), int(x2), int(y2)  # 바운딩 박스 좌표를 정수형으로 변환
-            cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 0, 255), 2)  # 바운딩 박스 그리기
-            #label_text = f'{labeling[int(label)]}'  # 정수로 변환한 label을 사용하여 labeling 리스트에서 해당하는 클래스명 가져오기
-            #cv2.putText(frame, label_text, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 2)  # 클래스 이름과 점수 표시, fontScale 값을 0.5로 변경
-        
+            if labeling[int(label)] == 'Person':
+                cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)  # 바운딩 박스 그리기
+            else:
+                cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 0, 255), 2)  # 바운딩 박스 그리기
+            bounding_boxes.append([x1, y1, x2, y2])
+    return detecting_name, bounding_boxes, frame
+
+
+def process_image(image_data, id, corporation):
+    # base64로 인코딩된 이미지 데이터를 디코딩
+    _, img_encoded = image_data.split(",", 1)
+    img_decoded = base64.b64decode(img_encoded)
+    nparr = np.frombuffer(img_decoded, np.uint8)
+    frame = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+    frame = cv2.resize(frame, (480, 640))
+    find_face_img = frame.copy()
+    result = model(frame)
+
+    # 얼굴 찾기 스레드 시작
+    face_checking = False
+    t_face = face.Find_facing(target=face.find_face, args=(f'./corporation_face/{corporation}/{id}.npy', find_face_img))
+    t_face.start()
+
+    # 바운딩 박스 그리기 및 라벨링 스레드 시작
+    t_bounding_boxes = Drawing(target=draw_bounding_boxes, args=(result, frame))
+    t_bounding_boxes.start()
+
+    face_checking = t_face.get_result()
+
+    detecting_name, bounding_boxes, frame = t_bounding_boxes.get_result()
+
+
     ret, buffer = cv2.imencode('.jpg', frame)
     frame_base64 = base64.b64encode(buffer)
     result_check = ok_check(detecting_name)
-
+    print(f'{face_checking} : {result_check}')
     try:
-        return frame_base64.decode('utf-8'), [[x1, y1, x2, y2]], result_check
+        return frame_base64.decode('utf-8'), bounding_boxes, result_check, face_checking
     except Exception as err:
-        return frame_base64.decode('utf-8'), [[0,0,0,0]], result_check
+        return frame_base64.decode('utf-8'), [[0,0,0,0]], result_check, face_checking
     
 # ---------------- detector -----------------
 

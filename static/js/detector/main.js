@@ -12,6 +12,7 @@ var loader = document.getElementById("loader");
 var latitude;
 var longitude;
 var checkbox_nothing = document.getElementById('nothing');
+let target_img = null;
 
 $(document).ready(function () {
   list_change();
@@ -605,6 +606,46 @@ function show_excel() {
   }
 }
 
+function loadFile(input) {
+  let file = input.files[0]; // 선택한 파일 가져오기
+  let container = document.getElementById('img_upload');
+  let newImage = new Image();
+
+  if (file instanceof Blob || file instanceof File) {
+      let reader = new FileReader();
+      reader.onload = function (e) {
+          newImage.src = e.target.result;
+          target_img = e.target.result;
+      };
+      reader.readAsDataURL(file);
+
+      newImage.onload = function() {
+          let maxWidth = container.offsetWidth;
+          let maxHeight = container.offsetHeight;
+
+          let widthRatio = maxWidth / newImage.width;
+          let heightRatio = maxHeight / newImage.height;
+          let ratio = Math.min(widthRatio, heightRatio);
+
+          // 새로운 이미지 크기 계산
+          let newWidth = newImage.width * ratio;
+          let newHeight = newImage.height * ratio;
+
+          // 새 이미지 요소 설정
+          newImage.style.width = newWidth + "px";
+          ai_width = newImage.style.width;
+          newImage.style.height = newHeight - (5) + "px";
+          ai_height = newImage.style.height;
+          newImage.style.objectFit = "cover"
+
+          container.innerHTML = "";
+          container.appendChild(newImage);
+      };
+  } else {
+      console.error("잘못된 파일 형식입니다.");
+  }
+}
+
 function register() {
   //등록 함수
   var typed = document.getElementById("job").value;
@@ -638,6 +679,7 @@ function register() {
       password: password,
       name: name,
       birthday: birthday,
+      img : target_img
     });
     xhr.send(data);
   }

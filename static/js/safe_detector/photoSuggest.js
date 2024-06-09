@@ -6,31 +6,6 @@ var user_name = urlParams.get('name');
 
 let file = null;
 let target_img = null;
-// function loadFile(input) {
-
-//     document.getElementById('img_upload').innerHTML = "";
-//     file = input.files[0]; // 선택파일 가져오기
-//     let newImage = document.createElement("img"); //새 이미지 태그 생성
-
-//     if (file instanceof Blob || file instanceof File) {
-//         var reader = new FileReader();
-//         reader.onload = function (e) {
-//             target_img = e.target.result;
-//         };
-//         reader.readAsDataURL(input.files[0]);
-//         newImage.src = URL.createObjectURL(file);
-//         newImage.id = 'upload_img';
-//         newImage.style.width = "100%"; //div에 꽉차게 넣으려고
-//         newImage.style.height = "100%";
-//         newImage.style.objectFit = "cover"; // div에 넘치지 않고 들어가게
-
-//         let container = document.getElementById('img_upload');
-//         container.innerHTML = "";
-//         container.appendChild(newImage);
-//     } else {
-//         console.error("잘못된 파일 형식입니다.");
-//     }
-// }
 
 var ai_height = 0;
 var ai_width = 0;

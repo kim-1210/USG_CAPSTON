@@ -2,7 +2,6 @@ from certificate_file import ssl_context #https 인증서
 from flask import Flask, render_template, Response, request, jsonify
 from flask_sslify import SSLify
 from flask_socketio import SocketIO
-from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 
 import sys
@@ -27,13 +26,13 @@ def user_record():
 def user_check_safe_cloth():
     corporation_name = request.args.get('corporation')
     id_name = request.args.get('id')
-    return render_template('./user/check_safe_cloth.html', corporation = corporation_name, id = id)
+    return render_template('./user/check_safe_cloth.html', corporation = corporation_name, id = id_name)
 
 @app.route('/user/main')
 def user_main():
     corporation_name = request.args.get('corporation')
-    id = request.args.get('id')
-    return render_template('./user/main.html', corporation = corporation_name, id = id)
+    id_name = request.args.get('id')
+    return render_template('./user/main.html', corporation = corporation_name, id = id_name)
 
 #--------- safe ----------
 
@@ -74,11 +73,12 @@ def true_false_enter():
 @app.route('/process_image', methods=['POST'])
 def process_image_route():
     # POST로 전송된 JSON 데이터에서 이미지 데이터 추출
-    image_data = request.json.get('image_data', '')
-    
+    image_data = request.json.get('image_data')
+    image_id = request.json.get('image_id')
+    image_corporation = request.json.get('image_corporation')
     # 이미지 데이터를 처리
-    result_image, bounding_box, result_check = ai.process_image(image_data)
-    return jsonify({'result_image': result_image, 'bounding_box': bounding_box, 'result_check' : result_check})
+    result_image, bounding_box, result_check, facecheck = ai.process_image(image_data, image_id, image_corporation)
+    return jsonify({'result_image': result_image, 'bounding_box': bounding_box, 'result_check' : result_check, 'face_checking' : facecheck})
 
 @app.route('/check_today', methods=['POST'])
 def check_today():
@@ -104,7 +104,8 @@ def create_user():
     create_information = request.json
     result_string = fs.create_user(create_information.get('corporation'), create_information.get('typed'), 
                                    create_information.get('id'), create_information.get('password'), 
-                                   create_information.get('name'), create_information.get('birthday'))
+                                   create_information.get('name'), create_information.get('birthday'),
+                                   create_information.get('target_img'))
     print(result_string)
     return jsonify({'result_alert' : result_string})
 
@@ -221,7 +222,7 @@ def set_location():
     return jsonify({'alert_text' : '수정을 완료하였습니다.'})
 
 if __name__ == "__main__":
-    #app.run(debug=True, host="127.0.0.1", port=8080)  # 내부 실행
-    app.run(ssl_context=ssl_context, debug=True, host="0.0.0.0", port=8080)  # 외부 연결 및 SSL/TLS 설정
+    app.run(debug=True, host="127.0.0.1", port=8080)  # 내부 실행
+    #app.run(ssl_context=ssl_context, debug=True, host="0.0.0.0", port=8080)  # 외부 연결 및 SSL/TLS 설정
 
 #domain = safty-construction.kro.kr

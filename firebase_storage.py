@@ -16,6 +16,7 @@ import hashlib #비밀번호 해쉬화
 import numpy as np
 import base64
 from filelock import FileLock, Timeout
+import face_check as face
 #형식
 #corporation/user/type/id => {password, name, birthday}
 #corporation/detector/id => {password, name}
@@ -26,7 +27,7 @@ with open("auth.json") as f:
 firebase = pyrebase.initialize_app(config)
 db = firebase.database()
 
-def create_user(corporation, typed, id, password, name, birthday): #안전직과 현장직 : 직원 등록하기
+def create_user(corporation, typed, id, password, name, birthday, img): #안전직과 현장직 : 직원 등록하기
     find_data = all_search_user(corporation, typed)
     hash_password = hashlib.sha256(password.encode()).hexdigest()
     if find_data == None:
@@ -37,6 +38,9 @@ def create_user(corporation, typed, id, password, name, birthday): #안전직과
             temp = pd.DataFrame({'name' : [name], 'id' : [id], 'check' : ['X'], 'check_time' : ['-']})
             table_excel = pd.concat([table_excel, temp], axis=0)
             table_excel.to_excel(f'./corporation_excel/{corporation}/today.xlsx', index=False)
+
+            face.set_feature(img, id, corporation)
+
         return '직원 정보를 추가 하였습니다.'
     elif id in find_data:
         return 'id가 이미 존재합니다.'
