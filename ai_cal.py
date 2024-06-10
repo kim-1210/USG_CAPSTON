@@ -1,7 +1,7 @@
 
 import torch
 import torchvision.models as models
-import torchvision
+from torchvision import transforms
 import torch.nn as nn
 import torch.nn.functional as F
 import base64
@@ -12,8 +12,11 @@ import face_check as face
 import threading
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
+print(device)
 
 model = torch.hub.load('./ai/yolov5', 'custom', path='./ai/safty_modeling/weights/best.pt', source='local')
+model.to(device)
+model.eval()
 labeling = ['Gloves', 'Helmet', 'Non-Helmet', 'Person', 'Shoes', 'Vest', 'bare-arms']
 def ok_check(detecting_list):
     result = ''
@@ -61,8 +64,13 @@ def process_image(image_data, id, corporation):
     img_decoded = base64.b64decode(img_encoded)
     nparr = np.frombuffer(img_decoded, np.uint8)
     frame = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
-    frame = cv2.resize(frame, (480, 640))
+    cv2.imwrite('./test.jpg', frame)
     find_face_img = frame.copy()
+    frame = cv2.resize(frame, (480, 640), interpolation=cv2.INTER_CUBIC)
+
+    find_face_img = cv2.resize(find_face_img, (600, 900), interpolation=cv2.INTER_CUBIC)
+
+    #frame = cv2.resize(frame, (480, 640))
     result = model(frame)
 
     # 얼굴 찾기 스레드 시작

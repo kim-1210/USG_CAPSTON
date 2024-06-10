@@ -1,8 +1,8 @@
 from certificate_file import ssl_context #https 인증서
 from flask import Flask, render_template, Response, request, jsonify
 from flask_sslify import SSLify
-from flask_socketio import SocketIO
 from watchdog.events import FileSystemEventHandler
+from flask_socketio import SocketIO, emit
 
 import sys
 import firebase_storage as fs
@@ -10,7 +10,7 @@ import firebase_storage as fs
 import ai_cal as ai
 
 app = Flask(__name__, static_folder='static')
-sslify = SSLify(app)
+socketio = SocketIO(app)
 
 #--------- user ----------
 
@@ -70,15 +70,17 @@ def true_false_enter():
     true_false_check, check_time = fs.true_false_enter(check_data.get('corporation'), check_data.get('id'))
     return jsonify({'true_false_check' : true_false_check, 'check_time' : check_time})
 
-@app.route('/process_image', methods=['POST'])
-def process_image_route():
-    # POST로 전송된 JSON 데이터에서 이미지 데이터 추출
-    image_data = request.json.get('image_data')
-    image_id = request.json.get('image_id')
-    image_corporation = request.json.get('image_corporation')
+@socketio.on('process_image') #소켓통신
+def process_image_route(data):
     # 이미지 데이터를 처리
-    result_image, bounding_box, result_check, facecheck = ai.process_image(image_data, image_id, image_corporation)
-    return jsonify({'result_image': result_image, 'bounding_box': bounding_box, 'result_check' : result_check, 'face_checking' : facecheck})
+    result_image, bounding_box, result_check, facecheck = ai.process_image(data['image_data'],data['image_id'], data['image_corporation']) 
+    result = {
+            'result_image': result_image,
+            'bounding_box': bounding_box,
+            'result_check': result_check,
+            'face_checking': facecheck
+        }
+    emit('sending_result', result)
 
 @app.route('/check_today', methods=['POST'])
 def check_today():
@@ -222,7 +224,7 @@ def set_location():
     return jsonify({'alert_text' : '수정을 완료하였습니다.'})
 
 if __name__ == "__main__":
-    app.run(debug=True, host="127.0.0.1", port=8080)  # 내부 실행
+    socketio.run(app, host='0.0.0.0', port=8080) # 내부 실행
     #app.run(ssl_context=ssl_context, debug=True, host="0.0.0.0", port=8080)  # 외부 연결 및 SSL/TLS 설정
-
+    #socketio.run(ssl_context=ssl_context, app, host='0.0.0.0', port=8080)
 #domain = safty-construction.kro.kr

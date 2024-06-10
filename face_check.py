@@ -25,24 +25,20 @@ class Find_facing(threading.Thread):
 def find_face(path1, image1):
     try:
         image2_encoding = np.load(path1)
-        rgb_image1 = cv2.cvtColor(image1, cv2.COLOR_BGR2RGB)
+        rgb_image1 = image1
         faces = detector(rgb_image1)
-        if faces:
-            face = faces[0]
-            x, y, w, h = face.left(), face.top(), face.width(), face.height()
-            #face_image = rgb_image1[y:y+h, x:x+w]
-            face_locations = face_recognition.face_locations(rgb_image1)
-            if face_locations:
-                face_encodings = face_recognition.face_encodings(rgb_image1, face_locations)
+        face_locations = face_recognition.face_locations(rgb_image1)
+        if face_locations:
+            face_encodings = face_recognition.face_encodings(rgb_image1, face_locations)
                 
-                for face_encoding in face_encodings:
-                    face_match = face_recognition.compare_faces([image2_encoding], face_encoding)
-                    print(f'정확도 : {face_match[0]}')
+            for face_encoding in face_encodings:
+                face_match = face_recognition.compare_faces([image2_encoding], face_encoding)
+                print(f'정확도 : {face_match[0]}')
                     
-                    if face_match[0]:
-                        return True
-                    else:
-                        return False
+                if face_match[0]:
+                    return True
+                else:
+                    return False
         return False
     except Exception as err:
         print(f'{err} : 실패')
