@@ -14,19 +14,23 @@ import threading
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 print(device)
 
-model = torch.hub.load('./ai/yolov5', 'custom', path='./ai/safty_modeling/weights/best.pt', source='local')
-model.to(device)
-model.eval()
-labeling = ['Gloves', 'Helmet', 'Non-Helmet', 'Person', 'Shoes', 'Vest', 'bare-arms']
+detector_model = torch.hub.load('./ai/yolov5', 'custom', path='./ai/protective_model5/weights/best.pt', source='local')
+detector_model.to(device)
+detector_labeling = ['NoHelMet', 'NoVest', 'Person', 'HelMet', 'Vest']
+
 def ok_check(detecting_list):
     result = ''
-    matching = {'Gloves' : 0, 'Helmet' : 0, 'Non-Helmet' : 0, 'Person' : 0, 'Shoes' : 0, 'Vest' : 0, 'bare-arms' : 0}
+    matching = {'NoHelMet' : 0, 'NoVest' : 0, 'Person' : 0, 'HelMet' : 0, 'Vest' : 0}
     for i in detecting_list:
         matching[i] = matching[i] + 1
     for i in matching.keys():
         if matching[i] == 1:
             result += i + ', '
-    return result
+    print(f'탐지 : {result}')
+    if 'Person' in result and not ('NoHelMet' in result) and not ('NoVest' in result) and 'HelMet' in result and 'Vest' in result:
+        return True
+    else:
+        return False
 
 class Drawing(threading.Thread):
     def __init__(self, target, args=()):
@@ -47,10 +51,10 @@ def draw_bounding_boxes(result, frame):
     bounding_boxes = []
     for box in result.xyxy[0]:
         x1, y1, x2, y2, score, label = box.tolist()
-        detecting_name.append(labeling[int(label)])
-        if labeling[int(label)] != 'Non-Helmet' and labeling[int(label)] != 'Shoes' and labeling[int(label)] != 'bare-arms' and labeling[int(label)] != 'Gloves':
+        detecting_name.append(detector_labeling[int(label)])
+        if detector_labeling[int(label)] != 'NoHelMet' and detector_labeling[int(label)] != 'NoVest':
             x1, y1, x2, y2 = int(x1), int(y1), int(x2), int(y2)  # 바운딩 박스 좌표를 정수형으로 변환
-            if labeling[int(label)] == 'Person':
+            if detector_labeling[int(label)] == 'Person':
                 cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)  # 바운딩 박스 그리기
             else:
                 cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 0, 255), 2)  # 바운딩 박스 그리기
@@ -60,18 +64,12 @@ def draw_bounding_boxes(result, frame):
 
 def process_image(image_data, id, corporation):
     # base64로 인코딩된 이미지 데이터를 디코딩
-    _, img_encoded = image_data.split(",", 1)
-    img_decoded = base64.b64decode(img_encoded)
-    nparr = np.frombuffer(img_decoded, np.uint8)
-    frame = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
-    cv2.imwrite('./test.jpg', frame)
+    frame = image_data
+    frame = cv2.resize(frame, (512, 512), interpolation=cv2.INTER_CUBIC)
     find_face_img = frame.copy()
-    frame = cv2.resize(frame, (480, 640), interpolation=cv2.INTER_CUBIC)
-
-    find_face_img = cv2.resize(find_face_img, (600, 900), interpolation=cv2.INTER_CUBIC)
 
     #frame = cv2.resize(frame, (480, 640))
-    result = model(frame)
+    result = detector_model(frame)
 
     # 얼굴 찾기 스레드 시작
     face_checking = False
@@ -86,20 +84,17 @@ def process_image(image_data, id, corporation):
 
     detecting_name, bounding_boxes, frame = t_bounding_boxes.get_result()
 
-
-    ret, buffer = cv2.imencode('.jpg', frame)
+    
+    ret, buffer = cv2.imencode('.jpg', frame, [int(cv2.IMWRITE_JPEG_QUALITY), 50])
     frame_base64 = base64.b64encode(buffer)
     result_check = ok_check(detecting_name)
-    print(f'{face_checking} : {result_check}')
+    print(f'얼굴 탐지 : {face_checking}')
     try:
         return frame_base64.decode('utf-8'), bounding_boxes, result_check, face_checking
     except Exception as err:
         return frame_base64.decode('utf-8'), [[0,0,0,0]], result_check, face_checking
     
 # ---------------- detector -----------------
-
-detector_model = torch.hub.load('./ai/yolov5', 'custom', path='./ai/protective_model5/weights/best.pt', source='local')
-detector_labeling = ['NoHelMet', 'NoVest', 'Person', 'HelMet', 'Vest']
 
 def img_ai_check(image_data): #이미지를 받아 Ai검사하여 bounding box 처리 할 예정
     _, img_encoded = image_data.split(",", 1)

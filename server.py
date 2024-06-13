@@ -3,13 +3,20 @@ from flask import Flask, render_template, Response, request, jsonify
 from flask_sslify import SSLify
 from watchdog.events import FileSystemEventHandler
 from flask_socketio import SocketIO, emit
+import cv2
+from gevent.pywsgi import WSGIServer
+from geventwebsocket.handler import WebSocketHandler
+from flask_cors import CORS
+from io import BytesIO
+import eventlet
+import eventlet.wsgi
 
 import sys
 import firebase_storage as fs
 
 import ai_cal as ai
 
-app = Flask(__name__, static_folder='static')
+app = Flask(__name__)
 socketio = SocketIO(app)
 
 #--------- user ----------
@@ -70,17 +77,24 @@ def true_false_enter():
     true_false_check, check_time = fs.true_false_enter(check_data.get('corporation'), check_data.get('id'))
     return jsonify({'true_false_check' : true_false_check, 'check_time' : check_time})
 
-@socketio.on('process_image') #소켓통신
+# 이미지 데이터를 처리
+def capture_frames(data):
+    image_id = data['image_id']
+    image_corporation = data['image_corporation']
+    imaging = data['imaging']
+    _, img_encoded = imaging.split(",", 1)
+    img_decoded = ai.base64.b64decode(img_encoded)
+    nparr = ai.np.frombuffer(img_decoded, ai.np.uint8)
+    frame = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+    cv2.imwrite('./test.jpg', frame)
+    #cap = cv2.VideoCapture(cv2.CAP_DSHOW + 1)
+    result_image, bounding_box, result_check, facecheck = ai.process_image(frame, image_id, image_corporation)
+    send_result = {'result_image' : result_image, 'result_check' : result_check, 'facecheck' : facecheck }
+    socketio.emit('video_frame', send_result)
+
+@socketio.on('process_image') #소켓통신 (시작되자마자 되니까)
 def process_image_route(data):
-    # 이미지 데이터를 처리
-    result_image, bounding_box, result_check, facecheck = ai.process_image(data['image_data'],data['image_id'], data['image_corporation']) 
-    result = {
-            'result_image': result_image,
-            'bounding_box': bounding_box,
-            'result_check': result_check,
-            'face_checking': facecheck
-        }
-    emit('sending_result', result)
+    socketio.start_background_task(target=capture_frames, data=data)
 
 @app.route('/check_today', methods=['POST'])
 def check_today():
@@ -224,7 +238,7 @@ def set_location():
     return jsonify({'alert_text' : '수정을 완료하였습니다.'})
 
 if __name__ == "__main__":
-    socketio.run(app, host='0.0.0.0', port=8080) # 내부 실행
-    #app.run(ssl_context=ssl_context, debug=True, host="0.0.0.0", port=8080)  # 외부 연결 및 SSL/TLS 설정
-    #socketio.run(ssl_context=ssl_context, app, host='0.0.0.0', port=8080)
+    #socketio.run(app, host='0.0.0.0', debug=True, port=8080) # 내부 실행
+    eventlet.wsgi.server(eventlet.wrap_ssl(eventlet.listen(('0.0.0.0', 8080)), certfile='./safty-construction.kro.kr/certificate.crt', keyfile='./safty-construction.kro.kr/private.key', ca_certs='./safty-construction.kro.kr/ca_bundle.pem', server_side=True), app)
+
 #domain = safty-construction.kro.kr
