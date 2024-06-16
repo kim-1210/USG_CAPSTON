@@ -26,8 +26,9 @@ def find_face(path1, image1):
     try:
         image2_encoding = np.load(path1)
         rgb_image1 = image1
-        faces = detector(rgb_image1)
-        face_locations = face_recognition.face_locations(rgb_image1)
+        cv2.imwrite('./test.jpg', rgb_image1)
+        face_locations = face_recognition.face_locations(rgb_image1, model='cnn-gpu')
+        #cnn-gpu / cnn / hog
         if face_locations:
             face_encodings = face_recognition.face_encodings(rgb_image1, face_locations)
                 
