@@ -14,7 +14,7 @@ import eventlet.wsgi
 import sys
 import firebase_storage as fs
 
-import ai_cal as ai
+import ai_cal2 as ai
 
 app = Flask(__name__)
 socketio = SocketIO(app)
@@ -86,11 +86,10 @@ def capture_frames(data):
     img_decoded = ai.base64.b64decode(img_encoded)
     nparr = ai.np.frombuffer(img_decoded, ai.np.uint8)
     frame = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
-    cv2.imwrite('./test.jpg', frame)
     #cap = cv2.VideoCapture(cv2.CAP_DSHOW + 1)
     result_image, bounding_box, result_check, facecheck = ai.process_image(frame, image_id, image_corporation)
     send_result = {'result_image' : result_image, 'result_check' : result_check, 'facecheck' : facecheck }
-    socketio.emit('video_frame', send_result)
+    socketio.emit(image_corporation+'_'+image_id, send_result)
 
 @socketio.on('process_image') #소켓통신 (시작되자마자 되니까)
 def process_image_route(data):
@@ -122,7 +121,7 @@ def create_user():
     result_string = fs.create_user(create_information.get('corporation'), create_information.get('typed'), 
                                    create_information.get('id'), create_information.get('password'), 
                                    create_information.get('name'), create_information.get('birthday'),
-                                   create_information.get('target_img'))
+                                   create_information.get('img'))
     print(result_string)
     return jsonify({'result_alert' : result_string})
 
@@ -239,7 +238,7 @@ def set_location():
     return jsonify({'alert_text' : '수정을 완료하였습니다.'})
 
 if __name__ == "__main__":
-    #socketio.run(app, host='0.0.0.0', debug=True, port=8080) # 내부 실행
-    eventlet.wsgi.server(eventlet.wrap_ssl(eventlet.listen(('0.0.0.0', 8080)), certfile='./safty-construction.kro.kr/certificate.crt', keyfile='./safty-construction.kro.kr/private.key', ca_certs='./safty-construction.kro.kr/ca_bundle.pem', server_side=True), app)
+    socketio.run(app, host='0.0.0.0', debug=True, port=8080) # 내부 실행
+    #eventlet.wsgi.server(eventlet.wrap_ssl(eventlet.listen(('0.0.0.0', 8080)), certfile='./safty-construction.kro.kr/certificate.crt', keyfile='./safty-construction.kro.kr/private.key', ca_certs='./safty-construction.kro.kr/ca_bundle.pem', server_side=True), app)
 
 #domain = safty-construction.kro.kr

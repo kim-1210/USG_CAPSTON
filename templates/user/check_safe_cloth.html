@@ -70,7 +70,7 @@
                 const video = document.getElementById('video'); // 비디오 요소
                 stream = await navigator.mediaDevices.getUserMedia({
                     video: {
-                        width: { min: 640, ideal: 1280, max: 1920 }, 
+                        width: { min: 640, ideal: 1280, max: 1920 },
                         height: { min: 480, ideal: 720, max: 1080 },
                         facingMode: 'user'
                     }
@@ -111,12 +111,16 @@
             }, 3000);
         });
 
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
         // Socket.IO에서 받은 비디오 프레임 이벤트 리스너
-        socket.on('video_frame', function (data) {
+        socket.on(corporation+'_'+id, function (data) {
             const { result_image, result_check, facecheck } = data; // 데이터에서 결과 이미지 및 체크 결과 추출
             img.src = 'data:image/jpeg;base64,' + result_image; // 결과 이미지 업데이트
-
             if (result_check == true && facecheck == true) {
+                sleep(1000);
                 send_today(); // 출석 확인 함수 호출
             }
         });
@@ -134,6 +138,7 @@
                         var dingdong = responseData.result_content; // 결과 메시지 가져오기
                         const text = document.getElementById('bottomtext');
                         text.innerHTML = '출석 완료 <br> 안전한 하루 되십시오';
+
                         alert(dingdong) // 결과 메시지 알림
                         main(); // 메인 페이지로 이동
                     }

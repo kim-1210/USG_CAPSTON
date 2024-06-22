@@ -31,11 +31,11 @@ def create_user(corporation, typed, id, password, name, birthday, img): #안전�
     find_data = all_search_user(corporation, typed)
     hash_password = hashlib.sha256(password.encode()).hexdigest()
     if find_data == None:
-        data = {'password' : hash_password, 'name' : name, 'birthday' : birthday}
-        db.child(corporation).child('user').child(typed).child(id).update(data)
         if typed == 'worked':
             save_check = face.set_feature(img, id, corporation)
             if save_check: 
+                data = {'password' : hash_password, 'name' : name, 'birthday' : birthday}
+                db.child(corporation).child('user').child(typed).child(id).update(data)
                 table_excel = pd.read_excel(f'./corporation_excel/{corporation}/today.xlsx')
                 temp = pd.DataFrame({'name' : [name], 'id' : [id], 'check' : ['X'], 'check_time' : ['-']})
                 table_excel = pd.concat([table_excel, temp], axis=0)
@@ -43,17 +43,29 @@ def create_user(corporation, typed, id, password, name, birthday, img): #안전�
                 return '직원 정보를 추가 하였습니다.'
             else:
                 return '직원의 얼굴이 보이질 않습니다.'
+        else:
+            data = {'password' : hash_password, 'name' : name, 'birthday' : birthday}
+            db.child(corporation).child('user').child(typed).child(id).update(data)
+            return '직원 정보를 추가 하였습니다.'
     elif id in find_data:
         return 'id가 이미 존재합니다.'
     else:    
-        data = {'password' : hash_password, 'name' : name, 'birthday' : birthday}
-        db.child(corporation).child('user').child(typed).child(id).update(data)
         if typed == 'worked':
-            table_excel = pd.read_excel(f'./corporation_excel/{corporation}/today.xlsx')
-            temp = pd.DataFrame({'name' : [name], 'id' : [id], 'check' : ['X'], 'check_time' : ['-']})
-            table_excel = pd.concat([table_excel, temp], axis=0)
-            table_excel.to_excel(f'./corporation_excel/{corporation}/today.xlsx', index=False)
-        return '직원 정보를 추가 하였습니다.'
+            save_check = face.set_feature(img, id, corporation)
+            if save_check: 
+                data = {'password' : hash_password, 'name' : name, 'birthday' : birthday}
+                db.child(corporation).child('user').child(typed).child(id).update(data)
+                table_excel = pd.read_excel(f'./corporation_excel/{corporation}/today.xlsx')
+                temp = pd.DataFrame({'name' : [name], 'id' : [id], 'check' : ['X'], 'check_time' : ['-']})
+                table_excel = pd.concat([table_excel, temp], axis=0)
+                table_excel.to_excel(f'./corporation_excel/{corporation}/today.xlsx', index=False)
+                return '직원 정보를 추가 하였습니다.'
+            else:
+                return '직원의 얼굴이 보이질 않습니다.'
+        else:
+            data = {'password' : hash_password, 'name' : name, 'birthday' : birthday}
+            db.child(corporation).child('user').child(typed).child(id).update(data)
+            return '직원 정보를 추가 하였습니다.'
 
 def user_remove(corporation, typed, id): #회원 삭제
     try:

@@ -47,7 +47,7 @@ def find_face(path1, image1):
         image2_encoding = np.load(path1)
         rgb_image1 = image1
         rgb_image1 = apply_clahe(rgb_image1)
-        rgb_image1 = unsharp_mask(rgb_image1)
+        #rgb_image1 = unsharp_mask(rgb_image1)
         cv2.imwrite('./test.jpg', rgb_image1)
         face_locations = face_recognition.face_locations(rgb_image1, model='cnn-gpu')
         #cnn-gpu / cnn / hog
@@ -77,7 +77,6 @@ def set_feature(img, id, corporation):
         img_decoded = base64.b64decode(img_encoded)
         nparr = np.frombuffer(img_decoded, np.uint8)
         frame = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
-        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         reference_encoding = face_recognition.face_encodings(frame)
         if reference_encoding:
             reference_encoding_save = reference_encoding[0]
