@@ -38,7 +38,7 @@
 
         <div class="middle">
             <!-- 비디오 엘리먼트 -->
-            <canvas id="video" style="width: 640px; height: 480px; display: none;" autoplay></canvas>
+            <canvas id="video" width="1280" height="720" style="display: none;" autoplay></canvas>
             <!-- 결과 이미지 엘리먼트 -->
             <img id="resultImage" class="result-image" alt="Result Image">
         </div>
@@ -70,8 +70,8 @@
                 const video = document.getElementById('video'); // 비디오 요소
                 stream = await navigator.mediaDevices.getUserMedia({
                     video: {
-                        width: { ideal: 640 },
-                        height: { ideal: 480 },
+                        width: { min: 640, ideal: 1280, max: 1920 }, 
+                        height: { min: 480, ideal: 720, max: 1080 },
                         facingMode: 'user'
                     }
                 });

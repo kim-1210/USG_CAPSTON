@@ -14,6 +14,20 @@ import threading
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 print(device)
 
+class Drawing(threading.Thread):
+    def __init__(self, target, args=()):
+        super().__init__()
+        self._target = target
+        self._args = args
+        self._detecting_name = []
+        self._bounding_boxes = []
+        self._frame = None
+    def run(self):
+        self._detecting_name, self._bounding_boxes, self._frame = self._target(*self._args)
+    def get_result(self):
+        self.join()
+        return self._detecting_name, self._bounding_boxes, self._frame
+    
 detector_model = torch.hub.load('./ai/yolov5', 'custom', path='./ai/protective_model5/weights/best.pt', source='local')
 detector_model.to(device)
 detector_labeling = ['NoHelMet', 'NoVest', 'Person', 'HelMet', 'Vest']
@@ -32,20 +46,6 @@ def ok_check(detecting_list):
     else:
         return False
 
-class Drawing(threading.Thread):
-    def __init__(self, target, args=()):
-        super().__init__()
-        self._target = target
-        self._args = args
-        self._detecting_name = []
-        self._bounding_boxes = []
-        self._frame = None
-    def run(self):
-        self._detecting_name, self._bounding_boxes, self._frame = self._target(*self._args)
-    def get_result(self):
-        self.join()
-        return self._detecting_name, self._bounding_boxes, self._frame
-
 def draw_bounding_boxes(result, frame):
     detecting_name = []
     bounding_boxes = []
@@ -55,21 +55,41 @@ def draw_bounding_boxes(result, frame):
         if detector_labeling[int(label)] != 'NoHelMet' and detector_labeling[int(label)] != 'NoVest':
             x1, y1, x2, y2 = int(x1), int(y1), int(x2), int(y2)  # 바운딩 박스 좌표를 정수형으로 변환
             if detector_labeling[int(label)] == 'Person':
-                cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)  # 바운딩 박스 그리기
+                #BGR
+                #255 204 102
+                cv2.rectangle(frame, (x1, y1), (x2, y2), (102, 204, 255), 4)  # 바운딩 박스 그리기
             else:
-                cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 0, 255), 2)  # 바운딩 박스 그리기
+                cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 4)  # 바운딩 박스 그리기
             bounding_boxes.append([x1, y1, x2, y2])
     return detecting_name, bounding_boxes, frame
+
+def sharpen_image(image):
+    kernel = np.array([[0, -1, 0],
+                       [-1, 5,-1],
+                       [0, -1, 0]])
+    return cv2.filter2D(image, -1, kernel)
 
 
 def process_image(image_data, id, corporation):
     # base64로 인코딩된 이미지 데이터를 디코딩
     frame = image_data
-    frame = cv2.resize(frame, (512, 512), interpolation=cv2.INTER_CUBIC)
+    wi, he = frame.shape[:2]
+    print(f'기존크기 : {wi} , {he}')
+    if wi > he:
+        new_width = 512
+        new_height = int(512 * he / wi)
+    else:
+        new_height = 512
+        new_width = int(512 * wi / he)
+
+    frame = cv2.resize(frame, (new_width, new_height), interpolation=cv2.INTER_CUBIC)
     find_face_img = frame.copy()
+    frame = sharpen_image(frame)
 
     #frame = cv2.resize(frame, (480, 640))
     result = detector_model(frame)
+
+    #result = detector_model2(frame)
 
     # 얼굴 찾기 스레드 시작
     face_checking = False
@@ -80,15 +100,24 @@ def process_image(image_data, id, corporation):
     t_bounding_boxes = Drawing(target=draw_bounding_boxes, args=(result, frame))
     t_bounding_boxes.start()
 
-    face_checking = t_face.get_result()
+    face_checking, face_img = t_face.get_result()
 
     detecting_name, bounding_boxes, frame = t_bounding_boxes.get_result()
 
+    if not face_img is None:
+        resized_imageA = cv2.resize(face_img, (70, 70))
+        width_face, height_face = resized_imageA.shape[:2]
+        frame[0:width_face, 0:height_face] = resized_imageA
+        if face_checking:
+            #BGR
+            cv2.rectangle(frame, (0, 0), (width_face, height_face), (255, 0, 0), 2)
+        else:
+            cv2.rectangle(frame, (0, 0), (width_face, height_face), (0, 0, 255), 2)
     
     ret, buffer = cv2.imencode('.jpg', frame, [int(cv2.IMWRITE_JPEG_QUALITY), 50])
     frame_base64 = base64.b64encode(buffer)
     result_check = ok_check(detecting_name)
-    print(f'얼굴 탐지 : {face_checking}')
+    print(f'얼굴 탐지 : {face_checking}, 최종결과 : {result_check}')
     try:
         return frame_base64.decode('utf-8'), bounding_boxes, result_check, face_checking
     except Exception as err:
@@ -120,8 +149,6 @@ def img_ai_check(image_data): #이미지를 받아 Ai검사하여 bounding box �
     frame_base64 = base64.b64encode(buffer)
 
     try:
-        print("das")
         return frame_base64.decode('utf-8'), [[x1, y1, x2, y2]]
     except Exception as err:
-        print("ewqe")
         return frame_base64.decode('utf-8'), [[0,0,0,0]]
