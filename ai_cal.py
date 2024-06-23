@@ -32,16 +32,25 @@ detector_model = torch.hub.load('./ai/yolov5', 'custom', path='./ai/protective_m
 detector_model.to(device)
 detector_labeling = ['NoHelMet', 'NoVest', 'Person', 'HelMet', 'Vest']
 
+detector_model2 = torch.hub.load('./ai/yolov5', 'custom', path='./ai/class5_protective_model/weights/best.pt', source='local')
+detector_model2.to(device)
+detector_labeling2 = ['Boots', 'Gloves', 'Helmet', 'Person', 'Vest']
+
 def ok_check(detecting_list):
     result = ''
-    matching = {'NoHelMet' : 0, 'NoVest' : 0, 'Person' : 0, 'HelMet' : 0, 'Vest' : 0}
+    #matching = {'NoHelMet' : 0, 'NoVest' : 0, 'Person' : 0, 'HelMet' : 0, 'Vest' : 0}
+    matching = {'Boots' : 0, 'Gloves' : 0, 'Helmet' : 0, 'Person' : 0, 'Vest' : 0}
     for i in detecting_list:
         matching[i] = matching[i] + 1
     for i in matching.keys():
         if matching[i] == 1:
             result += i + ', '
     print(f'탐지 : {result}')
-    if 'Person' in result and not ('NoHelMet' in result) and not ('NoVest' in result) and 'HelMet' in result and 'Vest' in result:
+    # if 'Person' in result and not ('NoHelMet' in result) and not ('NoVest' in result) and 'HelMet' in result and 'Vest' in result:
+    #     return True
+    # else:
+    #     return False
+    if 'Person' in result and 'Helmet' in result and 'Vest' in result:
         return True
     else:
         return False
@@ -51,10 +60,10 @@ def draw_bounding_boxes(result, frame):
     bounding_boxes = []
     for box in result.xyxy[0]:
         x1, y1, x2, y2, score, label = box.tolist()
-        detecting_name.append(detector_labeling[int(label)])
-        if detector_labeling[int(label)] != 'NoHelMet' and detector_labeling[int(label)] != 'NoVest':
+        detecting_name.append(detector_labeling2[int(label)])
+        if detector_labeling2[int(label)] != 'Gloves' and detector_labeling2[int(label)] != 'Boots':
             x1, y1, x2, y2 = int(x1), int(y1), int(x2), int(y2)  # 바운딩 박스 좌표를 정수형으로 변환
-            if detector_labeling[int(label)] == 'Person':
+            if detector_labeling2[int(label)] == 'Person':
                 #BGR
                 #255 204 102
                 cv2.rectangle(frame, (x1, y1), (x2, y2), (102, 204, 255), 4)  # 바운딩 박스 그리기
@@ -87,7 +96,7 @@ def process_image(image_data, id, corporation):
     frame = sharpen_image(frame)
 
     #frame = cv2.resize(frame, (480, 640))
-    result = detector_model(frame)
+    result = detector_model2(frame)
 
     #result = detector_model2(frame)
 

@@ -55,7 +55,7 @@ def find_face(path1, image1):
             face_encodings = face_recognition.face_encodings(rgb_image1, face_locations)
                 
             for face_encoding, face_location in zip(face_encodings, face_locations):
-                face_match = face_recognition.compare_faces([image2_encoding], face_encoding, tolerance=0.53)
+                face_match = face_recognition.compare_faces([image2_encoding], face_encoding, tolerance=0.43)
                 print(f'정확도 : {face_match[0]}')
                     
                 if face_match[0]:

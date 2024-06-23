@@ -108,15 +108,27 @@ def process_image(image_data, id, corporation):
     if len(person_imgs) > 0:
         for i in person_imgs:
             wi, he = i.shape[:2]
-            print(f'짤랐을때 : {wi} , {he}')
-            if wi > 720 or he > 1280:
-                # 비율을 유지하면서 크기 조정
-                width_ratio = 720 / wi
-                height_ratio = 1280 / he
-                ratio = min(width_ratio, height_ratio)
+            print(f'원본 크기: {wi} , {he}')
+            wi_cut = 360
+            he_cut = 640
 
-                dim = (int(wi * ratio), int(he * ratio))
-    
+            if wi > wi_cut or he > he_cut:
+                # 비율 계산
+                width_ratio = wi_cut / wi
+                height_ratio = he_cut / he
+                ratio = min(width_ratio, height_ratio)
+        
+                # 새로운 크기 계산
+                new_wi = int(wi * ratio)
+                new_he = int(he * ratio)
+        
+                # 세로가 가로보다 길도록 조정
+                if new_wi > new_he:
+                    dim = (new_he, new_wi)
+                else:
+                    dim = (new_wi, new_he)
+        
+                # 이미지 크기 조정
                 i = cv2.resize(i, dim, interpolation=cv2.INTER_AREA)
             
             wi, he = i.shape[:2]

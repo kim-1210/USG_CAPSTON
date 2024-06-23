@@ -14,7 +14,7 @@ import eventlet.wsgi
 import sys
 import firebase_storage as fs
 
-import ai_cal2 as ai
+import ai_cal as ai
 
 app = Flask(__name__)
 socketio = SocketIO(app)
@@ -238,7 +238,7 @@ def set_location():
     return jsonify({'alert_text' : '수정을 완료하였습니다.'})
 
 if __name__ == "__main__":
-    socketio.run(app, host='0.0.0.0', debug=True, port=8080) # 내부 실행
-    #eventlet.wsgi.server(eventlet.wrap_ssl(eventlet.listen(('0.0.0.0', 8080)), certfile='./safty-construction.kro.kr/certificate.crt', keyfile='./safty-construction.kro.kr/private.key', ca_certs='./safty-construction.kro.kr/ca_bundle.pem', server_side=True), app)
+    #socketio.run(app, host='0.0.0.0', debug=True, port=8080) # 내부 실행
+    eventlet.wsgi.server(eventlet.wrap_ssl(eventlet.listen(('0.0.0.0', 8080)), certfile='./safty-construction.kro.kr/certificate.crt', keyfile='./safty-construction.kro.kr/private.key', ca_certs='./safty-construction.kro.kr/ca_bundle.pem', server_side=True), app)
 
 #domain = safty-construction.kro.kr
