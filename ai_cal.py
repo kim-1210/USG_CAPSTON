@@ -63,11 +63,7 @@ def draw_bounding_boxes(result, frame):
         detecting_name.append(detector_labeling2[int(label)])
         if detector_labeling2[int(label)] != 'Gloves' and detector_labeling2[int(label)] != 'Boots':
             x1, y1, x2, y2 = int(x1), int(y1), int(x2), int(y2)  # 바운딩 박스 좌표를 정수형으로 변환
-            if detector_labeling2[int(label)] == 'Person':
-                #BGR
-                #255 204 102
-                cv2.rectangle(frame, (x1, y1), (x2, y2), (102, 204, 255), 4)  # 바운딩 박스 그리기
-            else:
+            if detector_labeling2[int(label)] != 'Person':
                 cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 4)  # 바운딩 박스 그리기
             bounding_boxes.append([x1, y1, x2, y2])
     return detecting_name, bounding_boxes, frame
@@ -96,7 +92,9 @@ def process_image(image_data, id, corporation):
     frame = sharpen_image(frame)
 
     #frame = cv2.resize(frame, (480, 640))
+    result_person = detector_model(frame)
     result = detector_model2(frame)
+
 
     #result = detector_model2(frame)
 
@@ -112,6 +110,13 @@ def process_image(image_data, id, corporation):
     face_checking, face_img = t_face.get_result()
 
     detecting_name, bounding_boxes, frame = t_bounding_boxes.get_result()
+
+    for i in result_person.xyxy[0]:
+        x1, y1, x2, y2, score, label = i.tolist()
+        if detector_labeling[int(label)] == 'Person':
+            x1, y1, x2, y2 = int(x1), int(y1), int(x2), int(y2) 
+            cv2.rectangle(frame, (x1, y1), (x2, y2), (102, 204, 255), 4)
+            detecting_name.append(detector_labeling[int(label)])
 
     if not face_img is None:
         resized_imageA = cv2.resize(face_img, (70, 70))
