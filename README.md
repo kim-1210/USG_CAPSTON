@@ -10,7 +10,7 @@
 |![140900130](https://github.com/user-attachments/assets/f357af14-9131-4766-9dde-1ed93c055037)|![54353132](https://github.com/user-attachments/assets/e03e7269-8540-4030-9497-2d2d312515ce)|![160209917](https://github.com/user-attachments/assets/875ddb8f-bdbd-4463-a45a-ff4dfc1e7e08)|![60918781](https://github.com/user-attachments/assets/d70f280d-c960-44cf-8142-d2a88822978d)|
 
 ## 아키텍처
-![image](https://github.com/user-attachments/assets/eda5e081-8f86-41a5-b920-1799fd86b8f0)
+![image](https://github.com/user-attachments/assets/ca26a544-9ef9-4b33-89e9-e47fcaffffba)
 
 ## 프로젝트 구조
 
